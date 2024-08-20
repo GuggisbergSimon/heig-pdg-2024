@@ -2,7 +2,8 @@
 # Godot-specific ignores
 .import/
 export.cfg
-export_presets.cfg
+obj/
+build/
 
 # Mono-specific ignores
 .mono/
@@ -10,3 +11,6 @@ export_presets.cfg
 # Godot 4+ specific ignores
 .godot/
 /android/
+
+# JetBrains
+.idea/
