@@ -1,2 +1,75 @@
-theme: jekyll-theme-minimal
-# remote_theme: THEME-NAME
+url: https://guggisbergsimon.github.io/heig-pdg-2024
+baseurl: /
+
+# Site settings
+title: Musicz
+description: "Musicz is a brand new automation musical game as a student project."
+
+
+# Team names, titles and social links
+people:
+- name: Olin Bourquin
+  pic: 1
+  position: Lead Designer
+  social:
+    - title: twitter
+      url: #
+    - title: facebook
+      url: #
+    - title: stack-overflow
+      url: #
+
+- name: Kylian Demont
+  pic: 2
+  position: Lead Marketer
+  social:
+    - title: twitter
+      url: #
+    - title: facebook
+      url: #
+    - title: linkedin
+      url: #
+
+- name: Simon Guggisberg
+  pic: 3
+  position: Lead Developer
+  social:
+    - title: twitter
+      url: #
+    - title: facebook
+      url: #
+    - title: google-plus
+      url: #
+
+- name: Jonas Troeltsch
+  pic: 4
+  position: Lead Developer
+  social:
+    - title: twitter
+      url: #
+    - title: facebook
+      url: #
+    - title: github
+      url: #
+
+# Social networks usernames (many more available: google-plus, flickr, dribbble, pinterest, instagram, tumblr, linkedin, etc.)
+social:
+#  - title: twitter
+#    url: http://twitter.com/jekyllrb
+#  - title: facebook
+#    url:
+#  - title: stack-overflow
+#    url: http://stackoverflow.com/questions/tagged/jekyll
+#  - title: bitbucket 
+#    url: http://bitbucket.org/jekyll
+  - title: github
+    url: https://github.com/GuggisbergSimon/heig-pdg-2024
+
+# Postal address (add as many lines as necessary)
+address:
+  - line: HEIG-VD
+  - line: Yverdon-les-Bains, CH
+
+# Build settings
+markdown: kramdown
+permalink: pretty
