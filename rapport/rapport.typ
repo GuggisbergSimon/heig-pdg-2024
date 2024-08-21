@@ -35,16 +35,27 @@ Créer un jeu d'automation (comme. Factorio, satisfactory, shapez, etc.) dans le
 
 === Exigences fonctionnelles
 
-- Le joueur doit pouvoir accomplir des objectifs spécifiques pour progresser dans le jeu.
-- Le jeu doit avoir une interface utilisateur intuitive.
-- Le jeu doit contenir un tutoriel, sous la forme d'un texte explicatif ou autre
+- Le joueur doit recevoir des objectifs spécifiques à accomplir pour pouvoir progresser dans le jeu.
+- Le jeu doit avoir une interface fonctionnelle à la souris.
+- Le jeu doit posséder du son.
+- Le jeu doit contenir des instructions, sous la forme d'un texte explicatif ou autre.
+- Le joueur peut placer des éléments de production sur une grille
+  - Générateur de notes
+  - Changement de pitch (fréquence), monte ou descend la note selon une gamme de do
+  - Changement de tempo (rythme), accélère ou ralentit la note, croche, noire, blanche, etc
+  - Instrument, altère la note selon un instrument donné
+  - Combineur de notes, produit des accords qui sont considérés comme une seule note
+  - Combineur de notes alternés, produit une séquence
+  - Sortie haut parleur, crée le son
+- Le joueur peut supprimer des éléments de production existants
 
 === Exigences non-fonctionnelles
 
-- Le jeu doit avoir des performances acceptable
-- Le jeu doit être compatible avec différents systèmes d'exploitation.
-- Le jeu sera crée avec Godot
-- Le jeu sera crée avec .NET
+- Le jeu doit avoir des performances acceptable. 30-60fps minimum.
+- Le jeu doit être compatible avec différents systèmes d'exploitation. Windows et Linux.
+- Le jeu sera crée avec Godot 4.x.
+- Le jeu sera crée avec .NET et donc C\# comme language.
+- Le projet doit posséder un workflow de CI/CD pour les tests unitaires, les builds, et les releases.
 
 == Architecture préliminaire
 
@@ -60,6 +71,8 @@ Créer un jeu d'automation (comme. Factorio, satisfactory, shapez, etc.) dans le
 (Figma ici)
 
 == Description des choix techniques
+
+=== Outils utilisés
 
 - Typst pour de plus grandes possibilités de mise en page
 - Figma pour une collaboration plus facile dans un premier temps
