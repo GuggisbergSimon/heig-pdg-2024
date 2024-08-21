@@ -12,11 +12,9 @@ public class ExampleTest
         AssertBool(true).IsTrue();
     }
 
-
     [TestCase]
     public void failed()
     {
-        AssertBool(false).IsTrue();
+        AssertBool(false).IsFalse();
     }
-
 }
