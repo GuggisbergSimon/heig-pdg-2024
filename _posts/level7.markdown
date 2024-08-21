@@ -3,6 +3,7 @@ title: Level 7
 subtitle: 
 layout: default
 modal-id: 1
+date: 2023-08-21
 img: level7.png
 thumbnail: level7_thumbnail.png
 alt: image-alt
