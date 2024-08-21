@@ -35,16 +35,11 @@ Créer un jeu d'automation (comme. Factorio, satisfactory, shapez, etc.) dans le
 
 === Exigences fonctionnelles
 
-- Le joueur doit pouvoir accomplir des objectifs spécifiques pour progresser dans le jeu.
-- Le jeu doit avoir une interface utilisateur intuitive.
-- Le jeu doit contenir un tutoriel, sous la forme d'un texte explicatif ou autre
+- 
 
 === Exigences non-fonctionnelles
 
-- Le jeu doit avoir des performances acceptable
-- Le jeu doit être compatible avec différents systèmes d'exploitation.
-- Le jeu sera crée avec Godot
-- Le jeu sera crée avec .NET
+- 
 
 == Architecture préliminaire
 
@@ -66,10 +61,12 @@ Créer un jeu d'automation (comme. Factorio, satisfactory, shapez, etc.) dans le
 - Godot pour sa nature open source et sa montée en popularité très récente. 
   - Pour la facilité d'intégration dans un pipeline non CI/CD à l'opposé de Unity, qui était l'autre solution envisagée pour un jeu à petite échelle en 2D. PixiJS était également une option mais nous avons préféré Godot en raison de sa popularité.
   - Nous avons décidé de partir sur .Net en raison de l'utilité de C\# pour le futur, de notre familiarité avec Java qui partage beaucoup de similarité, et la réticence d'apprendre un langage unique à Godot tel que GDScript.
+  - 2D
+  - Comptabilité
 - Rider pour l'habitude de l'équipe à travailler avec les produits Jetbrains et sa comptabilité avec Godot.
 
 #figure(
-  image("rapport/gmtk-top-game-engine-2017-2024.jpg", width: 100%),
+  image("gmtk-top-game-engine-2017-2024.jpg", width: 100%),
   caption: [
     pourcentage de game engines utilisés lors de la GMTK game jam
   ],
