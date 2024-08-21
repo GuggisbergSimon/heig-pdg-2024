@@ -3,10 +3,9 @@ title: manual
 subtitle: 
 layout: default
 modal-id: 1
-date: 2023-08-21
 img: manual.png
 thumbnail: manual_thumbnail.png
 alt: image-alt
-description: Level 6 of Musicz. Learn to use new blocks.
+description: Manual, access the manual at any time to find out how to use each element.
 
 ---

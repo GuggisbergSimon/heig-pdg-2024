@@ -3,10 +3,9 @@ title: Level 6
 subtitle: 
 layout: default
 modal-id: 1
-date: 2023-08-21
 img: level6.png
 thumbnail: level6_thumbnail.png
 alt: image-alt
-description: Level 6 of Musicz. Learn to use new blocks.
+description: Level 6, place the blocks correctly to play the right sounds.
 
 ---

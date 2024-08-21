@@ -3,10 +3,9 @@ title: Level 7
 subtitle: 
 layout: default
 modal-id: 1
-date: 2023-08-21
 img: level7.png
 thumbnail: level7_thumbnail.png
 alt: image-alt
-description: Level 6 of Musicz. Learn to use new blocks.
+description: Level 7, progress by discovering chords.
 
 ---
