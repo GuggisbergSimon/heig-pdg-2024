@@ -35,11 +35,16 @@ Créer un jeu d'automation (comme. Factorio, satisfactory, shapez, etc.) dans le
 
 === Exigences fonctionnelles
 
-- 
+- Le joueur doit pouvoir accomplir des objectifs spécifiques pour progresser dans le jeu.
+- Le jeu doit avoir une interface utilisateur intuitive.
+- Le jeu doit contenir un tutoriel, sous la forme d'un texte explicatif ou autre
 
 === Exigences non-fonctionnelles
 
-- 
+- Le jeu doit avoir des performances acceptable
+- Le jeu doit être compatible avec différents systèmes d'exploitation.
+- Le jeu sera crée avec Godot
+- Le jeu sera crée avec .NET
 
 == Architecture préliminaire
 
