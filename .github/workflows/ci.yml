@@ -8,11 +8,9 @@ on:
       - '**.md'
   workflow_dispatch:
 
-
 concurrency:
-  group: ci-pr-example${{ github.event.number }}
+  group: ci-pr-${{ github.event.number }}
   cancel-in-progress: true
-
 
 jobs:
   unit-test:
@@ -31,11 +29,13 @@ jobs:
       - uses: actions/checkout@v4
         with:
           lfs: true
-      # run tests by using the gdUnit4-action with Godot version 4.2.1 and the latest GdUnit4 release 
+      # run tests by using the gdUnit4-action with Godot version 4.3.0 and the latest GdUnit4 release 
       - uses: MikeSchulze/gdUnit4-action@v1.1.1
         with:
-          godot-version: '4.3.0'
+          godot-version: '4.3'
+          version: 'installed'
+          godot-net: true
           paths: |
-            res://test/
+            res://test
           timeout: 5
           report-name: test_report.xml      
