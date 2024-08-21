@@ -1,0 +1,61 @@
+name: "godot-ci export"
+on:
+  push:
+    tags:
+      - "v*"
+
+permissions:
+  contents: write
+
+env:
+  GODOT_VERSION: 4.3
+  EXPORT_NAME: musicz
+  PROJECT_PATH: .
+
+jobs:
+  build-export:
+    name: godot-ci export
+    runs-on: ubuntu-20.04
+    container:
+      image: barichello/godot-ci:mono-4.3
+    steps:
+      - name: Get version
+        run: | 
+          SUBSTRING=$(echo "${GITHUB_REF#refs/tags/}" | cut -c 2-)
+          echo "TAG_VERSION=$SUBSTRING" >> $GITHUB_ENV
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          lfs: true
+      - name: .NET installation
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: "8.0.x"
+      - name: Setup
+        run: |
+          mkdir -v -p ~/.local/share/godot/export_templates/
+          mv /root/.local/share/godot/export_templates/${GODOT_VERSION}.stable.mono ~/.local/share/godot/export_templates/${GODOT_VERSION}.stable.mono
+      - name: Windows Build
+        run: |
+          mkdir -v -p build/windows
+          cd $PROJECT_PATH
+          godot --headless --verbose --export-release "Windows Desktop" ./build/windows/${EXPORT_NAME}_${TAG_VERSION}.exe
+      - name: Linux Build
+        run: |
+          mkdir -v -p build/linux
+          cd $PROJECT_PATH
+          godot --headless --verbose --export-release "Linux" ./build/linux/${EXPORT_NAME}_${TAG_VERSION}_linux.x86_64
+      - name: Install zip
+        uses: montudor/action-zip@v1
+      - name: Zip windows
+        run: zip -r ${{env.EXPORT_NAME}}_${{env.TAG_VERSION}}_windows.zip .
+        working-directory: build/windows
+      - name: Zip linux
+        run: zip -r ${{env.EXPORT_NAME}}_${{env.TAG_VERSION}}_linux.zip .
+        working-directory: build/linux
+      - name: Release with builds
+        uses: softprops/action-gh-release@v2
+        with:
+          files: |
+            build/windows/${{env.EXPORT_NAME}}_${{env.TAG_VERSION}}_windows.zip
+            build/linux/${{env.EXPORT_NAME}}_${{env.TAG_VERSION}}_linux.zip
