@@ -19,6 +19,14 @@ config/icon="res://assets/icon.svg"
 
 project/assembly_name="heig-pdg-2024"
 
+[editor_plugins]
+
+enabled=PackedStringArray("res://addons/gdUnit4/plugin.cfg")
+
+[gdunit4]
+
+settings/common/update_notification_enabled=false
+
 [rendering]
 
 renderer/rendering_method="gl_compatibility"
