@@ -2,7 +2,7 @@
 title: manual
 subtitle: 
 layout: default
-modal-id: 1
+modal-id: 3
 img: manual.png
 thumbnail: manual_thumbnail.png
 alt: image-alt
