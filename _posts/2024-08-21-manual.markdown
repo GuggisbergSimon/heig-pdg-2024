@@ -1,5 +1,5 @@
 ---
-title: manual
+title: Manual
 subtitle: 
 layout: default
 modal-id: 3
