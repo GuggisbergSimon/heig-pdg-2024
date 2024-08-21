@@ -69,7 +69,7 @@ Créer un jeu d'automation (comme. Factorio, satisfactory, shapez, etc.) dans le
 - Rider pour l'habitude de l'équipe à travailler avec les produits Jetbrains et sa comptabilité avec Godot.
 
 #figure(
-  image("gmtk-top-game-engine-2017-2024.jpg", width: 100%),
+  image("rapport/gmtk-top-game-engine-2017-2024.jpg", width: 100%),
   caption: [
     pourcentage de game engines utilisés lors de la GMTK game jam
   ],
