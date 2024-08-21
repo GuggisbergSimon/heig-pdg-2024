@@ -43,7 +43,12 @@ Créer un jeu d'automation (comme. Factorio, satisfactory, shapez, etc.) dans le
 
 == Architecture préliminaire
 
-Game engine: Godot
+- Rédaction rapport : Typst, et l'extension VSCode #link("https://marketplace.visualstudio.com/items?itemName=myriad-dreamin.tinymist")[
+  tinymist Typst
+]
+- Création mockups et schémas : Figma
+- Game Engine : Godot .Net 4.3.0.0
+- IDE : Jetbrains Rider 2024.2
 
 == Mockups / Landing page préliminaire
 
@@ -51,7 +56,19 @@ Game engine: Godot
 
 == Description des choix techniques
 
-Godot comme game engine parce que c'open source, à la mode et possibilité d'intégrer le build dans un pipeline CI/CD
+- Typst pour de plus grandes possibilités de mise en page
+- Figma pour une collaboration plus facile dans un premier temps
+- Godot pour sa nature open source et sa montée en popularité très récente. 
+  - Pour la facilité d'intégration dans un pipeline non CI/CD à l'opposé de Unity, qui était l'autre solution envisagée pour un jeu à petite échelle en 2D. PixiJS était également une option mais nous avons préféré Godot en raison de sa popularité.
+  - Nous avons décidé de partir sur .Net en raison de l'utilité de C\# pour le futur, de notre familiarité avec Java qui partage beaucoup de similarité, et la réticence d'apprendre un langage unique à Godot tel que GDScript.
+- Rider pour l'habitude de l'équipe à travailler avec les produits Jetbrains et sa comptabilité avec Godot.
+
+#figure(
+  image("gmtk-top-game-engine-2017-2024.jpg", width: 100%),
+  caption: [
+    pourcentage de game engines utilisés lors de la GMTK game jam
+  ],
+)
 
 == Description du processus de travail
 
