@@ -20,7 +20,7 @@
 )
 
 #align(center, text(20pt)[
-  *Automation game*
+  *Musicz - un jeu d'automation*
 ])
 
 #set par(justify: true)
@@ -61,11 +61,24 @@ Créer un jeu d'automation (comme. Factorio, Satisfactory, shapez.io, etc.) dans
 
 == Architecture préliminaire
 
+// TODO explicatif de l'architecture du code
 
+#pagebreak()
 
-== Mockups / Landing page préliminaire
+== Mockups
 
-(Figma ici)
+#figure(
+  image("mockup/Frame 1.png", width: 100%),
+  caption: [
+    Mockup du jeu
+  ],
+)
+#figure(
+  image("mockup/Frame 3.png", width: 100%),
+  caption: [
+    Mockup de la page explicatif
+  ],
+)
 
 == Description des choix techniques
 
@@ -107,5 +120,5 @@ Dernièrement, notre #link("https://guggisbergsimon.github.io/heig-pdg-2024/")[l
 
 === CI/CD
 
-- Tests unitaires lors d'une PR.
-- Builds Windows et Linux suivis d'une release lors de la parution d'un tag sous la form `vx.y` sur `main`
+- Tests unitaires sont lancés lors de la creation d'une PR et bloquent le merge si ils ne passent pas
+- Lorsqu'un tag est créé, un build est lancé et une release qui contient la version linux et windows du jeu est créée
