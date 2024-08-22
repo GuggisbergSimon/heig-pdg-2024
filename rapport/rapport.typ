@@ -61,7 +61,7 @@ Créer un jeu d'automation (comme. Factorio, Satisfactory, shapez.io, etc.) dans
 
 == Architecture préliminaire
 
-// TODO explicatif de l'architecture du code
+Le pattern du singleton sera utilisé sous la forme d'un `GameManager` présent de manière statique et unique dans chaque scène. N'importe quel script pourra l'accéder et disposer de méthodes utiles pour la gestion des scènes, des paramètres, des sons joués, etc.
 
 #pagebreak()
 
