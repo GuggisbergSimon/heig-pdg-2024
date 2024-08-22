@@ -25,13 +25,15 @@
 
 #set par(justify: true)
 
+#show link: underline
+
 = Rapport
 
 == Description du projet
 
 === Objectifs
 
-Créer un jeu d'automation (comme. Factorio, satisfactory, shapez, etc.) dans le thème de la musique. Le joueur doit livrer des notes individuelles, puis des accords et enfin des suites de notes pour créer des courtes mélodies.
+Créer un jeu d'automation (comme. Factorio, Satisfactory, shapez.io, etc.) dans le thème de la musique. Le joueur doit livrer des notes individuelles, puis des accords et enfin des suites de notes pour créer des courtes mélodies.
 
 === Exigences fonctionnelles
 
@@ -41,10 +43,10 @@ Créer un jeu d'automation (comme. Factorio, satisfactory, shapez, etc.) dans le
 - Le jeu doit contenir des instructions, sous la forme d'un texte explicatif ou autre.
 - Le joueur peut placer des éléments de production sur une grille
   - Générateur de notes
-  - Changement de pitch (fréquence), monte ou descend la note selon une gamme de do
+  - Changement de pitch (fréquence), monte ou descend la note selon une gamme donnée
   - Changement de tempo (rythme), accélère ou ralentit la note, croche, noire, blanche, etc
   - Instrument, altère la note selon un instrument donné
-  - Combineur de notes, produit des accords qui sont considérés comme une seule note
+  - Combineur de notes, produit des accords qui sont ensuite considérés comme une seule note
   - Combineur de notes alternés, produit une séquence
   - Sortie haut parleur, crée le son
 - Le joueur peut supprimer des éléments de production existants
@@ -63,7 +65,7 @@ Créer un jeu d'automation (comme. Factorio, satisfactory, shapez, etc.) dans le
   tinymist Typst
 ]
 - Création mockups et schémas : Figma
-- Game Engine : Godot .Net 4.3.0.0
+- Game Engine : Godot .Net 4.3
 - IDE : Jetbrains Rider 2024.2
 
 == Mockups / Landing page préliminaire
@@ -72,11 +74,10 @@ Créer un jeu d'automation (comme. Factorio, satisfactory, shapez, etc.) dans le
 
 == Description des choix techniques
 
-
 === Prérequis
 
-- C\# 8.0.x est un prérequis pour Godot 4.x ainsi que le framework de tests unitaires GdUnit4 que nous avons choisi.
-- Godot 4.3 est la version la plus récente de Godot et est stable. Elle est incidentalement sortie 4 jours avant le début du module PDG.
+- #link("https://dotnet.microsoft.com/fr-fr/download/dotnet/8.0")[C\# .Net 8.0] est un prérequis pour Godot 4.x .Net ainsi que le framework de tests unitaires GdUnit4 que nous avons choisi.
+- #link("https://github.com/godotengine/godot-builds/releases/tag/4.3-stable")[Godot 4.3] est la version la plus récente de Godot et est stable. Elle est incidentalement sortie 4 jours avant le début du module PDG. La version .Net est requise pour ce projet.
 - Typst pour éditer le rapport.
 
 === Outils utilisés
@@ -94,7 +95,7 @@ Créer un jeu d'automation (comme. Factorio, satisfactory, shapez, etc.) dans le
 #figure(
   image("gmtk-top-game-engine-2017-2024.jpg", width: 100%),
   caption: [
-    pourcentage de game engines utilisés lors de la GMTK game jam
+    approximation du pourcentage de game engines utilisés lors de la GMTK game jam
   ],
 )
 
@@ -103,9 +104,10 @@ Créer un jeu d'automation (comme. Factorio, satisfactory, shapez, etc.) dans le
 === Git workflow
 
 - Organisation du git: branche ``` main``` avec le workflow pour créer un build
-- Les PR ouvertes pour ``` main``` lancent des teste unitaires / de features qui doivent passer pour pouvoir merge la PR
-- Branches individuelles pour les features suffixées avec les initiales de la personne en charge
-- Branche ``` pages``` pour la landing page
+- Les PR ouvertes lancent des teste unitaires qui doivent passer pour pouvoir merge la PR
+- Branches de features éventuellement suffixées avec les initiales de la personne en charge
+- Branches personnelles de test avec les initiales de la personne en charge
+- Branche ``` pages``` pour la landing page, hébergée sur Github Pages
 
 === CI/CD
 
