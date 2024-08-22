@@ -1,6 +1,6 @@
 # heig-pdg-2024
 
-Ce répertoire concerne le module PDG d'été 2024 réalisé par groupe 6.
+Répertoire concernant le module PDG d'été 2024 à la HEIG-VD réalisé par groupe 6.
 
 ## Rapport
 
