@@ -16,21 +16,21 @@ people:
       url: https://github.com/OlinB
 
 - name: Kilian Demont
-  pic: 2.jpg
+  pic: 2.gif
   position: Developer
   social:
     - title: github
       url: https://github.com/kdemont
 
 - name: Simon Guggisberg
-  pic: 3.jpg
+  pic: 3.gif
   position: Developer
   social: 
     - title: github
       url: https://github.com/GuggisbergSimon
 
 - name: Jonas Troeltsch
-  pic: 4.jpg
+  pic: 4.gif
   position: Developer
   social:
     - title: github
