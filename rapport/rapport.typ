@@ -61,12 +61,7 @@ Créer un jeu d'automation (comme. Factorio, Satisfactory, shapez.io, etc.) dans
 
 == Architecture préliminaire
 
-- Rédaction rapport : Typst, et l'extension VSCode #link("https://marketplace.visualstudio.com/items?itemName=myriad-dreamin.tinymist")[
-  tinymist Typst
-]
-- Création mockups et schémas : Figma
-- Game Engine : Godot .Net 4.3
-- IDE : Jetbrains Rider 2024.2
+
 
 == Mockups / Landing page préliminaire
 
@@ -74,23 +69,9 @@ Créer un jeu d'automation (comme. Factorio, Satisfactory, shapez.io, etc.) dans
 
 == Description des choix techniques
 
-=== Prérequis
+=== Bases techniques du jeu
 
-- #link("https://dotnet.microsoft.com/fr-fr/download/dotnet/8.0")[C\# .Net 8.0] est un prérequis pour Godot 4.x .Net ainsi que le framework de tests unitaires GdUnit4 que nous avons choisi.
-- #link("https://github.com/godotengine/godot-builds/releases/tag/4.3-stable")[Godot 4.3] est la version la plus récente de Godot et est stable. Elle est incidentalement sortie 4 jours avant le début du module PDG. La version .Net est requise pour ce projet.
-- Typst pour éditer le rapport.
-
-=== Outils utilisés
-
-- Typst pour de plus grandes possibilités de mise en page
-- Figma pour une collaboration plus facile dans un premier temps
-- Godot pour sa nature open source et sa montée en popularité très récente. 
-  - Pour la facilité d'intégration dans un pipeline non CI/CD à l'opposé de Unity, qui était l'autre solution envisagée pour un jeu à petite échelle en 2D. PixiJS était également une option mais nous avons préféré Godot en raison de sa popularité.
-  - Nous avons choisi .Net en raison de l'utilité de C\# pour le futur, de notre familiarité avec Java qui partage beaucoup de similarité, et la réticence d'apprendre un langage unique à Godot tel que GDScript.
-  - Godot support et possède de nombreux outils pour la création de jeu 2D, et en raison du scope de ce projet, réaliser un projet en 3D apporterait maintes complications sans apporter de plus value.
-  - Godot permet facilement d'exporter un projet sur plusieurs plateformes, que ce soit ordinateur Windows/Linux/Mac, sur le web directement, ou même sur console via des outils tierces (en raison de la nature open source de Godot), les possibilités sont nombreuses même si nous ne visons, dans un premier temps, que les plate-formes Windows et Linux.
-- Rider pour l'habitude de l'équipe à travailler avec les produits Jetbrains et sa comptabilité avec Godot.
-- GDUnit4 est un framework de tests unitaires pour Godot 4.x supportant tant GDScript que le C\#. Il dispose également d'une intégration CI/CD avec les Github Actions.
+Le choix principal que nous avons fait est celui du moteur de jeu à utiliser. Les 3 options que nous avons envisagé sont Unity, Godot et PixiJS. Godot a été retenu pour plusieurs raisons: Premièrement, il est plus facile à intégrer à un pipeline CI/CD que Unity, principalement du au fait que ce dernier a une solutionn propriétaire payante, et au fait que Godot est open-source. Godot est également un des moteurs de jeu le plus populaire en ce moment pour les, en partie à cause du fiasco récent de marketing de Unity. PixiJS était une solution envisagée et intéressante, mais comme il s'agit d'un moteur de jeu beaucoup plus léger et moins connu nous avons préféré rester avec Godot.
 
 #figure(
   image("gmtk-top-game-engine-2017-2024.jpg", width: 100%),
@@ -98,6 +79,21 @@ Créer un jeu d'automation (comme. Factorio, Satisfactory, shapez.io, etc.) dans
     approximation du pourcentage de game engines utilisés lors de la GMTK game jam
   ],
 )
+Godot nous permet d'utiliser d'utiliser de nombreux outils pour la mise en place d'un jeu en 2D et nous permet facilement d'exporter le jeu final pour plusieures plateformes. Au sein de Godot, nous avons décidé d'utiliser #link("https://dotnet.microsoft.com/fr-fr/download/dotnet/8.0")[C\# .Net 8.0] au lieu du gdScript, langage propriétaire de Godot. Ce choix a été fait en partie par réticence d'apprendre un langage avec une seule utilité, et en partie à cause de la familiarité du C\# avec Java que nous avons déjà dù utiliser dans le cadre de notre formation. La choix de la version de .Net est pour avoir la compatibilité avec Godot 4.x qui est la version la plus récente.
+
+Nous avons trouvé une librairie de tests unitaires pour Godot qui supporte le gdScript ainsi que le C\# qui s'appelle #link("https://github.com/MikeSchulze/gdUnit4")[gdUnit4] et avons décidé de l'intégrer à notre processus de travail, pour valider le fonctionnement du jeu lors d'une Pull request.
+
+=== Outils utilisés
+
+L'outil que nous avons choisi pour créer le rapport, ainsi que tout autre documentation requise est Typst, en raison des possibilités de mise en page qu'il offre, sa relative simplicité d'utilisation, ainsi que sa familiarité avec certains membres de l'équipe. Pour l'édition et la compilation de ces documents, nous utilisons VSCode équipé de l'extension #link("https://marketplace.visualstudio.com/items?itemName=myriad-dreamin.tinymist")[
+  tinymist Typst
+].
+
+Pour la création des mockups nous avons décidé de suivre la recommendation faite dans le cadre de ce cours et d'utiliser #link("https://www.figma.com")[Figma].
+
+Le développement est fait sur l'éditeur de Godot pour le ore du jeu, ainsi que #link("https://www.jetbrains.com/rider/")[Rider] pour l'édition des scripts à cause de l'habitude que nous avons d'utiliser les outils JetBrains.
+
+Dernièrement, notre #link("https://guggisbergsimon.github.io/heig-pdg-2024/")[landing page] est faite avec GitHub pages.
 
 == Description du processus de travail
 
