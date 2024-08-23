@@ -1,0 +1,20 @@
+[gd_scene load_steps=5 format=3 uid="uid://6q7rrd3mwivk"]
+
+[ext_resource type="Texture2D" uid="uid://deu7yuase3a6w" path="res://assets/icon.svg" id="1_iwafk"]
+[ext_resource type="Script" path="res://scripts/MusicTilemap.cs" id="2_o3egs"]
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_xqi5n"]
+texture = ExtResource("1_iwafk")
+texture_region_size = Vector2i(64, 64)
+0:0/0 = 0
+1:0/0 = 0
+0:1/0 = 0
+1:1/0 = 0
+
+[sub_resource type="TileSet" id="TileSet_sbu41"]
+tile_size = Vector2i(64, 64)
+sources/0 = SubResource("TileSetAtlasSource_xqi5n")
+
+[node name="Tilemap" type="TileMapLayer"]
+tile_set = SubResource("TileSet_sbu41")
+script = ExtResource("2_o3egs")
