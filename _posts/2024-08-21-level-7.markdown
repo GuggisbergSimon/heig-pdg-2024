@@ -1,11 +1,11 @@
 ---
-title: Level 7
+title: Late level
 subtitle: 
 layout: default
 modal-id: 2
 img: level7.png
 thumbnail: level7_thumbnail.png
 alt: image-alt
-description: Level 7, progress by discovering chords.
+description: Late game, Play chords by mixing notes together, and more !
 
 ---
