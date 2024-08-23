@@ -4,6 +4,7 @@ public partial class GameManager : Node {
     public static GameManager Instance { get; private set; }
     public Node CurrentScene { get; set; }
     public ProgressionManager ProgressionManager { get; private set; }
+    public int Tempo { get; set; } = 120;
 
     public override void _Ready() {
         Instance = this;
