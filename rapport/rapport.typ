@@ -61,7 +61,9 @@ Créer un jeu d'automation (comme. Factorio, Satisfactory, shapez.io, etc.) dans
 
 == Architecture préliminaire
 
-Le pattern du singleton sera utilisé sous la forme d'un `GameManager` présent de manière statique et unique dans chaque scène. N'importe quel script pourra l'accéder et disposer de méthodes utiles pour la gestion des scènes, des paramètres, des sons joués, etc.
+Comme notre projet est conctitué d'une application qui tourne uniquemenent en local, et n'a rien de connecté, notre architecture est composée du pipeline CI/CD de tests pour valider le fonctionnement du jeu lors d'ajouts de nouvelles fonctionalités, ainsi que celui de build pour créer les différents fichiers de build lors de la création d'un tag pour faire une release.  
+
+En ce qui concerne le jeu, le pattern du singleton sera utilisé sous la forme d'un `GameManager` présent de manière statique et unique dans chaque scène. N'importe quel script pourra l'accéder et disposer de méthodes utiles pour la gestion des scènes, des paramètres, des sons joués, etc.
 
 #pagebreak()
 
