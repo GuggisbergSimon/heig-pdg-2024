@@ -61,9 +61,11 @@ Créer un jeu d'automation (comme. Factorio, Satisfactory, shapez.io, etc.) dans
 
 == Architecture préliminaire
 
-Comme notre projet est conctitué d'une application qui tourne uniquemenent en local, et n'a rien de connecté, notre architecture est composée du pipeline CI/CD de tests pour valider le fonctionnement du jeu lors d'ajouts de nouvelles fonctionalités, ainsi que celui de build pour créer les différents fichiers de build lors de la création d'un tag pour faire une release.  
+Comme notre projet est constitué d'une application qui tourne uniquemenent en local, et n'a rien de connecté, notre architecture est composée du pipeline CI/CD de tests pour valider le fonctionnement du jeu lors d'ajouts de nouvelles fonctionalités, ainsi que celui de build pour créer les différents fichiers de build lors de la création d'un tag pour faire une release.
 
 En ce qui concerne le jeu, le pattern du singleton sera utilisé sous la forme d'un `GameManager` présent de manière statique et unique dans chaque scène. N'importe quel script pourra l'accéder et disposer de méthodes utiles pour la gestion des scènes, des paramètres, des sons joués, etc.
+
+En raison de la nature du développement de jeu vidéo ainsi que de notre manque d'expérience avec le moteur Godot, nous itérerons rapidement sur les fonctionnalités afin d'avoir un prototype très rapidement puis de les raffiner au fur et à mesure.
 
 #pagebreak()
 
@@ -89,7 +91,7 @@ En ce qui concerne le jeu, le pattern du singleton sera utilisé sous la forme d
 Le choix principal que nous avons fait est celui du moteur de jeu à utiliser. Les 3 options que nous avons envisagé sont Unity, Godot et PixiJS. Godot a été retenu pour plusieurs raisons: Premièrement, il est plus facile à intégrer à un pipeline CI/CD que Unity, principalement du au fait que ce dernier a une solutionn propriétaire payante, et au fait que Godot est open-source. Godot est également un des moteurs de jeu le plus populaire en ce moment pour les, en partie à cause du fiasco récent de marketing de Unity. PixiJS était une solution envisagée et intéressante, mais comme il s'agit d'un moteur de jeu beaucoup plus léger et moins connu nous avons préféré rester avec Godot.
 
 #figure(
-  image("gmtk-top-game-engine-2017-2024.jpg", width: 100%),
+  image("img/gmtk-top-game-engine-2017-2024.jpg", width: 100%),
   caption: [
     approximation du pourcentage de game engines utilisés lors de la GMTK game jam
   ],
@@ -109,6 +111,8 @@ Pour la création des mockups nous avons décidé de suivre la recommendation fa
 Le développement est fait sur l'éditeur de Godot pour le ore du jeu, ainsi que #link("https://www.jetbrains.com/rider/")[Rider] pour l'édition des scripts à cause de l'habitude que nous avons d'utiliser les outils JetBrains.
 
 Dernièrement, notre #link("https://guggisbergsimon.github.io/heig-pdg-2024/")[landing page] est faite avec GitHub pages.
+
+#pagebreak()
 
 == Description du processus de travail
 
