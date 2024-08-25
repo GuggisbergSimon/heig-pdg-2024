@@ -6,6 +6,7 @@ using static GdUnit4.Assertions;
 [TestSuite]
 public class ExampleTest
 {
+    //TODO remove those example test and replace them with actual ones
     [TestCase]
     public void success()
     {
@@ -16,5 +17,11 @@ public class ExampleTest
     public void failed()
     {
         AssertBool(false).IsFalse();
+    }
+    
+    [TestCase]
+    public void demo()
+    {
+        AssertBool(false).IsTrue();
     }
 }
