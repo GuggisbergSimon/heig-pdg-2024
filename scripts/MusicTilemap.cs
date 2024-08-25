@@ -29,6 +29,10 @@ public partial class MusicTilemap : TileMapLayer {
 
     public override void _Input(InputEvent @event) {
         Vector2I cell = LocalToMap(GetGlobalMousePosition());
+        if (!Input.IsActionPressed("PrimaryAction") && !Input.IsActionPressed("SecondaryAction")) {
+            return;
+        }
+        
         //Only one action per cell
         if (_lastCell == cell) {
             return;
@@ -43,6 +47,7 @@ public partial class MusicTilemap : TileMapLayer {
                     _lastCell = cell;
                     return;
                 }
+
                 SetCellsTerrainPath(new Array<Vector2I>(new[] { _lastCell, cell }), _terrainset, _terrain);
             }
             else {
