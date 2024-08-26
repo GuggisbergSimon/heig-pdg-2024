@@ -38,7 +38,7 @@ jobs:
       - name: delete gdunit
         run: |
           cd $PROJECT_PATH
-          rm -rf ~/addons/gdUnit4
+          rm -rf ./addons/gdUnit4
       - name: Windows Build
         run: |
           mkdir -v -p build/windows
