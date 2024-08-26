@@ -6,11 +6,10 @@ public partial class ToolOptionButton : OptionButton {
 
     public override void _Ready() {
         base._Ready();
-        //TODO get corresponding tier through GameManager and build the list of tools/items dynamically
-        AddItem("TopLeft");
-        AddItem("TopRight");
-        AddItem("BottomLeft");
-        AddItem("BottomRight");
+        foreach (string tool in GameManager.Instance.ProgressionManager.getTools()) {
+            AddItem(tool);
+        }
+        GameManager.Instance.ProgressionManager.LevelChange += UpdateOptions;
     }
 
     public override void _Input(InputEvent @event) {
@@ -29,5 +28,12 @@ public partial class ToolOptionButton : OptionButton {
     private void Increment(int value) {
         Select((Selected + value + ItemCount) % ItemCount);
         EmitSignal(SignalName.SelectedItem, Selected);
+    }
+    
+    private void UpdateOptions() {
+        Clear();
+        foreach (string tool in GameManager.Instance.ProgressionManager.getTools()) {
+            AddItem(tool);
+        }
     }
 }
