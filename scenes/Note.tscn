@@ -1,0 +1,3 @@
+[gd_scene format=3 uid="uid://qa4ho03acuj2"]
+
+[node name="Note" type="Sprite2D"]

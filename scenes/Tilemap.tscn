@@ -1,7 +1,8 @@
-[gd_scene load_steps=5 format=3 uid="uid://6q7rrd3mwivk"]
+[gd_scene load_steps=7 format=3 uid="uid://6q7rrd3mwivk"]
 
 [ext_resource type="Texture2D" uid="uid://deu7yuase3a6w" path="res://assets/icon.svg" id="1_iwafk"]
 [ext_resource type="Script" path="res://scripts/MusicTilemap.cs" id="2_o3egs"]
+[ext_resource type="Texture2D" uid="uid://c1pngm7njvbyk" path="res://assets/notes_atlas.png" id="2_u4rwg"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_xqi5n"]
 texture = ExtResource("1_iwafk")
@@ -11,10 +12,80 @@ texture_region_size = Vector2i(64, 64)
 0:1/0 = 0
 1:1/0 = 0
 
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_er1vb"]
+texture = ExtResource("2_u4rwg")
+0:0/0 = 0
+0:0/0/terrain_set = 0
+0:0/0/terrain = 0
+0:0/0/terrains_peering_bit/bottom_side = 0
+0:0/0/terrains_peering_bit/top_side = 0
+0:1/0 = 0
+0:1/0/terrain_set = 0
+0:1/0/terrain = 0
+0:1/0/terrains_peering_bit/right_side = 0
+0:1/0/terrains_peering_bit/left_side = 0
+1:0/0 = 0
+1:0/0/terrain_set = 0
+1:0/0/terrain = 0
+1:0/0/terrains_peering_bit/right_side = 0
+1:0/0/terrains_peering_bit/bottom_side = 0
+1:1/0 = 0
+1:1/0/terrain_set = 0
+1:1/0/terrain = 0
+1:1/0/terrains_peering_bit/bottom_side = 0
+2:0/0 = 0
+2:0/0/terrain_set = 0
+2:0/0/terrain = 0
+2:0/0/terrains_peering_bit/left_side = 0
+3:0/0 = 0
+3:0/0/terrain_set = 0
+3:0/0/terrain = 0
+3:0/0/terrains_peering_bit/bottom_side = 0
+3:0/0/terrains_peering_bit/left_side = 0
+3:1/0 = 0
+3:1/0/terrain_set = 0
+3:1/0/terrain = 0
+3:1/0/terrains_peering_bit/top_side = 0
+1:2/0 = 0
+1:2/0/terrain_set = 0
+1:2/0/terrain = 0
+1:2/0/terrains_peering_bit/right_side = 0
+1:2/0/terrains_peering_bit/top_side = 0
+2:2/0 = 0
+2:2/0/terrain_set = 0
+2:2/0/terrain = 0
+2:2/0/terrains_peering_bit/right_side = 0
+3:2/0 = 0
+3:2/0/terrain_set = 0
+3:2/0/terrain = 0
+3:2/0/terrains_peering_bit/left_side = 0
+3:2/0/terrains_peering_bit/top_side = 0
+0:3/0 = 0
+3:3/0 = 0
+0:4/0 = 0
+1:4/0 = 0
+2:4/0 = 0
+3:4/0 = 0
+0:5/0 = 0
+1:5/0 = 0
+2:5/0 = 0
+3:5/0 = 0
+0:6/0 = 0
+1:6/0 = 0
+2:6/0 = 0
+3:6/0 = 0
+0:7/0 = 0
+1:7/0 = 0
+2:7/0 = 0
+
 [sub_resource type="TileSet" id="TileSet_sbu41"]
-tile_size = Vector2i(64, 64)
+terrain_set_0/mode = 2
+terrain_set_0/terrain_0/name = "Staff"
+terrain_set_0/terrain_0/color = Color(0.566675, 0.00169613, 0.760683, 1)
 sources/0 = SubResource("TileSetAtlasSource_xqi5n")
+sources/1 = SubResource("TileSetAtlasSource_er1vb")
 
 [node name="Tilemap" type="TileMapLayer"]
 tile_set = SubResource("TileSet_sbu41")
 script = ExtResource("2_o3egs")
+_sourceId = 1

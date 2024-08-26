@@ -7,13 +7,14 @@
 [node name="Node2D" type="Node2D"]
 
 [node name="Camera2D" type="Camera2D" parent="."]
+zoom = Vector2(2, 2)
 
 [node name="Tilemap" parent="." instance=ExtResource("3_2s2ah")]
 
 [node name="ToolOptionButton" parent="Tilemap" instance=ExtResource("3_u0egv")]
-offset_top = 278.0
+offset_top = 130.0
 offset_right = 32.0
-offset_bottom = 298.0
+offset_bottom = 150.0
 
 [node name="LevelUpButton" type="Button" parent="Tilemap"]
 offset_left = -351.0
