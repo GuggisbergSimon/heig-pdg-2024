@@ -32,4 +32,12 @@ public partial class MusicTilemap : TileMapLayer {
             SetCell(LocalToMap(GetGlobalMousePosition()), -1);
         }
     }
+    
+    public void OnLevelUpButtonPressed() {
+        GameManager.Instance.ProgressionManager.levelUp();
+    }
+    
+    public void OnLevelDownButtonPressed() {
+        GameManager.Instance.ProgressionManager.levelDown();
+    }
 }
