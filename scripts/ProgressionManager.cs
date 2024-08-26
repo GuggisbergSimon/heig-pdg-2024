@@ -44,4 +44,8 @@ public partial class ProgressionManager : Node {
 
         return tools.ToArray();
     }
+    
+    public int CurrentTier {
+        get => _currentTier;
+    }
 }

@@ -1,7 +1,8 @@
-[gd_scene load_steps=3 format=3 uid="uid://c1p8c0cjke2h7"]
+[gd_scene load_steps=4 format=3 uid="uid://c1p8c0cjke2h7"]
 
 [ext_resource type="PackedScene" uid="uid://6q7rrd3mwivk" path="res://scenes/Tilemap.tscn" id="3_2s2ah"]
 [ext_resource type="PackedScene" uid="uid://ynkuv82m8a7a" path="res://scenes/ToolOptionButton.tscn" id="3_u0egv"]
+[ext_resource type="Script" path="res://scripts/Label.cs" id="3_w1oj0"]
 
 [node name="Node2D" type="Node2D"]
 
@@ -27,6 +28,19 @@ offset_top = 272.0
 offset_right = -179.0
 offset_bottom = 303.0
 text = "Level Down"
+
+[node name="Label" type="Label" parent="Tilemap"]
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = 522.0
+offset_top = -324.0
+offset_right = 576.0
+offset_bottom = -301.0
+grow_horizontal = 0
+text = "Level 0"
+horizontal_alignment = 2
+script = ExtResource("3_w1oj0")
 
 [connection signal="pressed" from="Tilemap/LevelUpButton" to="Tilemap" method="OnLevelUpButtonPressed"]
 [connection signal="pressed" from="Tilemap/LevelDownButton" to="Tilemap" method="OnLevelDownButtonPressed"]
