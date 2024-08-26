@@ -4,7 +4,7 @@
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_x6vh5"]
 atlas = ExtResource("1_0lfpw")
-region = Rect2(32, 64, 16, 16)
+region = Rect2(48, 64, 16, 16)
 
 [node name="Staff" type="Sprite2D"]
 texture = SubResource("AtlasTexture_x6vh5")
