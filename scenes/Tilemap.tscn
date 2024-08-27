@@ -80,8 +80,14 @@ texture = ExtResource("2_u4rwg")
 
 [sub_resource type="TileSet" id="TileSet_sbu41"]
 terrain_set_0/mode = 2
-terrain_set_0/terrain_0/name = "Staff"
+terrain_set_0/terrain_0/name = "Belt"
 terrain_set_0/terrain_0/color = Color(0.566675, 0.00169613, 0.760683, 1)
+custom_data_layer_0/name = "input"
+custom_data_layer_0/type = 6
+custom_data_layer_1/name = "output"
+custom_data_layer_1/type = 6
+custom_data_layer_2/name = "isBusy"
+custom_data_layer_2/type = 1
 sources/0 = SubResource("TileSetAtlasSource_xqi5n")
 sources/1 = SubResource("TileSetAtlasSource_er1vb")
 

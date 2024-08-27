@@ -18,7 +18,7 @@ public enum InstrumentType {
     Guitar
 }
 
-public partial class Note : Node {
+public partial class Note : Node2D {
     [Export] private Duration[] _durationsResources;
     [Export] private PackedScene _singleNoteScene;
     [Export] private PackedScene _lineStaffScene;

@@ -1,8 +1,10 @@
 ﻿using Godot;
-namespace heigpdg2024.scripts;
+
+namespace heigpdg2024.scripts.cells;
 
 public abstract class Cell {
-    private Vector2I position;
 
+    protected Vector2I _position;
+    
     public abstract void Process(Note note);
 }

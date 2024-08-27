@@ -1,5 +1,6 @@
 using Godot;
 using Godot.Collections;
+using heigpdg2024.scripts.cells;
 
 public partial class MusicTilemap : TileMapLayer {
     [Export] private int _sourceId;
@@ -11,6 +12,8 @@ public partial class MusicTilemap : TileMapLayer {
     private Vector2I _staffCoords = Vector2I.Zero;
 
     public override void _Ready() {
+        //There can be only one MusicTilemap per active scene
+        GameManager.Instance.RegisterTilemap(this);
         ToolOptionButton toolOption = GetNode<ToolOptionButton>("ToolOptionButton");
         toolOption.ItemSelected += UpdateTool;
         toolOption.SelectedItem += UpdateTool;
@@ -62,7 +65,23 @@ public partial class MusicTilemap : TileMapLayer {
 
         _lastCell = cell;
     }
-    
+
+    public Cell GetCell(Vector2 worldPos) {
+        TileData data = GetCellTileData(LocalToMap(worldPos));
+        if (data.Terrain < 0) {
+            // Production units
+            //TODO differentiate others production units by data
+            return new Source();
+        }
+        else {
+            //Belt unit
+            Vector2I input = data.GetCustomData("input").AsVector2I();
+            Vector2I output = data.GetCustomData("output").AsVector2I();
+            bool isBusy = data.GetCustomData("isBusy").AsBool();
+            return new Belt(input, output, isBusy);
+        }
+    }
+
     public void OnLevelUpButtonPressed() {
         GameManager.Instance.ProgressionManager.levelUp();
     }

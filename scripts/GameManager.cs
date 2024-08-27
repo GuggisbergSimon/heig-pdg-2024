@@ -2,10 +2,11 @@ using Godot;
 
 public partial class GameManager : Node {
     public static GameManager Instance { get; private set; }
-    public Node CurrentScene { get; set; }
+    public Node CurrentScene { get; private set; }
     public ProgressionManager ProgressionManager { get; private set; }
+    public MusicTilemap Tilemap { get; private set; }
     public AudioManager AudioManager { get; private set; }
-    public int Tempo { get; set; } = 120;
+    public int Tempo { get; private set; } = 120;
 
     public override void _Ready() {
         Instance = this;
@@ -17,6 +18,10 @@ public partial class GameManager : Node {
         AudioManager = GetNode<AudioManager>("AudioManager");
     }
 
+    public void RegisterTilemap(MusicTilemap tilemap) {
+        Tilemap = tilemap;
+    }
+    
     #region SceneManager
 
     /// <summary>
