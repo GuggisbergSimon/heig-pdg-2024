@@ -1,47 +1,68 @@
-[gd_scene load_steps=4 format=3 uid="uid://c1p8c0cjke2h7"]
+[gd_scene load_steps=5 format=3 uid="uid://c1p8c0cjke2h7"]
 
+[ext_resource type="Script" path="res://scripts/Camera.cs" id="2_dpgbn"]
 [ext_resource type="PackedScene" uid="uid://6q7rrd3mwivk" path="res://scenes/Tilemap.tscn" id="3_2s2ah"]
 [ext_resource type="PackedScene" uid="uid://ynkuv82m8a7a" path="res://scenes/ToolOptionButton.tscn" id="3_u0egv"]
 [ext_resource type="Script" path="res://scripts/Label.cs" id="3_w1oj0"]
 
-[node name="Node2D" type="Node2D"]
-
-[node name="Camera2D" type="Camera2D" parent="."]
-zoom = Vector2(2, 2)
+[node name="Game" type="Node2D"]
 
 [node name="Tilemap" parent="." instance=ExtResource("3_2s2ah")]
 
-[node name="ToolOptionButton" parent="Tilemap" instance=ExtResource("3_u0egv")]
-offset_top = 130.0
-offset_right = 32.0
-offset_bottom = 150.0
+[node name="UICanvas" type="CanvasLayer" parent="."]
+follow_viewport_scale = 441.191
 
-[node name="LevelUpButton" type="Button" parent="Tilemap"]
-offset_left = -351.0
-offset_top = 272.0
-offset_right = -278.0
-offset_bottom = 303.0
+[node name="ToolOptionButton" parent="UICanvas" instance=ExtResource("3_u0egv")]
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -16.0
+offset_top = -20.0
+offset_right = 16.0
+grow_horizontal = 2
+grow_vertical = 0
+metadata/_edit_use_anchors_ = true
+
+[node name="LevelUpButton" type="Button" parent="UICanvas"]
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_top = -31.0
+offset_right = 75.0
+grow_vertical = 0
 text = "Level Up"
+metadata/_edit_use_anchors_ = true
 
-[node name="LevelDownButton" type="Button" parent="Tilemap"]
-offset_left = -277.0
-offset_top = 272.0
-offset_right = -179.0
-offset_bottom = 303.0
+[node name="LevelDownButton" type="Button" parent="UICanvas"]
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 76.0
+offset_top = -31.0
+offset_right = 174.0
+grow_vertical = 0
 text = "Level Down"
+metadata/_edit_use_anchors_ = true
 
-[node name="Label" type="Label" parent="Tilemap"]
+[node name="Label" type="Label" parent="UICanvas"]
 anchors_preset = 1
 anchor_left = 1.0
 anchor_right = 1.0
-offset_left = 522.0
-offset_top = -324.0
-offset_right = 576.0
-offset_bottom = -301.0
+offset_left = -54.0
+offset_bottom = 23.0
 grow_horizontal = 0
 text = "Level 0"
 horizontal_alignment = 2
 script = ExtResource("3_w1oj0")
+metadata/_edit_use_anchors_ = true
 
-[connection signal="pressed" from="Tilemap/LevelUpButton" to="Tilemap" method="OnLevelUpButtonPressed"]
-[connection signal="pressed" from="Tilemap/LevelDownButton" to="Tilemap" method="OnLevelDownButtonPressed"]
+[node name="Camera" type="Camera2D" parent="."]
+zoom = Vector2(2, 2)
+position_smoothing_enabled = true
+position_smoothing_speed = 10.0
+script = ExtResource("2_dpgbn")
+
+[connection signal="pressed" from="UICanvas/LevelUpButton" to="Tilemap" method="OnLevelUpButtonPressed"]
+[connection signal="pressed" from="UICanvas/LevelDownButton" to="Tilemap" method="OnLevelDownButtonPressed"]
