@@ -1,9 +1,10 @@
-[gd_scene load_steps=7 format=3 uid="uid://c1p8c0cjke2h7"]
+[gd_scene load_steps=8 format=3 uid="uid://c1p8c0cjke2h7"]
 
 [ext_resource type="Script" path="res://scripts/Camera.cs" id="2_dpgbn"]
 [ext_resource type="PackedScene" uid="uid://6q7rrd3mwivk" path="res://scenes/Tilemap.tscn" id="3_2s2ah"]
 [ext_resource type="PackedScene" uid="uid://ynkuv82m8a7a" path="res://scenes/ToolOptionButton.tscn" id="3_u0egv"]
 [ext_resource type="Script" path="res://scripts/Label.cs" id="3_w1oj0"]
+[ext_resource type="Script" path="res://scripts/DevButtonsContainer.cs" id="4_wcymb"]
 
 [sub_resource type="CanvasTexture" id="CanvasTexture_leg4b"]
 specular_color = Color(0.578161, 0.309391, 0.332375, 1)
@@ -44,7 +45,7 @@ horizontal_alignment = 2
 script = ExtResource("3_w1oj0")
 metadata/_edit_use_anchors_ = true
 
-[node name="PanelContainer" type="PanelContainer" parent="UICanvas"]
+[node name="DevButtonsContainer" type="PanelContainer" parent="UICanvas"]
 anchors_preset = 4
 anchor_top = 0.5
 anchor_bottom = 0.5
@@ -53,28 +54,29 @@ offset_right = 118.0
 offset_bottom = 56.5
 grow_vertical = 2
 theme_override_styles/panel = SubResource("StyleBoxTexture_l0isx")
+script = ExtResource("4_wcymb")
 
-[node name="MarginContainer" type="MarginContainer" parent="UICanvas/PanelContainer"]
+[node name="MarginContainer" type="MarginContainer" parent="UICanvas/DevButtonsContainer"]
 layout_mode = 2
 theme_override_constants/margin_left = 10
 theme_override_constants/margin_top = 10
 theme_override_constants/margin_right = 10
 theme_override_constants/margin_bottom = 10
 
-[node name="DevButtonsContainer" type="VBoxContainer" parent="UICanvas/PanelContainer/MarginContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="UICanvas/DevButtonsContainer/MarginContainer"]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="UICanvas/PanelContainer/MarginContainer/DevButtonsContainer"]
+[node name="Label" type="Label" parent="UICanvas/DevButtonsContainer/MarginContainer/VBoxContainer"]
 layout_mode = 2
 text = "Dev tools"
 horizontal_alignment = 1
 
-[node name="LevelUpButton" type="Button" parent="UICanvas/PanelContainer/MarginContainer/DevButtonsContainer"]
+[node name="LevelUpButton" type="Button" parent="UICanvas/DevButtonsContainer/MarginContainer/VBoxContainer"]
 layout_mode = 2
 text = "Level Up"
 metadata/_edit_use_anchors_ = true
 
-[node name="LevelDownButton" type="Button" parent="UICanvas/PanelContainer/MarginContainer/DevButtonsContainer"]
+[node name="LevelDownButton" type="Button" parent="UICanvas/DevButtonsContainer/MarginContainer/VBoxContainer"]
 layout_mode = 2
 text = "Level Down"
 metadata/_edit_use_anchors_ = true
@@ -85,5 +87,5 @@ position_smoothing_enabled = true
 position_smoothing_speed = 20.0
 script = ExtResource("2_dpgbn")
 
-[connection signal="pressed" from="UICanvas/PanelContainer/MarginContainer/DevButtonsContainer/LevelUpButton" to="Tilemap" method="OnLevelUpButtonPressed"]
-[connection signal="pressed" from="UICanvas/PanelContainer/MarginContainer/DevButtonsContainer/LevelDownButton" to="Tilemap" method="OnLevelDownButtonPressed"]
+[connection signal="pressed" from="UICanvas/DevButtonsContainer/MarginContainer/VBoxContainer/LevelUpButton" to="Tilemap" method="OnLevelUpButtonPressed"]
+[connection signal="pressed" from="UICanvas/DevButtonsContainer/MarginContainer/VBoxContainer/LevelDownButton" to="Tilemap" method="OnLevelDownButtonPressed"]
