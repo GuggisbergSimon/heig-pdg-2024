@@ -7,6 +7,7 @@ public partial class GameManager : Node {
     public MusicTilemap Tilemap { get; private set; }
     public AudioManager AudioManager { get; private set; }
     public int Tempo { get; private set; } = 120;
+    public float PercentToStartAnims { get; private set; } = 0.1f;
 
     public override void _Ready() {
         Instance = this;

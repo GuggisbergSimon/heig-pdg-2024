@@ -1,8 +1,8 @@
 ﻿namespace heigpdg2024.scripts.cells;
 
 public class Source : Cell {
-    public bool IsBusy { get; }
-    
+    protected Cell _output;
+
     public override void Process(Note note) {
         //TODO implement
     }

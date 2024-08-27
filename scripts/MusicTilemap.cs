@@ -35,7 +35,7 @@ public partial class MusicTilemap : TileMapLayer {
         if (!Input.IsActionPressed("PrimaryAction") && !Input.IsActionPressed("SecondaryAction")) {
             return;
         }
-        
+
         //Only one action per cell
         if (_lastCell == cell) {
             return;
@@ -78,14 +78,17 @@ public partial class MusicTilemap : TileMapLayer {
             Vector2I input = data.GetCustomData("input").AsVector2I();
             Vector2I output = data.GetCustomData("output").AsVector2I();
             bool isBusy = data.GetCustomData("isBusy").AsBool();
-            return new Belt(input, output, isBusy);
+            return new Belt(
+                GameManager.Instance.Tilemap.GetCell(input + worldPos),
+                GameManager.Instance.Tilemap.GetCell(output + worldPos),
+                isBusy);
         }
     }
 
     public void OnLevelUpButtonPressed() {
         GameManager.Instance.ProgressionManager.levelUp();
     }
-    
+
     public void OnLevelDownButtonPressed() {
         GameManager.Instance.ProgressionManager.levelDown();
     }

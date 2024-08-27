@@ -59,6 +59,10 @@ public partial class Note : Node2D {
         }
     }
 
+    public override void _Process(double delta) {
+        GameManager.Instance.Tilemap.GetCell(Position).Process(this);
+    }
+
     //TODO refactor as those 4 functions (duration/pitches/up/down) have a lot in common
     public bool DurationUp() {
         if (Duration == MAX_DURATION) {
@@ -105,6 +109,7 @@ public partial class Note : Node2D {
             Pitches.Add(pitch);
         }
 
+        //TODO delete the other note or delegate that responsability
         return true;
     }
     
