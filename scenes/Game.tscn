@@ -1,9 +1,16 @@
-[gd_scene load_steps=5 format=3 uid="uid://c1p8c0cjke2h7"]
+[gd_scene load_steps=7 format=3 uid="uid://c1p8c0cjke2h7"]
 
 [ext_resource type="Script" path="res://scripts/Camera.cs" id="2_dpgbn"]
 [ext_resource type="PackedScene" uid="uid://6q7rrd3mwivk" path="res://scenes/Tilemap.tscn" id="3_2s2ah"]
 [ext_resource type="PackedScene" uid="uid://ynkuv82m8a7a" path="res://scenes/ToolOptionButton.tscn" id="3_u0egv"]
 [ext_resource type="Script" path="res://scripts/Label.cs" id="3_w1oj0"]
+
+[sub_resource type="CanvasTexture" id="CanvasTexture_leg4b"]
+specular_color = Color(0.578161, 0.309391, 0.332375, 1)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_l0isx"]
+texture = SubResource("CanvasTexture_leg4b")
+modulate_color = Color(0.576471, 0.309804, 0.333333, 1)
 
 [node name="Game" type="Node2D"]
 
@@ -25,27 +32,6 @@ grow_horizontal = 2
 grow_vertical = 0
 metadata/_edit_use_anchors_ = true
 
-[node name="LevelUpButton" type="Button" parent="UICanvas"]
-anchors_preset = 2
-anchor_top = 1.0
-anchor_bottom = 1.0
-offset_top = -31.0
-offset_right = 75.0
-grow_vertical = 0
-text = "Level Up"
-metadata/_edit_use_anchors_ = true
-
-[node name="LevelDownButton" type="Button" parent="UICanvas"]
-anchors_preset = 2
-anchor_top = 1.0
-anchor_bottom = 1.0
-offset_left = 76.0
-offset_top = -31.0
-offset_right = 174.0
-grow_vertical = 0
-text = "Level Down"
-metadata/_edit_use_anchors_ = true
-
 [node name="Label" type="Label" parent="UICanvas"]
 anchors_preset = 1
 anchor_left = 1.0
@@ -58,11 +44,46 @@ horizontal_alignment = 2
 script = ExtResource("3_w1oj0")
 metadata/_edit_use_anchors_ = true
 
+[node name="PanelContainer" type="PanelContainer" parent="UICanvas"]
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_top = -56.5
+offset_right = 118.0
+offset_bottom = 56.5
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxTexture_l0isx")
+
+[node name="MarginContainer" type="MarginContainer" parent="UICanvas/PanelContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="DevButtonsContainer" type="VBoxContainer" parent="UICanvas/PanelContainer/MarginContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="UICanvas/PanelContainer/MarginContainer/DevButtonsContainer"]
+layout_mode = 2
+text = "Dev tools"
+horizontal_alignment = 1
+
+[node name="LevelUpButton" type="Button" parent="UICanvas/PanelContainer/MarginContainer/DevButtonsContainer"]
+layout_mode = 2
+text = "Level Up"
+metadata/_edit_use_anchors_ = true
+
+[node name="LevelDownButton" type="Button" parent="UICanvas/PanelContainer/MarginContainer/DevButtonsContainer"]
+layout_mode = 2
+text = "Level Down"
+metadata/_edit_use_anchors_ = true
+
 [node name="Camera" type="Camera2D" parent="."]
 zoom = Vector2(2, 2)
 position_smoothing_enabled = true
-position_smoothing_speed = 10.0
+position_smoothing_speed = 20.0
 script = ExtResource("2_dpgbn")
 
-[connection signal="pressed" from="UICanvas/LevelUpButton" to="Tilemap" method="OnLevelUpButtonPressed"]
-[connection signal="pressed" from="UICanvas/LevelDownButton" to="Tilemap" method="OnLevelDownButtonPressed"]
+[connection signal="pressed" from="UICanvas/PanelContainer/MarginContainer/DevButtonsContainer/LevelUpButton" to="Tilemap" method="OnLevelUpButtonPressed"]
+[connection signal="pressed" from="UICanvas/PanelContainer/MarginContainer/DevButtonsContainer/LevelDownButton" to="Tilemap" method="OnLevelDownButtonPressed"]
