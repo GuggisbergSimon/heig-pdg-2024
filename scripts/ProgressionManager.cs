@@ -11,6 +11,13 @@ public partial class ProgressionManager : Node {
         { "BottomLeft", 1 },
         { "BottomRight", 2 },
     };
+
+    private static Godot.Collections.Dictionary<string, int> _levelRequirements = new Godot.Collections.Dictionary<string, int> {
+        { "Requirement 1", 0 },
+        { "Requirement 2", 1 },
+        { "Requirement 3", 1 },
+        { "Requirement 4", 2 },
+    };
     
     [Signal]
     public delegate void LevelChangeEventHandler();
@@ -47,5 +54,16 @@ public partial class ProgressionManager : Node {
     
     public int CurrentTier {
         get => _currentTier;
+    }
+
+    public string[] getLevelRequirements() {
+        List<string> requirements = new List<string>();
+        foreach (KeyValuePair<string, int> entry in _levelRequirements) {
+            if (entry.Value == _currentTier) {
+                requirements.Add(entry.Key);
+            }
+        }
+
+        return requirements.ToArray();
     }
 }
