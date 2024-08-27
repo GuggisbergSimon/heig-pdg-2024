@@ -1,0 +1,7 @@
+[gd_resource type="Resource" script_class="Duration" load_steps=2 format=3 uid="uid://c4gs8ttyjcxp2"]
+
+[ext_resource type="Script" path="res://scripts/Duration.cs" id="1_chrhm"]
+
+[resource]
+script = ExtResource("1_chrhm")
+Notation = 1

@@ -1,13 +1,7 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Godot;
-
-public enum DurationNotation {
-    Semibreve, //Ronde
-    Minim, //Blanche
-    Crotchet, //Noire
-    Quaver //Croche
-}
 
 public enum PitchNotation {
     C, //Do
@@ -25,14 +19,45 @@ public enum InstrumentType {
 }
 
 public partial class Note : Node {
-    public DurationNotation Duration { get; private set; }
-
+    [Export] private Duration[] _durationsResources;
+    [Export] private PackedScene _singleNoteScene;
+    [Export] private PackedScene _lineStaffScene;
+    private Dictionary<PitchNotation, Node2D> _positions = new();
+    private Dictionary<DurationNotation, Duration> _durations = new ();
+    public Duration Duration { get; private set; }
     public InstrumentType Instrument { get; set; }
+    public List<PitchNotation> Pitches { get; } = new();
 
-    public List<PitchNotation> Pitches { get; } = new List<PitchNotation>();
-    
     private static DurationNotation MAX_DURATION = DurationNotation.Minim;
     private static DurationNotation MIN_DURATION = DurationNotation.Crotchet;
+    public override void _Ready() {
+        base._Ready();
+
+        //Setups dictionary
+        foreach (var durationsResource in _durationsResources) {
+            _durations.Add(durationsResource.Notation, durationsResource);
+        }
+
+        //Positions of each note 
+        foreach (var pitch in Enum.GetValues<PitchNotation>()) {
+            _positions.Add(pitch, GetNode<Node2D>(pitch.ToString()));
+        }
+
+        //Staff is only drawn on some lines
+        string[] lines = { "E", "G", "B", "Dva", "Fva" };
+        foreach (var line in lines) {
+            GetNode<Node2D>(line).AddChild(_lineStaffScene.Instantiate<Sprite2D>());
+        }
+
+        //TODO add special symbol under the staff if C or D
+        foreach (var pitch in Pitches) {
+            var spriteInstance = _singleNoteScene.Instantiate<Sprite2D>();
+            AddChild(spriteInstance);
+            //Duration and pitch setup
+            spriteInstance.Texture = Duration.Sprite;
+            spriteInstance.Position = _positions[pitch].Position;
+        }
+    }
 
     //TODO refactor as those 4 functions (duration/pitches/up/down) have a lot in common
     public bool DurationUp() {
@@ -40,7 +65,7 @@ public partial class Note : Node {
             return false;
         }
 
-        Duration = (DurationNotation)((int) Duration - 1);
+        Duration.Notation = (DurationNotation)((int)Duration.Notation - 1);
         return true;
     }
 
@@ -49,7 +74,7 @@ public partial class Note : Node {
             return false;
         }
 
-        Duration = (DurationNotation)((int)Duration + 1);
+        Duration.Notation = (DurationNotation)((int)Duration.Notation + 1);
         return true;
     }
 
@@ -70,7 +95,7 @@ public partial class Note : Node {
         Pitches.ForEach(pitch => pitch = (PitchNotation)((int)pitch - 1));
         return true;
     }
-    
+
     public bool AddNote(Note note) {
         if (note.Instrument != Instrument || note.Duration != Duration) {
             return false;
@@ -91,6 +116,6 @@ public partial class Note : Node {
     public Note(InstrumentType instrument = InstrumentType.Piano, PitchNotation pitch = PitchNotation.C, DurationNotation duration = DurationNotation.Minim) {
         Instrument = instrument;
         Pitches.Add(pitch);
-        Duration = duration;
+        Duration = _durations[duration];
     }
 }

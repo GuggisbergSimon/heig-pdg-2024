@@ -1,3 +1,41 @@
-[gd_scene format=3 uid="uid://qa4ho03acuj2"]
+[gd_scene load_steps=8 format=3 uid="uid://jvu2psiopk1b"]
 
-[node name="Note" type="Sprite2D"]
+[ext_resource type="Script" path="res://scripts/Note.cs" id="1_qoxqa"]
+[ext_resource type="Resource" uid="uid://c0wiuj0oggdqq" path="res://resources/Crotchet.tres" id="2_83vqm"]
+[ext_resource type="PackedScene" uid="uid://qa4ho03acuj2" path="res://scenes/SingleNote.tscn" id="3_cu6yv"]
+[ext_resource type="Resource" uid="uid://c4gs8ttyjcxp2" path="res://resources/Minim.tres" id="3_frm0t"]
+[ext_resource type="PackedScene" uid="uid://chjauqdy6fw6m" path="res://scenes/LineStaff.tscn" id="3_knkru"]
+[ext_resource type="Resource" uid="uid://bir8mtoyn2yj6" path="res://resources/Quaver.tres" id="4_gbv3e"]
+[ext_resource type="Resource" uid="uid://brvu2qsadc6v3" path="res://resources/Semibreve.tres" id="5_4ai3v"]
+
+[node name="Note" type="Node"]
+script = ExtResource("1_qoxqa")
+_durationsResources = Array[Object]([ExtResource("2_83vqm"), ExtResource("3_frm0t"), ExtResource("4_gbv3e"), ExtResource("5_4ai3v")])
+_singleNoteScene = ExtResource("3_cu6yv")
+_lineStaffScene = ExtResource("3_knkru")
+
+[node name="C" type="Node2D" parent="."]
+
+[node name="D" type="Node2D" parent="."]
+position = Vector2(0, -5)
+
+[node name="E" type="Node2D" parent="."]
+position = Vector2(0, -10)
+
+[node name="F" type="Node2D" parent="."]
+position = Vector2(0, -15)
+
+[node name="G" type="Node2D" parent="."]
+position = Vector2(0, -20)
+
+[node name="A" type="Node2D" parent="."]
+position = Vector2(0, -25)
+
+[node name="B" type="Node2D" parent="."]
+position = Vector2(0, -30)
+
+[node name="Dva" type="Node2D" parent="."]
+position = Vector2(0, -40)
+
+[node name="Fva" type="Node2D" parent="."]
+position = Vector2(0, -50)
