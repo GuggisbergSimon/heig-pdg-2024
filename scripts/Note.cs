@@ -51,11 +51,7 @@ public partial class Note : Node2D {
 
         //TODO add special symbol under the staff if C or D
         foreach (var pitch in Pitches) {
-            var spriteInstance = _singleNoteScene.Instantiate<Sprite2D>();
-            AddChild(spriteInstance);
-            //Duration and pitch setup
-            spriteInstance.Texture = Duration.Sprite;
-            spriteInstance.Position = _positions[pitch].Position;
+            CreateNoteSprite(pitch);
         }
     }
 
@@ -117,6 +113,7 @@ public partial class Note : Node2D {
 
         foreach (var pitch in note.Pitches.Where(pitch => !Pitches.Contains(pitch))) {
             Pitches.Add(pitch);
+            CreateNoteSprite(pitch);
         }
 
         //Deletes the merged note 
@@ -133,5 +130,13 @@ public partial class Note : Node2D {
         Instrument = instrument;
         Pitches.Add(pitch);
         Duration = _durations[duration];
+    }
+
+    private void CreateNoteSprite(PitchNotation pitch) {
+        var spriteInstance = _singleNoteScene.Instantiate<Sprite2D>();
+        AddChild(spriteInstance);
+        //Duration and pitch setup
+        spriteInstance.Texture = Duration.Sprite;
+        spriteInstance.Position = _positions[pitch].Position;
     }
 }
