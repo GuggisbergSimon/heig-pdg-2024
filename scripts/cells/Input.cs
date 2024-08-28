@@ -3,7 +3,7 @@
 namespace heigpdg2024.scripts.cells;
 
 public abstract class Input {
-    protected Vector2 Position;
+    public Vector2 Position { get; }
     public bool IsBusy { get; protected set; }
 
     public Input(Vector2 position, bool isBusy) {

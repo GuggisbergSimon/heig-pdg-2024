@@ -17,7 +17,7 @@ public partial class Source : Node2D {
     public override void _Process(double delta) {
         if (!_output.IsBusy) {
             var newNote = (Note)_noteScene.Instantiate();
-            newNote.Position = _output.GetPosition();
+            newNote.Position = _output.Position;
 
             GameManager.Instance.AddChild(newNote);
             // GetTree().CurrentScene.AddChild(newNote); // Add the note to the scene ? Or should we add it to the GameManager ?
