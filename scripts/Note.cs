@@ -56,7 +56,8 @@ public partial class Note : Node2D {
     }
 
     public override void _Process(double delta) {
-        GameManager.Instance.Tilemap.GetCell(Position).Process(this);
+        var input = GameManager.Instance.Tilemap.GetInput(Position);
+        input?.Process(this);
     }
 
     public override string ToString() {

@@ -67,22 +67,30 @@ public partial class MusicTilemap : TileMapLayer {
         _lastCell = cell;
     }
 
-    public Input GetCell(Vector2 worldPos) {
+    public Input GetInput(Vector2 worldPos) {
         Vector2I cellCoord = LocalToMap(worldPos);
         TileData data = GetCellTileData(cellCoord);
         Vector2 cellPos = MapToLocal(cellCoord);
         bool isBusy = data.GetCustomData("isBusy").AsBool();
-        if (data.Terrain < 0) {
-            // Production units
-            //TODO differentiate others production units by data
+        string type = data.GetCustomData("output").AsString();
+        if (type.Equals("speaker")) {
             return new Speaker(cellPos, isBusy);
         }
-        else {
-            //Belt unit
-            Vector2I input = data.GetCustomData("input").AsVector2I();
-            Vector2I output = data.GetCustomData("output").AsVector2I();
-            return new Belt(cellPos, isBusy,
-                GameManager.Instance.Tilemap.GetCell(output + cellCoord));
+
+        //TODO fix recursion issues for output
+        Input output = GetInput(data.GetCustomData("output").AsVector2I() + cellCoord);
+        switch (type) {
+            case "belt":
+                return new Belt(cellPos, isBusy,
+                    GameManager.Instance.Tilemap.GetInput(data.GetCustomData("output").AsVector2I() + cellCoord));
+            case "up":
+                return new UpDown(cellPos, isBusy, output, true);
+            case "down":
+                return new UpDown(cellPos, isBusy, output, false);
+            case "merger":
+                return new Merger(cellPos, isBusy, output);
+            default:
+                return null;
         }
     }
 

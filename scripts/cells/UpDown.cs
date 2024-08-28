@@ -4,7 +4,7 @@ namespace heigpdg2024.scripts.cells;
 
 public class UpDown : Transit {
     private bool _isUp;
-    public UpDown(Vector2 position, Input output, bool isBusy, bool isUp) : base(position, isBusy, output) {
+    public UpDown(Vector2 position, bool isBusy, Input output, bool isUp) : base(position, isBusy, output) {
         _isUp = isUp;
     }
 
