@@ -24,8 +24,8 @@ public partial class NoteVisualizer : Node {
         }
 
         //Test purposes
-        Note note = new Note(PitchNotation.G, DurationNotation.Quaver);
-        note.AddNote(new Note(PitchNotation.C, DurationNotation.Quaver));
+        Note note = new Note(InstrumentType.Piano, PitchNotation.G, DurationNotation.Quaver);
+        note.AddNote(new Note(InstrumentType.Piano, PitchNotation.C, DurationNotation.Quaver));
 
         //TODO add special symbol under the staff if C or D
         foreach (var pitch in note.Pitches) {

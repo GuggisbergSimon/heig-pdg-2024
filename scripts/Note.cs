@@ -20,7 +20,7 @@ public enum PitchNotation {
 }
 
 public enum InstrumentType {
-    Keyboard,
+    Piano,
     Guitar
 }
 
@@ -79,8 +79,14 @@ public partial class Note : Node {
 
         return true;
     }
+    
+    public bool ChangeInstrument(InstrumentType instrument) {
+        Instrument = instrument;
+        return true;
+    }
 
-    public Note(PitchNotation pitch = PitchNotation.C, DurationNotation duration = DurationNotation.Minim) {
+    public Note(InstrumentType instrument = InstrumentType.Guitar, PitchNotation pitch = PitchNotation.C, DurationNotation duration = DurationNotation.Semibreve) {
+        Instrument = instrument;
         Pitches.Add(pitch);
         Duration = duration;
     }
