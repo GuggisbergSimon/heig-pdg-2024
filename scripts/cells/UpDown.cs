@@ -1,12 +1,28 @@
-﻿namespace heigpdg2024.scripts.cells;
+﻿using Godot;
+
+namespace heigpdg2024.scripts.cells;
 
 public class UpDown : Transit {
     private bool _isUp;
-    public UpDown(Cell input, Cell output, bool isBusy, bool isUp) : base(input, output, isBusy) {
+    public UpDown(Vector2 position, Input output, bool isBusy, bool isUp) : base(position, isBusy, output) {
         _isUp = isUp;
     }
 
     public override void Process(Note note) {
-        //TODO implement
+        switch (IsBusy) {
+            case false:
+                IsBusy = true;
+                note.MoveByTempo(Position);
+                break;
+            case true when !Output.IsBusy:
+                if (_isUp) {
+                    note.PitchesUp();
+                }
+                else {
+                    note.PitchesDown();
+                }
+                Output.Process(note);
+                break;
+        }
     }
 }

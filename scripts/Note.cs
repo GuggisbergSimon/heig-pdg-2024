@@ -63,6 +63,16 @@ public partial class Note : Node2D {
         GameManager.Instance.Tilemap.GetCell(Position).Process(this);
     }
 
+    public override string ToString() {
+        return Instrument + " : " + Duration + " : " + Pitches;
+    }
+
+    public void MoveByTempo(Vector2 to) {
+        Tween tween = GetTree().CreateTween();
+        float duration = 60 * GameManager.Instance.PercentToStartAnims / GameManager.Instance.Tempo;
+        tween.TweenProperty(this, "position", to, duration);
+    }
+
     //TODO refactor as those 4 functions (duration/pitches/up/down) have a lot in common
     public bool DurationUp() {
         if (Duration == MAX_DURATION) {
@@ -109,7 +119,8 @@ public partial class Note : Node2D {
             Pitches.Add(pitch);
         }
 
-        //TODO delete the other note or delegate that responsability
+        //Deletes the merged note 
+        note.QueueFree();
         return true;
     }
     

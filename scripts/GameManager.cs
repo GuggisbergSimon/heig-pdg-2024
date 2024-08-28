@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Godot;
 
 public partial class GameManager : Node {
@@ -8,6 +9,7 @@ public partial class GameManager : Node {
     public AudioManager AudioManager { get; private set; }
     public int Tempo { get; private set; } = 120;
     public float PercentToStartAnims { get; private set; } = 0.1f;
+    private List<Note> _notes = new();
 
     public override void _Ready() {
         Instance = this;
@@ -19,10 +21,18 @@ public partial class GameManager : Node {
         AudioManager = GetNode<AudioManager>("AudioManager");
     }
 
+    //TODO every x seconds depending on tempo, call for each note their Process method (need to create it as godot default one is happening every frame)
+    public override void _Process(double delta) { }
+
     public void RegisterTilemap(MusicTilemap tilemap) {
         Tilemap = tilemap;
     }
-    
+
+    public void RegisterNote(Note note) {
+        //TODO be called by source when instantiating a note
+        _notes.Add(note);
+    }
+
     #region SceneManager
 
     /// <summary>

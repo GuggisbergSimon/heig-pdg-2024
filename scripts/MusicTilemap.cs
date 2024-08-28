@@ -1,6 +1,7 @@
 using Godot;
 using Godot.Collections;
 using heigpdg2024.scripts.cells;
+using Input = heigpdg2024.scripts.cells.Input;
 
 public partial class MusicTilemap : TileMapLayer {
     [Export] private int _sourceId;
@@ -32,7 +33,7 @@ public partial class MusicTilemap : TileMapLayer {
 
     public override void _Input(InputEvent @event) {
         Vector2I cell = LocalToMap(GetGlobalMousePosition());
-        if (!Input.IsActionPressed("PrimaryAction") && !Input.IsActionPressed("SecondaryAction")) {
+        if (!Godot.Input.IsActionPressed("PrimaryAction") && !Godot.Input.IsActionPressed("SecondaryAction")) {
             return;
         }
 
@@ -42,7 +43,7 @@ public partial class MusicTilemap : TileMapLayer {
         }
 
         //TODO disable when outside window or hovering UI
-        if (Input.IsActionPressed("PrimaryAction")) {
+        if (Godot.Input.IsActionPressed("PrimaryAction")) {
             if (_atlasCoords.Equals(_staffCoords)) {
                 //Handles Staff
                 //Only adjacent cells
@@ -58,7 +59,7 @@ public partial class MusicTilemap : TileMapLayer {
                 SetCell(cell, _sourceId, _atlasCoords);
             }
         }
-        else if (Input.IsActionPressed("SecondaryAction")) {
+        else if (Godot.Input.IsActionPressed("SecondaryAction")) {
             //Resets the cell
             SetCell(cell);
         }
@@ -66,22 +67,22 @@ public partial class MusicTilemap : TileMapLayer {
         _lastCell = cell;
     }
 
-    public Cell GetCell(Vector2 worldPos) {
-        TileData data = GetCellTileData(LocalToMap(worldPos));
+    public Input GetCell(Vector2 worldPos) {
+        Vector2I cellCoord = LocalToMap(worldPos);
+        TileData data = GetCellTileData(cellCoord);
+        Vector2 cellPos = MapToLocal(cellCoord);
+        bool isBusy = data.GetCustomData("isBusy").AsBool();
         if (data.Terrain < 0) {
             // Production units
             //TODO differentiate others production units by data
-            return new Source();
+            return new Speaker(cellPos, isBusy);
         }
         else {
             //Belt unit
             Vector2I input = data.GetCustomData("input").AsVector2I();
             Vector2I output = data.GetCustomData("output").AsVector2I();
-            bool isBusy = data.GetCustomData("isBusy").AsBool();
-            return new Belt(
-                GameManager.Instance.Tilemap.GetCell(input + worldPos),
-                GameManager.Instance.Tilemap.GetCell(output + worldPos),
-                isBusy);
+            return new Belt(cellPos, isBusy,
+                GameManager.Instance.Tilemap.GetCell(output + cellCoord));
         }
     }
 

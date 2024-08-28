@@ -2,11 +2,19 @@ using Godot;
 
 namespace heigpdg2024.scripts.cells;
 
-public partial class Belt : Transit {
+public class Belt : Transit {
+    
     public override void Process(Note note) {
-        //TODO implement
+        switch (IsBusy) {
+            case false:
+                IsBusy = true;
+                note.MoveByTempo(Position);
+                break;
+            case true when !Output.IsBusy:
+                Output.Process(note);
+                break;
+        }
     }
 
-    public Belt(Cell input, Cell output, bool isBusy) : base(input, output, isBusy) {
-    }
+    public Belt(Vector2 position, bool isBusy, Input output) : base(position, isBusy, output) { }
 }
