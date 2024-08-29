@@ -4,6 +4,7 @@ public partial class GameManager : Node {
     public static GameManager Instance { get; private set; }
     public Node CurrentScene { get; set; }
     public ProgressionManager ProgressionManager { get; private set; }
+    public AudioManager AudioManager { get; private set; }
     public int Tempo { get; set; } = 120;
 
     public override void _Ready() {
@@ -13,6 +14,7 @@ public partial class GameManager : Node {
         Viewport root = GetTree().Root;
         CurrentScene = root.GetChild(root.GetChildCount() - 1);
         ProgressionManager = GetNode<ProgressionManager>("ProgressionManager");
+        AudioManager = GetNode<AudioManager>("AudioManager");
     }
 
     #region SceneManager

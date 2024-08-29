@@ -1,10 +1,17 @@
-[gd_scene load_steps=3 format=3 uid="uid://wjjvck7uxuti"]
+[gd_scene load_steps=5 format=3 uid="uid://wjjvck7uxuti"]
 
 [ext_resource type="Script" path="res://scripts/GameManager.cs" id="1_i8ltt"]
 [ext_resource type="Script" path="res://scripts/ProgressionManager.cs" id="2_41yyc"]
+[ext_resource type="Script" path="res://scripts/AudioManager.cs" id="3_ecg0a"]
+[ext_resource type="PackedScene" uid="uid://wu5emf6f0en4" path="res://scenes/sampler.tscn" id="4_mlq4f"]
 
 [node name="GameManager" type="Node"]
 script = ExtResource("1_i8ltt")
 
 [node name="ProgressionManager" type="Node" parent="."]
 script = ExtResource("2_41yyc")
+
+[node name="AudioManager" type="Node" parent="."]
+script = ExtResource("3_ecg0a")
+
+[node name="Sampler" parent="AudioManager" instance=ExtResource("4_mlq4f")]
