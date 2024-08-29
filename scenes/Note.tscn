@@ -6,7 +6,7 @@
 [ext_resource type="Resource" uid="uid://bir8mtoyn2yj6" path="res://resources/Quaver.tres" id="4_8eca1"]
 [ext_resource type="Resource" uid="uid://brvu2qsadc6v3" path="res://resources/Semibreve.tres" id="5_hwtby"]
 [ext_resource type="PackedScene" uid="uid://dfqyf70n4tbhj" path="res://scenes/SingleNote.tscn" id="6_ojwyv"]
-[ext_resource type="PackedScene" path="res://scenes/LineStaff.tscn" id="7_nq45h"]
+[ext_resource type="PackedScene" uid="uid://bjjamawfh8gov" path="res://scenes/LineStaff.tscn" id="7_nq45h"]
 
 [node name="Note" type="Node2D"]
 script = ExtResource("1_qoxqa")

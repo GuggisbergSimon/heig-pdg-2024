@@ -76,7 +76,7 @@ public partial class Note : Node2D {
 
     //TODO refactor as those 4 functions (duration/pitches/up/down) have a lot in common
     public bool DurationUp() {
-        if (Duration == MAX_DURATION) {
+        if (Duration.Notation == MAX_DURATION) {
             return false;
         }
 
@@ -86,7 +86,7 @@ public partial class Note : Node2D {
     }
 
     public bool DurationDown() {
-        if (Duration == MIN_DURATION) {
+        if (Duration.Notation == MIN_DURATION) {
             return false;
         }
 
@@ -114,7 +114,7 @@ public partial class Note : Node2D {
         }
         
         for (int i = 0; i < Pitches.Count; i++) {
-            Pitches[i] = (PitchNotation)((int)Pitches[i] + 1);
+            Pitches[i] = (PitchNotation)((int)Pitches[i] - 1);
         }
 
         UpdateNotePitch();
