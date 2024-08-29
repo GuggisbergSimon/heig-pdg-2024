@@ -42,7 +42,7 @@ public partial class GameManager : Node {
         foreach (var source in _sources) {
             Processor output = Tilemap.GetInput(source.Position, source.Output);
             if (output == null || output.IsBusy) {
-                return;
+                continue;
             }
 
             var note = _noteScene.Instantiate<Note>();
