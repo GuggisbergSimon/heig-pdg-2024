@@ -30,10 +30,13 @@ public partial class Note : Node {
     public InstrumentType Instrument { get; set; }
 
     public List<PitchNotation> Pitches { get; } = new List<PitchNotation>();
+    
+    private static DurationNotation MAX_DURATION = DurationNotation.Minim;
+    private static DurationNotation MIN_DURATION = DurationNotation.Crotchet;
 
     //TODO refactor as those 4 functions (duration/pitches/up/down) have a lot in common
     public bool DurationUp() {
-        if (Duration == DurationNotation.Semibreve) {
+        if (Duration == MAX_DURATION) {
             return false;
         }
 
@@ -42,7 +45,7 @@ public partial class Note : Node {
     }
 
     public bool DurationDown() {
-        if (Duration == DurationNotation.Quaver) {
+        if (Duration == MIN_DURATION) {
             return false;
         }
 
@@ -85,7 +88,7 @@ public partial class Note : Node {
         return true;
     }
 
-    public Note(InstrumentType instrument = InstrumentType.Guitar, PitchNotation pitch = PitchNotation.C, DurationNotation duration = DurationNotation.Semibreve) {
+    public Note(InstrumentType instrument = InstrumentType.Piano, PitchNotation pitch = PitchNotation.C, DurationNotation duration = DurationNotation.Minim) {
         Instrument = instrument;
         Pitches.Add(pitch);
         Duration = duration;

@@ -14,11 +14,17 @@ public partial class AudioManager : Node {
         var pitches = note.Pitches;
 
         foreach (var pitch in pitches) {
-            if (note.Instrument == InstrumentType.Piano) {
-                _piano.Call("play_note", pitch.ToString(), 4, (int)duration);
-            }
-            else if (note.Instrument == InstrumentType.Guitar) {
-                _guitar.Call("play_note", pitch.ToString(), 4, (int)duration);
+            switch (note.Instrument)
+            {
+                case InstrumentType.Piano:
+                    _piano.Call("play_note", pitch.ToString(), 4, (int)duration);
+                    break;
+                case InstrumentType.Guitar:
+                    _guitar.Call("play_note", pitch.ToString(), 4, (int)duration);
+                    break;
+                default:
+                    GD.PushWarning("Instrument not found");
+                    break;
             }
         }
     }
