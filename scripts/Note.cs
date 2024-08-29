@@ -24,6 +24,7 @@ public partial class Note : Node2D {
     [Export] private PackedScene _lineStaffScene;
     private Dictionary<PitchNotation, Node2D> _positions = new();
     private Dictionary<DurationNotation, Duration> _durations = new ();
+    private List<Node2D> _notesSprites = new();
     public Duration Duration { get; private set; }
     public InstrumentType Instrument { get; set; }
     public List<PitchNotation> Pitches { get; } = new();
@@ -80,6 +81,7 @@ public partial class Note : Node2D {
         }
 
         Duration.Notation = (DurationNotation)((int)Duration.Notation - 1);
+        //TODO update sprite
         return true;
     }
 
@@ -89,6 +91,7 @@ public partial class Note : Node2D {
         }
 
         Duration.Notation = (DurationNotation)((int)Duration.Notation + 1);
+        //TODO update sprite
         return true;
     }
 
@@ -97,7 +100,11 @@ public partial class Note : Node2D {
             return false;
         }
         
-        Pitches.ForEach(pitch => pitch = (PitchNotation)((int)pitch + 1));
+        for (int i = 0; i < Pitches.Count; i++) {
+            Pitches[i] = (PitchNotation)((int)Pitches[i] + 1);
+        }
+
+        UpdateNotePitch();
         return true;
     }
 
@@ -105,8 +112,12 @@ public partial class Note : Node2D {
         if (Pitches.Any(pitch => pitch == PitchNotation.C)) {
             return false;
         }
+        
+        for (int i = 0; i < Pitches.Count; i++) {
+            Pitches[i] = (PitchNotation)((int)Pitches[i] + 1);
+        }
 
-        Pitches.ForEach(pitch => pitch = (PitchNotation)((int)pitch - 1));
+        UpdateNotePitch();
         return true;
     }
 
@@ -135,6 +146,13 @@ public partial class Note : Node2D {
         //Duration and pitch setup
         spriteInstance.Texture = Duration.Sprite;
         spriteInstance.Position = _positions[pitch].Position;
+        _notesSprites.Add(spriteInstance);
         AddChild(spriteInstance);
+    }
+
+    private void UpdateNotePitch() {
+        for (int i = 0; i < Pitches.Count; i++) {
+            _notesSprites[i].Position = _positions[Pitches[i]].Position;
+        }
     }
 }
