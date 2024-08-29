@@ -4,9 +4,11 @@ using heigpdg2024.scripts.cells;
 
 public partial class GameManager : Node {
     [Export] private PackedScene _noteScene;
-    private readonly List<Note> _notes = new();
+    private readonly List<Note> _notes = new();    
+    private readonly List<Note> _notesToRemove = new();
     private readonly List<Source> _sources = new();
-
+    public readonly List<Merger> _mergers = new();
+    
     private double _timeAccumulator;
     private Timer _timer;
     public static GameManager Instance { get; private set; }
@@ -51,6 +53,17 @@ public partial class GameManager : Node {
             _notes.Add(note);
             output.Process(note);
         }
+        
+        foreach (var n in _notesToRemove) {
+            _notes.Remove(n);
+            n.QueueFree();
+        }
+        _notesToRemove.Clear();
+        
+        foreach (var merger in _mergers) {
+            GD.Print("clear"); 
+            merger.ClearMemory();
+        }
     }
 
     public void RegisterTilemap(MusicTilemap tilemap) {
@@ -61,6 +74,22 @@ public partial class GameManager : Node {
         _sources.Add(source);
     }
 
+    public void RegisterMerger(Merger merger) {
+        _mergers.Add(merger);
+    }
+	
+    public void UnregisterNote(Note note) {
+        _notesToRemove.Add(note);
+    }
+    
+    public void UnregisterSource(Source source) {
+        _sources.Remove(source);
+    }
+
+    public void UnregisterMerger(Merger merger) {
+        _mergers.Remove(merger);
+    }
+    
     #region SceneManager
 
     /// <summary>

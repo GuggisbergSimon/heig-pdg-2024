@@ -18,4 +18,8 @@ public abstract class Processor {
     public bool IsCompatible(Vector2I input) {
         return !IsBusy && input.Equals(-Input);
     }
+    
+    public Vector2 getPosition() {
+        return Position;
+    }
 }

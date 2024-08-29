@@ -10,6 +10,7 @@ public partial class MusicTilemap : TileMapLayer {
     private Vector2I _lastDirection;
     private Vector2I _beltCoords = Vector2I.Zero;
     private Vector2I _sourceCoords = new(1, 7);
+    private Vector2I _mergerCoords = new(1, 5);
     private Godot.Collections.Dictionary<Vector2I, bool> _busyCells = new();
     private Godot.Collections.Dictionary<Vector2I, int> _directionIndexes = new();
 
@@ -32,7 +33,7 @@ public partial class MusicTilemap : TileMapLayer {
             //TODO change to match final atlas spritesheet
             0 => _beltCoords,
             1 => new Vector2I(0, 4),
-            2 => new Vector2I(0, 5),
+            2 => _mergerCoords,
             3 => _sourceCoords,
             _ => -Vector2I.One
         };
@@ -88,6 +89,14 @@ public partial class MusicTilemap : TileMapLayer {
                     _busyCells[cellCoords] = false;
                 }
             }
+            else if (_atlasCoords.Equals(_mergerCoords)) {
+                GameManager.Instance.RegisterMerger(
+                    new Merger(MapToLocal(cellCoords), false, Vector2I.Up, Vector2I.Down, Vector2I.Right));
+                SetCell(cellCoords, _sourceId, _atlasCoords);
+                if (!_busyCells.TryAdd(cellCoords, false)) {
+                    _busyCells[cellCoords] = false;
+                }
+            } 
             else {
                 //Handles all other cases
                 SetCell(cellCoords, _sourceId, _atlasCoords);
@@ -106,7 +115,8 @@ public partial class MusicTilemap : TileMapLayer {
     }
 
     public Processor GetInput(Vector2 worldPos, Vector2I cellOffset) {
-        Vector2I cellCoord = LocalToMap(worldPos) + cellOffset;
+        Vector2I cellCoord = LocalToMap(worldPos);
+        cellCoord += cellOffset;
         TileData data = GetCellTileData(cellCoord);
         if (data == null) {
             return null;
@@ -127,13 +137,24 @@ public partial class MusicTilemap : TileMapLayer {
             "pitchDown" => new UpDown(cellPos, isBusy, input, output, false),
             //"durationUp" => new UpDown(cellPos, isBusy, input, output, true),
             ///"durationDown" => new UpDown(cellPos, isBusy, input, output, false),
-            "merger" => new Merger(cellPos, isBusy, input, output),
+            "merger" => FindMerger(cellPos),
             _ => null
         };
     }
 
     public Processor GetInput(Vector2 worldPos) {
         return GetInput(worldPos, Vector2I.Zero);
+    }
+
+    // TODO améliorer
+    // Nouvelle méthode pour trouver un Merger à une position spécifique
+    private Merger FindMerger(Vector2 cellPos) {
+        foreach (var merger in GameManager.Instance._mergers) {
+            if (merger.getPosition() == cellPos) {
+                return merger;
+            }
+        }
+        return null;
     }
 
     public void SetBusy(Vector2 cellPos, bool busy) {

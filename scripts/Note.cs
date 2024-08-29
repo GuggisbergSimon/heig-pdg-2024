@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Godot;
+using heigpdg2024.scripts.cells;
 
 public enum PitchNotation {
     C, //Do
@@ -60,8 +61,22 @@ public partial class Note : Node2D {
     }
 
     public void Process() {
-        var input = GameManager.Instance.Tilemap.GetInput(Position);
-        input?.Process(this);
+        // TODO corriger
+        Processor input = GameManager.Instance.Tilemap.GetInput(Position);
+        if (input != null && input is not Merger) {
+            input.Process(this);
+            
+            input = GameManager.Instance.Tilemap.GetInput(Position, Vector2I.Up);
+            if (input != null && input is Merger merger1) {
+                merger1.Process(this);
+                return;
+            }
+            
+            input = GameManager.Instance.Tilemap.GetInput(Position, Vector2I.Down);
+            if (input != null && input is Merger merger2) {
+                merger2.Process(this);
+            }
+        } 
     }
 
     public override string ToString() {
@@ -132,7 +147,7 @@ public partial class Note : Node2D {
         }
 
         //Deletes the merged note 
-        note.QueueFree();
+        GameManager.Instance.UnregisterNote(note);
         return true;
     }
     
