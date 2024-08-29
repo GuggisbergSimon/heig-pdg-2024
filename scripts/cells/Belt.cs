@@ -12,7 +12,7 @@ public class Belt : Transit {
                 break;
             case true:
                 Processor output = GameManager.Instance.Tilemap.GetInput(Position, Output);
-                if (output != null && output.IsCompatible(Input)) {
+                if (output != null && output.IsCompatible(Output)) {
                     output.Process(note);
                     GameManager.Instance.Tilemap.SetBusy(Position, false);
                 }

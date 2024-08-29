@@ -16,6 +16,6 @@ public abstract class Processor {
     public abstract void Process(Note note);
     
     public bool IsCompatible(Vector2I input) {
-        return !IsBusy && input.Equals(Input);
+        return !IsBusy && input.Equals(-Input);
     }
 }
