@@ -2,10 +2,10 @@
 
 namespace heigpdg2024.scripts.cells;
 
-public abstract class Transit : Input {
-    protected Input Output;
+public abstract class Transit : Processor {
+    protected Vector2I Output;
 
-    public Transit(Vector2 position, bool isBusy, Input output): base(position, isBusy) {
+    protected Transit(Vector2 position, bool isBusy, Vector2I input, Vector2I output): base(position, isBusy, input) {
         Output = output;
     }
 }

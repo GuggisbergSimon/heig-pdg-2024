@@ -37,6 +37,9 @@ public partial class Note : Node2D {
         foreach (var durationsResource in _durationsResources) {
             _durations.Add(durationsResource.Notation, durationsResource);
         }
+        
+        Pitches.Add(PitchNotation.C);
+        Duration = _durations[DurationNotation.Minim];
 
         //Positions of each note 
         foreach (var pitch in Enum.GetValues<PitchNotation>()) {
@@ -55,7 +58,7 @@ public partial class Note : Node2D {
         }
     }
 
-    public override void _Process(double delta) {
+    public void Process() {
         var input = GameManager.Instance.Tilemap.GetInput(Position);
         input?.Process(this);
     }
@@ -93,7 +96,7 @@ public partial class Note : Node2D {
         if (Pitches.Any(pitch => pitch == PitchNotation.B)) {
             return false;
         }
-
+        
         Pitches.ForEach(pitch => pitch = (PitchNotation)((int)pitch + 1));
         return true;
     }
@@ -127,17 +130,11 @@ public partial class Note : Node2D {
         return true;
     }
 
-    public Note(InstrumentType instrument = InstrumentType.Piano, PitchNotation pitch = PitchNotation.C, DurationNotation duration = DurationNotation.Minim) {
-        Instrument = instrument;
-        Pitches.Add(pitch);
-        Duration = _durations[duration];
-    }
-
     private void CreateNoteSprite(PitchNotation pitch) {
         var spriteInstance = _singleNoteScene.Instantiate<Sprite2D>();
-        AddChild(spriteInstance);
         //Duration and pitch setup
         spriteInstance.Texture = Duration.Sprite;
         spriteInstance.Position = _positions[pitch].Position;
+        AddChild(spriteInstance);
     }
 }

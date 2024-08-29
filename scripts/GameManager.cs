@@ -3,12 +3,12 @@ using Godot;
 using heigpdg2024.scripts.cells;
 
 public partial class GameManager : Node {
-    private double _intervalBetweenBeats;
-
+    [Export] private PackedScene _noteScene;
     private readonly List<Note> _notes = new();
     private readonly List<Source> _sources = new();
 
     private double _timeAccumulator;
+    private Timer _timer;
     public static GameManager Instance { get; private set; }
     public Node CurrentScene { get; private set; }
     public ProgressionManager ProgressionManager { get; private set; }
@@ -20,8 +20,12 @@ public partial class GameManager : Node {
     public override void _Ready() {
         Instance = this;
 
-        // Calcul de l'intervalle entre les battements en secondes
-        _intervalBetweenBeats = 60.0 / Tempo;
+        //Timer setup
+        _timer = GetNode<Timer>("Timer");
+        _timer.SetWaitTime(60f / Tempo);
+        _timer.Autostart = true;
+        _timer.Timeout += OnTempo;
+        _timer.Start();
 
         // Scene Manager behaviour
         Viewport root = GetTree().Root;
@@ -30,28 +34,29 @@ public partial class GameManager : Node {
         AudioManager = GetNode<AudioManager>("AudioManager");
     }
 
-    //TODO every x seconds depending on tempo, call for each note their Process method (need to create it as godot default one is happening every frame)
-    public override void _Process(double delta) {
-        _timeAccumulator += delta;
+    private void OnTempo() {
+        foreach (var note in _notes) {
+            note.Process();
+        }
 
-        if (_timeAccumulator >= _intervalBetweenBeats) {
-            _timeAccumulator -= _intervalBetweenBeats;
+        foreach (var source in _sources) {
+            Processor output = Tilemap.GetInput(source.Position, source.Output);
+            if (output == null || output.IsBusy) {
+                return;
+            }
 
-            foreach (var note in _notes) note._Process(delta);
-
-            foreach (var source in _sources) source._Process(delta);
+            var note = _noteScene.Instantiate<Note>();
+            note.Position = source.Position;
+            GetTree().Root.AddChild(note);
+            _notes.Add(note);
+            output.Process(note);
         }
     }
 
     public void RegisterTilemap(MusicTilemap tilemap) {
         Tilemap = tilemap;
     }
-
-    public void RegisterNote(Note note) {
-        //TODO be called by source when instantiating a note
-        _notes.Add(note);
-    }
-
+    
     public void RegisterSource(Source source) {
         _sources.Add(source);
     }

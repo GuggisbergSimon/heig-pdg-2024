@@ -1,7 +1,6 @@
+using System.Collections.Generic;
 using Godot;
-using Godot.Collections;
 using heigpdg2024.scripts.cells;
-using Input = heigpdg2024.scripts.cells.Input;
 
 public partial class MusicTilemap : TileMapLayer {
     [Export] private int _sourceId;
@@ -10,7 +9,9 @@ public partial class MusicTilemap : TileMapLayer {
 
     private Vector2I _atlasCoords;
     private Vector2I _lastCell;
-    private Vector2I _staffCoords = Vector2I.Zero;
+    private Vector2I _beltCoords = Vector2I.Zero;
+    private Vector2I _sourceCoords = new(1, 6);
+    private Godot.Collections.Dictionary<Vector2I, bool> _busyCells = new();
 
     public override void _Ready() {
         //There can be only one MusicTilemap per active scene
@@ -23,75 +24,99 @@ public partial class MusicTilemap : TileMapLayer {
     private void UpdateTool(long index) {
         _atlasCoords = index switch {
             //TODO change to match final atlas spritesheet
-            0 => _staffCoords,
+            0 => _beltCoords,
             1 => new Vector2I(0, 3),
             2 => new Vector2I(0, 4),
-            3 => new Vector2I(3, 3),
+            3 => _sourceCoords,
             _ => -Vector2I.One
         };
     }
 
     public override void _Input(InputEvent @event) {
-        Vector2I cell = LocalToMap(GetGlobalMousePosition());
+        //TODO detect clicks through UI layer
+        Vector2I cellCoords = LocalToMap(GetGlobalMousePosition());
         if (!Godot.Input.IsActionPressed("PrimaryAction") && !Godot.Input.IsActionPressed("SecondaryAction")) {
             return;
         }
 
         //Only one action per cell
-        if (_lastCell == cell) {
+        if (_lastCell == cellCoords &&
+            !Godot.Input.IsActionJustPressed("PrimaryAction") &&
+            !Godot.Input.IsActionJustPressed("SecondaryAction")) {
             return;
         }
 
         //TODO disable when outside window or hovering UI
         if (Godot.Input.IsActionPressed("PrimaryAction")) {
-            if (_atlasCoords.Equals(_staffCoords)) {
-                //Handles Staff
+            if (_atlasCoords.Equals(_beltCoords)) {
+                //Handles Belt
                 //Only adjacent cells
-                if (_lastCell.DistanceSquaredTo(cell) > 1) {
-                    _lastCell = cell;
+                if (_lastCell.DistanceSquaredTo(cellCoords) > 1) {
+                    _lastCell = cellCoords;
                     return;
                 }
 
-                SetCellsTerrainPath(new Array<Vector2I>(new[] { _lastCell, cell }), _terrainset, _terrain);
+                //SetCellsTerrainPath(new Array<Vector2I>(new[] { _lastCell, cellCoords }), _terrainset, _terrain);
+                if (!_busyCells.TryAdd(cellCoords, false)) {
+                    _busyCells[cellCoords] = false;
+                }
+            }
+            else if (_atlasCoords.Equals(_sourceCoords)) {
+                GameManager.Instance.RegisterSource(new Source(MapToLocal(cellCoords), Vector2I.Right));
+                SetCell(cellCoords, _sourceId, _atlasCoords);
+                if (!_busyCells.TryAdd(cellCoords, false)) {
+                    _busyCells[cellCoords] = false;
+                }
             }
             else {
                 //Handles all other cases
-                SetCell(cell, _sourceId, _atlasCoords);
+                SetCell(cellCoords, _sourceId, _atlasCoords);
+                if (!_busyCells.TryAdd(cellCoords, false)) {
+                    _busyCells[cellCoords] = false;
+                }
             }
         }
         else if (Godot.Input.IsActionPressed("SecondaryAction")) {
             //Resets the cell
-            SetCell(cell);
+            SetCell(cellCoords);
+            _busyCells.Remove(cellCoords);
         }
 
-        _lastCell = cell;
+        _lastCell = cellCoords;
     }
 
-    public Input GetInput(Vector2 worldPos) {
+    public Processor GetInput(Vector2 worldPos, Vector2I cellOffset) {
         Vector2I cellCoord = LocalToMap(worldPos);
+        cellCoord += cellOffset;
         TileData data = GetCellTileData(cellCoord);
-        Vector2 cellPos = MapToLocal(cellCoord);
-        bool isBusy = data.GetCustomData("isBusy").AsBool();
-        string type = data.GetCustomData("output").AsString();
-        if (type.Equals("speaker")) {
-            return new Speaker(cellPos, isBusy);
+        if (data == null) {
+            return null;
         }
 
-        //TODO fix recursion issues for output
-        Input output = GetInput(data.GetCustomData("output").AsVector2I() + cellCoord);
-        switch (type) {
-            case "belt":
-                return new Belt(cellPos, isBusy,
-                    GameManager.Instance.Tilemap.GetInput(data.GetCustomData("output").AsVector2I() + cellCoord));
-            case "up":
-                return new UpDown(cellPos, isBusy, output, true);
-            case "down":
-                return new UpDown(cellPos, isBusy, output, false);
-            case "merger":
-                return new Merger(cellPos, isBusy, output);
-            default:
-                return null;
+        Vector2 cellPos = MapToLocal(cellCoord);
+        bool isBusy = _busyCells[cellCoord];
+        string type = data.GetCustomData("type").AsString();
+        Vector2I input = data.GetCustomData("input").AsVector2I();
+        if (type.Equals("speaker")) {
+            return new Speaker(cellPos, isBusy, input);
         }
+
+        Vector2I output = data.GetCustomData("output").AsVector2I();
+        return type switch {
+            "belt" => new Belt(cellPos, isBusy, input, output),
+            "up" => new UpDown(cellPos, isBusy, input, output, true),
+            "down" => new UpDown(cellPos, isBusy, input, output, false),
+            "merger" => new Merger(cellPos, isBusy, input, output),
+            _ => null
+        };
+    }
+
+    public Processor GetInput(Vector2 worldPos) {
+        return GetInput(worldPos, Vector2I.Zero);
+    }
+    
+    public void SetBusy(Vector2 cellPos, bool busy) {
+        _busyCells[LocalToMap(cellPos)] = busy;
     }
 
     public void OnLevelUpButtonPressed() {

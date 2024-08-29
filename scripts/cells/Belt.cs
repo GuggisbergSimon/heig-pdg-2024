@@ -4,17 +4,21 @@ namespace heigpdg2024.scripts.cells;
 
 public class Belt : Transit {
     
-    public override void Process(Note note) {
+    public override void Process( Note note) {
         switch (IsBusy) {
             case false:
-                IsBusy = true;
+                GameManager.Instance.Tilemap.SetBusy(Position, true);
                 note.MoveByTempo(Position);
                 break;
-            case true when !Output.IsBusy:
-                Output.Process(note);
+            case true:
+                Processor output = GameManager.Instance.Tilemap.GetInput(Position, Output);
+                if (output != null && output.IsCompatible(Input)) {
+                    output.Process(note);
+                    GameManager.Instance.Tilemap.SetBusy(Position, false);
+                }
                 break;
         }
     }
 
-    public Belt(Vector2 position, bool isBusy, Input output) : base(position, isBusy, output) { }
+    public Belt(Vector2 position, bool isBusy, Vector2I input, Vector2I output) : base(position, isBusy, input, output) { }
 }
