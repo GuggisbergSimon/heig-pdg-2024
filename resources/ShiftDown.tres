@@ -9,5 +9,5 @@ region = Rect2(0, 64, 16, 16)
 
 [resource]
 script = ExtResource("2_yasj5")
-Type = 2
+Type = 3
 Sprite = SubResource("AtlasTexture_lhsgj")

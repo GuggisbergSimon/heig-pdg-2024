@@ -6,10 +6,10 @@ public partial class ToolOptionButton : OptionButton {
 
     public override void _Ready() {
         base._Ready();
-        foreach (string tool in GameManager.Instance.ProgressionManager.getTools()) {
-            AddItem(tool);
-        }
-        GameManager.Instance.ProgressionManager.LevelChange += UpdateOptions;
+        // foreach (string tool in GameManager.Instance.ProgressionManager.getTools()) {
+        //     AddItem(tool);
+        // }
+        // GameManager.Instance.ProgressionManager.LevelChange += UpdateOptions;
     }
 
     public override void _Input(InputEvent @event) {
@@ -32,8 +32,8 @@ public partial class ToolOptionButton : OptionButton {
     
     private void UpdateOptions() {
         Clear();
-        foreach (string tool in GameManager.Instance.ProgressionManager.getTools()) {
-            AddItem(tool);
-        }
+        // foreach (string tool in GameManager.Instance.ProgressionManager.getTools()) {
+        //     AddItem(tool);
+        // }
     }
 }

@@ -138,7 +138,5 @@ position_smoothing_enabled = true
 position_smoothing_speed = 20.0
 script = ExtResource("2_dpgbn")
 
-[node name="TextureButton" type="TextureButton" parent="."]
-
 [connection signal="pressed" from="UICanvas/DevButtonsContainer/MarginContainer/VBoxContainer/LevelUpButton" to="Tilemap" method="OnLevelUpButtonPressed"]
 [connection signal="pressed" from="UICanvas/DevButtonsContainer/MarginContainer/VBoxContainer/LevelDownButton" to="Tilemap" method="OnLevelDownButtonPressed"]
