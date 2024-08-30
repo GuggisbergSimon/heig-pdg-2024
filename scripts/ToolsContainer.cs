@@ -2,6 +2,7 @@ using Godot;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 
 public partial class ToolsContainer : HBoxContainer {
     
@@ -26,6 +27,9 @@ public partial class ToolsContainer : HBoxContainer {
             if (tool.Value) {
                 ToolButton child = new ToolButton(tool.Key);
                 AddChild(child);
+                if (tool.Key == BlockType.Belt) {
+                    child.GrabFocus();
+                }
             }
             else {
                 //TODO add "?" texture for locked tools
