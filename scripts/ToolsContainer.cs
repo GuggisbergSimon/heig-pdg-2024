@@ -32,7 +32,6 @@ public partial class ToolsContainer : HBoxContainer {
                 }
             }
             else {
-                //TODO add "?" texture for locked tools
                 TextureRect child = new TextureRect();
                 child.SetTexture(GD.Load<Texture2D>("res://assets/question_mark.png"));
                 child.SetCustomMinimumSize(new Vector2(64, 64));
