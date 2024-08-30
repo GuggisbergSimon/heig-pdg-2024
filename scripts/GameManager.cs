@@ -20,6 +20,8 @@ public partial class GameManager : Node {
 
     public override void _Ready() {
         Instance = this;
+        
+        Input.SetMouseMode(Input.MouseModeEnum.Confined);
 
         //Timer setup
         TimerTempo = GetNode<Timer>("Timer");
