@@ -1,14 +1,32 @@
+using System.Collections.Generic;
 using Godot;
+using heigpdg2024.scripts.cells;
 
 public partial class GameManager : Node {
+    [Export] private PackedScene _noteScene;
+    private readonly List<Source> _sources = new();
+    public readonly List<Merger> _mergers = new();
+    
+    private double _timeAccumulator;
+    private Timer _timer;
     public static GameManager Instance { get; private set; }
-    public Node CurrentScene { get; set; }
+    public Node CurrentScene { get; private set; }
     public ProgressionManager ProgressionManager { get; private set; }
+    public MusicTilemap Tilemap { get; private set; }
     public AudioManager AudioManager { get; private set; }
-    public int Tempo { get; set; } = 120;
+    public int Tempo { get; private set; } = 120;
+    public float PercentToStartAnims { get; private set; } = 0.1f;
+    public Timer TimerTempo { get; private set; }
 
     public override void _Ready() {
         Instance = this;
+
+        //Timer setup
+        TimerTempo = GetNode<Timer>("Timer");
+        TimerTempo.SetWaitTime(60f / Tempo);
+        TimerTempo.Autostart = true;
+        TimerTempo.Timeout += OnTempo;
+        TimerTempo.Start();
 
         // Scene Manager behaviour
         Viewport root = GetTree().Root;
@@ -17,10 +35,49 @@ public partial class GameManager : Node {
         AudioManager = GetNode<AudioManager>("AudioManager");
     }
 
+    private void OnTempo() {
+        foreach (var source in _sources) {
+            Processor output = Tilemap.GetInput(source.Position, source.Output);
+            if (output == null || output.IsBusy) {
+                continue;
+            }
+
+            var note = _noteScene.Instantiate<Note>();
+            note.Position = source.Position;
+            GetTree().Root.AddChild(note);
+            output.Process(note);
+        }
+        
+        foreach (var merger in _mergers) {
+            GD.Print("clear"); 
+            merger.ClearMemory();
+        }
+    }
+
+    public void RegisterTilemap(MusicTilemap tilemap) {
+        Tilemap = tilemap;
+    }
+    
+    public void RegisterSource(Source source) {
+        _sources.Add(source);
+    }
+
+    public void RegisterMerger(Merger merger) {
+        _mergers.Add(merger);
+    }
+    
+    public void UnregisterSource(Source source) {
+        _sources.Remove(source);
+    }
+
+    public void UnregisterMerger(Merger merger) {
+        _mergers.Remove(merger);
+    }
+    
     #region SceneManager
 
     /// <summary>
-    /// Unloads current scene and loads the one given in argument
+    ///     Unloads current scene and loads the one given in argument
     /// </summary>
     /// <param name="path">"res://scenes/Game.tscn" for example</param>
     public void GotoScene(string path) {

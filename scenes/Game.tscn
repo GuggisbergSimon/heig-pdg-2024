@@ -7,7 +7,6 @@
 [node name="Node2D" type="Node2D"]
 
 [node name="Camera2D" type="Camera2D" parent="."]
-zoom = Vector2(2, 2)
 
 [node name="Tilemap" parent="." instance=ExtResource("3_2s2ah")]
 
