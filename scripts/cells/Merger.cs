@@ -3,16 +3,21 @@
 namespace heigpdg2024.scripts.cells;
 
 public class Merger : Processor {
-    private Vector2I InputDown { get; }
     private Note _note;
-    private Vector2I _output;
-	
+    private Vector2I Output { get; }
+    private Vector2I InputDown { get; }
+
     public Merger(Vector2 position, bool isBusy, Vector2I inputUp,
         Vector2I inputDown, Vector2I output) : base(position, isBusy,
         inputUp) {
-        GD.Print("Merger created + " + position.X + " " + position.Y);
-        _output = output;
+        GD.Print("Merger created at " + position);
+        Output = output;
         InputDown = inputDown;
+    }
+
+    public override bool IsCompatible(Vector2I input) {
+        return !IsBusy &&
+               (input.Equals(-Input) || input.Equals(-InputDown));
     }
 
     public override void Process(Note note) {
@@ -29,28 +34,29 @@ public class Merger : Processor {
          * sinon
          *      bloquer
          */
-        
+
         if (_note == null) {
-            GD.Print("coucou1");
             _note = note;
         }
         else {
-            GD.Print("coucou2");
-            Processor output = GameManager.Instance.Tilemap.GetInput(Position, _output);
-            if (output != null && output.IsBusy == false) {
+            var output =
+                GameManager.Instance.Tilemap.GetInput(Position, Output);
+            if (output != null && output.IsCompatible(Output)) {
                 note.AddNote(_note);
-                GD.Print("coucou3");
                 note.MoveByTempo(Position);
                 output.Process(note);
-                GameManager.Instance.Tilemap.SetBusy(Position + (Input * 16), false);
-                GameManager.Instance.Tilemap.SetBusy(Position + (InputDown * 16), false);
-
-            }   
+                GameManager.Instance.Tilemap.SetBusy(
+                    GameManager.Instance.Tilemap.MapToLocal(
+                        GameManager.Instance.Tilemap.LocalToMap(Position) +
+                        Input), false);
+                GameManager.Instance.Tilemap.SetBusy(
+                    GameManager.Instance.Tilemap.MapToLocal(
+                        GameManager.Instance.Tilemap.LocalToMap(Position) +
+                        InputDown), false); 
+            }
         }
-            
-		
     }
-	
+
     public void ClearMemory() {
         _note = null;
     }

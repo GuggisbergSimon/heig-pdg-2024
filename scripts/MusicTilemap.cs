@@ -3,17 +3,21 @@ using Godot;
 using heigpdg2024.scripts.cells;
 
 public partial class MusicTilemap : TileMapLayer {
-    [Export] private int _sourceId;
-
     private Vector2I _atlasCoords;
-    private BlockType _selectedTool = BlockType.Belt;
+    private Vector2I _beltCoords = Vector2I.Zero;
+
+    private Godot.Collections.Dictionary<Vector2I, bool>
+        _busyCells = new();
+
+    private Godot.Collections.Dictionary<Vector2I, int> _directionIndexes =
+        new();
+
     private Vector2I _lastCellCoords;
     private Vector2I _lastDirection;
-    private Vector2I _beltCoords = Vector2I.Zero;
-    private Vector2I _sourceCoords = new(2, 7);
     private Vector2I _mergerCoords = new(1, 5);
-    private Godot.Collections.Dictionary<Vector2I, bool> _busyCells = new();
-    private Godot.Collections.Dictionary<Vector2I, int> _directionIndexes = new();
+    private BlockType _selectedTool = BlockType.Belt;
+    private Vector2I _sourceCoords = new(2, 7);
+    [Export] private int _sourceId;
 
     public override void _Ready() {
         //There can be only one MusicTilemap per active scene
@@ -60,18 +64,16 @@ public partial class MusicTilemap : TileMapLayer {
 
     public override void _Input(InputEvent @event) {
         //TODO detect clicks through UI layer
-        Vector2I cellCoords = LocalToMap(GetGlobalMousePosition());
+        var cellCoords = LocalToMap(GetGlobalMousePosition());
         if (!Input.IsActionPressed("PrimaryAction") &&
-            !Input.IsActionPressed("SecondaryAction")) {
+            !Input.IsActionPressed("SecondaryAction"))
             return;
-        }
 
         //Only one action per cell or only just pressed actions
         if (_lastCellCoords.Equals(cellCoords) &&
             !Input.IsActionJustPressed("PrimaryAction") &&
-            !Input.IsActionJustPressed("SecondaryAction")) {
+            !Input.IsActionJustPressed("SecondaryAction"))
             return;
-        }
 
         if (Input.IsActionPressed("PrimaryAction")) {
             // TODO add Belt to Block types
@@ -80,51 +82,51 @@ public partial class MusicTilemap : TileMapLayer {
                     //Add basic "->" belt
                     SetCell(cellCoords, _sourceId, Vector2I.Zero);
                     _lastDirection = Vector2I.Right;
-                    if (!_busyCells.TryAdd(cellCoords, false)) {
+                    if (!_busyCells.TryAdd(cellCoords, false))
                         _busyCells[cellCoords] = false;
-                    }
                 }
                 else {
                     //Only adjacent cells
-                    if (_lastCellCoords.DistanceSquaredTo(cellCoords) > 1) {
+                    if (_lastCellCoords.DistanceSquaredTo(cellCoords) >
+                        1) {
                         _lastCellCoords = cellCoords;
                         return;
                     }
 
-                    Vector2I direction = cellCoords - _lastCellCoords;
+                    var direction = cellCoords - _lastCellCoords;
                     //Update _lastCellCoords based on direction
                     SetCell(_lastCellCoords, _sourceId,
-                        new Vector2I(_directionIndexes[_lastDirection], _directionIndexes[direction]));
+                        new Vector2I(_directionIndexes[_lastDirection],
+                            _directionIndexes[direction]));
                     SetCell(cellCoords, _sourceId,
-                        new Vector2I(_directionIndexes[direction], _directionIndexes[direction]));
+                        new Vector2I(_directionIndexes[direction],
+                            _directionIndexes[direction]));
                     _lastDirection = direction;
 
-                    if (!_busyCells.TryAdd(cellCoords, false)) {
+                    if (!_busyCells.TryAdd(cellCoords, false))
                         _busyCells[cellCoords] = false;
-                    }
                 }
             }
             else if (_selectedTool == BlockType.Source) {
-                GameManager.Instance.RegisterSource(new Source(MapToLocal(cellCoords), Vector2I.Right));
+                GameManager.Instance.RegisterSource(
+                    new Source(MapToLocal(cellCoords), Vector2I.Right));
                 SetCell(cellCoords, _sourceId, _atlasCoords);
-                if (!_busyCells.TryAdd(cellCoords, false)) {
+                if (!_busyCells.TryAdd(cellCoords, false))
                     _busyCells[cellCoords] = false;
-                }
             }
             else if (_selectedTool == BlockType.Merger) {
                 GameManager.Instance.RegisterMerger(
-                    new Merger(MapToLocal(cellCoords), false, Vector2I.Up, Vector2I.Down, Vector2I.Right));
+                    new Merger(MapToLocal(cellCoords), false, Vector2I.Up,
+                        Vector2I.Down, Vector2I.Right));
                 SetCell(cellCoords, _sourceId, _atlasCoords);
-                if (!_busyCells.TryAdd(cellCoords, false)) {
+                if (!_busyCells.TryAdd(cellCoords, false))
                     _busyCells[cellCoords] = false;
-                }
             }
             else {
                 //Handles all other cases
                 SetCell(cellCoords, _sourceId, _atlasCoords);
-                if (!_busyCells.TryAdd(cellCoords, false)) {
+                if (!_busyCells.TryAdd(cellCoords, false))
                     _busyCells[cellCoords] = false;
-                }
             }
         }
         else if (Input.IsActionPressed("SecondaryAction")) {
@@ -137,30 +139,34 @@ public partial class MusicTilemap : TileMapLayer {
     }
 
     public Processor GetInput(Vector2 worldPos, Vector2I cellOffset) {
-        Vector2I cellCoord = LocalToMap(worldPos);
+        var cellCoord = LocalToMap(worldPos);
         cellCoord += cellOffset;
-        TileData data = GetCellTileData(cellCoord);
-        if (data == null) {
-            return null;
-        }
+        var data = GetCellTileData(cellCoord);
+        if (data == null) return null;
 
-        Vector2 cellPos = MapToLocal(cellCoord);
-        bool isBusy = _busyCells[cellCoord];
-        string type = data.GetCustomData("type").AsString();
-        Vector2I input = data.GetCustomData("input").AsVector2I();
-        if (type.Equals("speaker")) {
+        var cellPos = MapToLocal(cellCoord);
+        var isBusy = _busyCells[cellCoord];
+        var type = data.GetCustomData("type").AsString();
+        var input = data.GetCustomData("input").AsVector2I();
+        if (type.Equals("speaker"))
             return new Speaker(cellPos, isBusy, input);
-        }
 
-        Vector2I output = data.GetCustomData("output").AsVector2I();
+        var output = data.GetCustomData("output").AsVector2I();
         return type switch {
-            "belt" => new Transit(cellPos, isBusy, input, output, note => { }),
-            "pitchUp" => new Transit(cellPos, isBusy, input, output, note => note.PitchChange(1)),
-            "pitchDown" => new Transit(cellPos, isBusy, input, output, note => note.PitchChange(-1)),
-            "durationUp" => new Transit(cellPos, isBusy, input, output, note => note.DurationChange(1)),
-            "durationDown" => new Transit(cellPos, isBusy, input, output, note => note.DurationChange(-1)),
-            "instrument1" => new Transit(cellPos, isBusy, input, output, note => note.InstrumentChange(InstrumentType.Piano)),
-            "instrument2" => new Transit(cellPos, isBusy, input, output, note => note.InstrumentChange(InstrumentType.Guitar)),
+            "belt" => new Transit(cellPos, isBusy, input, output,
+                note => { }),
+            "pitchUp" => new Transit(cellPos, isBusy, input, output,
+                note => note.PitchChange(1)),
+            "pitchDown" => new Transit(cellPos, isBusy, input, output,
+                note => note.PitchChange(-1)),
+            "durationUp" => new Transit(cellPos, isBusy, input, output,
+                note => note.DurationChange(1)),
+            "durationDown" => new Transit(cellPos, isBusy, input, output,
+                note => note.DurationChange(-1)),
+            "instrument1" => new Transit(cellPos, isBusy, input, output,
+                note => note.InstrumentChange(InstrumentType.Piano)),
+            "instrument2" => new Transit(cellPos, isBusy, input, output,
+                note => note.InstrumentChange(InstrumentType.Guitar)),
             "merger" => FindMerger(cellPos),
             _ => null
         };
@@ -173,16 +179,15 @@ public partial class MusicTilemap : TileMapLayer {
     // TODO améliorer
     // Nouvelle méthode pour trouver un Merger à une position spécifique
     private Merger FindMerger(Vector2 cellPos) {
-        foreach (var merger in GameManager.Instance._mergers) {
-            if (merger.getPosition() == cellPos) {
+        foreach (var merger in GameManager.Instance._mergers)
+            if (merger.GetPosition() == cellPos)
                 return merger;
-            }
-        }
 
         return null;
     }
 
     public void SetBusy(Vector2 cellPos, bool busy) {
+        GD.Print("Set " + cellPos + " to " + busy);
         _busyCells[LocalToMap(cellPos)] = busy;
     }
 

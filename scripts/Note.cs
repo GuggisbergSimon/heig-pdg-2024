@@ -19,8 +19,16 @@ public enum InstrumentType {
 }
 
 public partial class Note : Node2D {
+    private static readonly DurationNotation MAX_DURATION =
+        DurationNotation.Minim;
+
+    private static readonly DurationNotation MIN_DURATION =
+        DurationNotation.Crotchet;
+
+    private readonly Dictionary<DurationNotation, Duration> _durations =
+        new();
+
     [Export] private Duration[] _durationsResources;
-    [Export] private PackedScene _singleNoteScene;
     [Export] private PackedScene _lineStaffScene;
     private Dictionary<PitchNotation, Node2D> _positions = new();
     private Dictionary<DurationNotation, Duration> _durations = new();
@@ -36,7 +44,7 @@ public partial class Note : Node2D {
         base._Ready();
 
         //Setups dictionary
-        foreach (var durationsResource in _durationsResources) {
+        foreach (var durationsResource in _durationsResources)
             _durations.Add(durationsResource.Notation, durationsResource);
         }
 
@@ -44,15 +52,14 @@ public partial class Note : Node2D {
         Duration = _durations[DurationNotation.Minim];
 
         //Positions of each note 
-        foreach (var pitch in Enum.GetValues<PitchNotation>()) {
+        foreach (var pitch in Enum.GetValues<PitchNotation>())
             _positions.Add(pitch, GetNode<Node2D>(pitch.ToString()));
-        }
 
         //Staff is only drawn on some lines
         string[] lines = { "E", "G", "B", "Dva", "Fva" };
-        foreach (var line in lines) {
-            GetNode<Node2D>(line).AddChild(_lineStaffScene.Instantiate<Sprite2D>());
-        }
+        foreach (var line in lines)
+            GetNode<Node2D>(line)
+                .AddChild(_lineStaffScene.Instantiate<Sprite2D>());
 
         //TODO add special symbol under the staff if C or D
         foreach (var pitch in Pitches) {
@@ -64,9 +71,8 @@ public partial class Note : Node2D {
 
     public override void _Notification(int what) {
         base._Notification(what);
-        if (what == NotificationPredelete) {
+        if (what == NotificationPredelete)
             GameManager.Instance.TimerTempo.Timeout -= Process;
-        }
     }
 
     private void Process() {
@@ -79,19 +85,21 @@ public partial class Note : Node2D {
     }
 
     public void MoveByTempo(Vector2 to) {
-        Tween tween = GetTree().CreateTween();
-        float duration = 60 * GameManager.Instance.PercentToStartAnims / GameManager.Instance.Tempo;
+        var tween = GetTree().CreateTween();
+        var duration = 60 * GameManager.Instance.PercentToStartAnims /
+                       GameManager.Instance.Tempo;
         tween.TweenProperty(this, "position", to, duration);
     }
-    
+
     public void DurationChange(int value) {
-        DurationNotation notation = Duration.Notation;
+        var notation = Duration.Notation;
         switch (value) {
             case > 0 when notation == MAX_DURATION:
             case < 0 when notation == MIN_DURATION:
                 return;
             default:
-                Duration.Notation = (DurationNotation)((int)notation + value);
+                Duration.Notation =
+                    (DurationNotation)((int)notation + value);
                 //TODO sprite update
                 break;
         }
@@ -103,21 +111,20 @@ public partial class Note : Node2D {
             case < 0 when Pitches.Any(pitch => pitch == PitchNotation.C):
                 return;
         }
-        
-        for (int i = 0; i < Pitches.Count; i++) {
+
+        for (var i = 0; i < Pitches.Count; i++)
             Pitches[i] = (PitchNotation)((int)Pitches[i] + 1);
-        }
 
         //sprite update
         UpdateNotePitch();
     }
 
     public bool AddNote(Note note) {
-        if (note.Instrument != Instrument || note.Duration != Duration) {
+        if (note.Instrument != Instrument || note.Duration != Duration)
             return false;
-        }
 
-        foreach (var pitch in note.Pitches.Where(pitch => !Pitches.Contains(pitch))) {
+        foreach (var pitch in note.Pitches.Where(pitch =>
+                     !Pitches.Contains(pitch))) {
             Pitches.Add(pitch);
             CreateNoteSprite(pitch);
         }
@@ -126,7 +133,7 @@ public partial class Note : Node2D {
         QueueFree();
         return true;
     }
-    
+
     public void InstrumentChange(InstrumentType instrument) {
         Instrument = instrument;
         foreach (var notesSprite in _notesSprites) {

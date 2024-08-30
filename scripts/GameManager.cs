@@ -3,12 +3,10 @@ using Godot;
 using heigpdg2024.scripts.cells;
 
 public partial class GameManager : Node {
-    [Export] private PackedScene _noteScene;
-    private readonly List<Source> _sources = new();
     public readonly List<Merger> _mergers = new();
-    
-    private double _timeAccumulator;
-    private Timer _timer;
+    private readonly List<Source> _sources = new();
+    [Export] private PackedScene _noteScene;
+
     public static GameManager Instance { get; private set; }
     public Node CurrentScene { get; private set; }
     public ProgressionManager ProgressionManager { get; private set; }
@@ -20,7 +18,7 @@ public partial class GameManager : Node {
 
     public override void _Ready() {
         Instance = this;
-        
+
         Input.SetMouseMode(Input.MouseModeEnum.Confined);
 
         //Timer setup
@@ -33,25 +31,26 @@ public partial class GameManager : Node {
         // Scene Manager behaviour
         Viewport root = GetTree().Root;
         CurrentScene = root.GetChild(root.GetChildCount() - 1);
-        ProgressionManager = GetNode<ProgressionManager>("ProgressionManager");
+        ProgressionManager =
+            GetNode<ProgressionManager>("ProgressionManager");
         AudioManager = GetNode<AudioManager>("AudioManager");
     }
 
     private void OnTempo() {
         foreach (var source in _sources) {
-            Processor output = Tilemap.GetInput(source.Position, source.Output);
-            if (output == null || output.IsBusy) {
-                continue;
-            }
+            var output = Tilemap.GetInput(source.Position, source.Output);
+            if (output == null || output.IsBusy) continue;
 
-            var note = _noteScene.Instantiate<Note>();
-            note.Position = source.Position;
-            GetTree().Root.AddChild(note);
-            output.Process(note);
+            if (output.IsCompatible(source.Output)) {
+                var note = _noteScene.Instantiate<Note>();
+                note.Position = source.Position;
+                GetTree().Root.AddChild(note);
+                output.Process(note);
+            }
         }
-        
+
         foreach (var merger in _mergers) {
-            GD.Print("clear"); 
+            GD.Print("clear");
             merger.ClearMemory();
         }
     }
@@ -59,7 +58,7 @@ public partial class GameManager : Node {
     public void RegisterTilemap(MusicTilemap tilemap) {
         Tilemap = tilemap;
     }
-    
+
     public void RegisterSource(Source source) {
         _sources.Add(source);
     }
@@ -67,7 +66,7 @@ public partial class GameManager : Node {
     public void RegisterMerger(Merger merger) {
         _mergers.Add(merger);
     }
-    
+
     public void UnregisterSource(Source source) {
         _sources.Remove(source);
     }
@@ -75,7 +74,7 @@ public partial class GameManager : Node {
     public void UnregisterMerger(Merger merger) {
         _mergers.Remove(merger);
     }
-    
+
     #region SceneManager
 
     /// <summary>
