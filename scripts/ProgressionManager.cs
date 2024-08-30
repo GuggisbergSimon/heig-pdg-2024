@@ -5,6 +5,7 @@ public partial class ProgressionManager : Node {
     private int _currentTier;
 
     private static Dictionary<BlockType, int> _toolTiers = new Dictionary<BlockType, int> {
+        {BlockType.Belt, 0},
         {BlockType.Source, 0},
         {BlockType.Merger, 1},
         {BlockType.ShiftUp, 1},

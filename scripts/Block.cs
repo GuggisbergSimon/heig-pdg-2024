@@ -1,6 +1,7 @@
 ﻿using Godot;
 
 public enum BlockType {
+    Belt,
     Source,
     Merger,
     ShiftUp,
