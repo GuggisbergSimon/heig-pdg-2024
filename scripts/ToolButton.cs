@@ -1,7 +1,7 @@
 using Godot;
 using System;
 
-public partial class UiButton : TextureButton
+public partial class ToolButton : TextureButton
 {
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()

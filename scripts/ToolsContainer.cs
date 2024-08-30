@@ -33,7 +33,7 @@ public partial class ToolsContainer : HBoxContainer {
 
         foreach (KeyValuePair<string, bool> tool in GameManager.Instance.ProgressionManager.getTools()) {
             if (tool.Value) {
-                UiButton child = new UiButton();
+                ToolButton child = new ToolButton();
                 // Resource r = ResourceLoader.Load("res://ressources/" + tool.Key + "Button.tres");
                 // child.Theme.SetIcon(tool.Key, "Block", (Texture2D)r);
                 // Theme theme = (Theme)GD.Load("res://ressources/" + tool.Key + "Button.tres");
