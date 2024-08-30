@@ -6,10 +6,11 @@ public partial class MusicTilemap : TileMapLayer {
     [Export] private int _sourceId;
 
     private Vector2I _atlasCoords;
+    private BlockType _selectedTool = BlockType.Belt;
     private Vector2I _lastCellCoords;
     private Vector2I _lastDirection;
     private Vector2I _beltCoords = Vector2I.Zero;
-    private Vector2I _sourceCoords = new(1, 7);
+    private Vector2I _sourceCoords = new(2, 7);
     private Vector2I _mergerCoords = new(1, 5);
     private Godot.Collections.Dictionary<Vector2I, bool> _busyCells = new();
     private Godot.Collections.Dictionary<Vector2I, int> _directionIndexes = new();
@@ -17,31 +18,50 @@ public partial class MusicTilemap : TileMapLayer {
     public override void _Ready() {
         //There can be only one MusicTilemap per active scene
         GameManager.Instance.RegisterTilemap(this);
-        ToolOptionButton toolOption = GetNode<ToolOptionButton>("ToolOptionButton");
-        toolOption.ItemSelected += UpdateTool;
-        toolOption.SelectedItem += UpdateTool;
-        
+
         _directionIndexes.Add(Vector2I.Right, 0);
         _directionIndexes.Add(Vector2I.Up, 1);
         _directionIndexes.Add(Vector2I.Left, 2);
         _directionIndexes.Add(Vector2I.Down, 3);
     }
 
-    private void UpdateTool(long index) {
-        _atlasCoords = index switch {
-            //TODO change to match final atlas spritesheet
-            0 => _beltCoords,
-            1 => new Vector2I(0, 4),
-            2 => new Vector2I(1, 4),
-            3 => _sourceCoords,
-            _ => -Vector2I.One
-        };
+    public void UpdateTool(BlockType tool) {
+        _selectedTool = tool;
+        switch (tool) {
+            case BlockType.Belt:
+                _atlasCoords = _beltCoords;
+                break;
+            case BlockType.Source:
+                _atlasCoords = _sourceCoords;
+                break;
+            case BlockType.Speaker:
+                _atlasCoords = new Vector2I(1, 4);
+                break;
+            case BlockType.Merger:
+                _atlasCoords = _mergerCoords;
+                break;
+            case BlockType.ShiftUp:
+                _atlasCoords = new Vector2I(0, 4);
+                break;
+            case BlockType.ShiftDown:
+                _atlasCoords = new Vector2I(0, 5);
+                break;
+            case BlockType.SpeedUp:
+                _atlasCoords = new Vector2I(2, 4);
+                break;
+            case BlockType.SpeedDown:
+                _atlasCoords = new Vector2I(2, 5);
+                break;
+            default:
+                _atlasCoords = Vector2I.Zero;
+                break;
+        }
     }
 
     public override void _Input(InputEvent @event) {
         //TODO detect clicks through UI layer
         Vector2I cellCoords = LocalToMap(GetGlobalMousePosition());
-        if (!Input.IsActionPressed("PrimaryAction") && 
+        if (!Input.IsActionPressed("PrimaryAction") &&
             !Input.IsActionPressed("SecondaryAction")) {
             return;
         }
@@ -54,7 +74,8 @@ public partial class MusicTilemap : TileMapLayer {
         }
 
         if (Input.IsActionPressed("PrimaryAction")) {
-            if (_atlasCoords.Equals(_beltCoords)) {
+            // TODO add Belt to Block types
+            if (_selectedTool == BlockType.Belt) {
                 if (Input.IsActionJustPressed("PrimaryAction")) {
                     //Add basic "->" belt
                     SetCell(cellCoords, _sourceId, Vector2I.Zero);
@@ -69,33 +90,35 @@ public partial class MusicTilemap : TileMapLayer {
                         _lastCellCoords = cellCoords;
                         return;
                     }
-                    
+
                     Vector2I direction = cellCoords - _lastCellCoords;
                     //Update _lastCellCoords based on direction
-                    SetCell(_lastCellCoords, _sourceId, new Vector2I(_directionIndexes[_lastDirection], _directionIndexes[direction]));
-                    SetCell(cellCoords, _sourceId, new Vector2I(_directionIndexes[direction], _directionIndexes[direction]));
+                    SetCell(_lastCellCoords, _sourceId,
+                        new Vector2I(_directionIndexes[_lastDirection], _directionIndexes[direction]));
+                    SetCell(cellCoords, _sourceId,
+                        new Vector2I(_directionIndexes[direction], _directionIndexes[direction]));
                     _lastDirection = direction;
-                    
+
                     if (!_busyCells.TryAdd(cellCoords, false)) {
                         _busyCells[cellCoords] = false;
                     }
                 }
             }
-            else if (_atlasCoords.Equals(_sourceCoords)) {
+            else if (_selectedTool == BlockType.Source) {
                 GameManager.Instance.RegisterSource(new Source(MapToLocal(cellCoords), Vector2I.Right));
                 SetCell(cellCoords, _sourceId, _atlasCoords);
                 if (!_busyCells.TryAdd(cellCoords, false)) {
                     _busyCells[cellCoords] = false;
                 }
             }
-            else if (_atlasCoords.Equals(_mergerCoords)) {
+            else if (_selectedTool == BlockType.Merger) {
                 GameManager.Instance.RegisterMerger(
                     new Merger(MapToLocal(cellCoords), false, Vector2I.Up, Vector2I.Down, Vector2I.Right));
                 SetCell(cellCoords, _sourceId, _atlasCoords);
                 if (!_busyCells.TryAdd(cellCoords, false)) {
                     _busyCells[cellCoords] = false;
                 }
-            } 
+            }
             else {
                 //Handles all other cases
                 SetCell(cellCoords, _sourceId, _atlasCoords);
@@ -153,6 +176,7 @@ public partial class MusicTilemap : TileMapLayer {
                 return merger;
             }
         }
+
         return null;
     }
 

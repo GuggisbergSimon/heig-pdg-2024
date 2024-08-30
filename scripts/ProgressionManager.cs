@@ -4,13 +4,15 @@ using System.Collections.Generic;
 public partial class ProgressionManager : Node {
     private int _currentTier;
 
-    private static Dictionary<string, int> _toolTiers = new Dictionary<string, int> {
-        {"Source", 0},
-        {"Merger", 1},
-        {"ShiftUp", 1},
-        {"ShiftDown", 2},
-        {"SpeedUp", 3},
-        {"SpeedDown", 3},
+    private static Dictionary<BlockType, int> _toolTiers = new Dictionary<BlockType, int> {
+        {BlockType.Belt, 0},
+        {BlockType.Source, 0},
+        {BlockType.Speaker, 0},
+        {BlockType.Merger, 1},
+        {BlockType.ShiftUp, 1},
+        {BlockType.ShiftDown, 2},
+        {BlockType.SpeedUp, 3},
+        {BlockType.SpeedDown, 3},
     };
 
     private static Godot.Collections.Dictionary<string, int> _levelRequirements = new Godot.Collections.Dictionary<string, int> {
@@ -37,9 +39,9 @@ public partial class ProgressionManager : Node {
         EmitSignal(SignalName.LevelChange);
     }
 
-    public Dictionary<string, bool> getTools() {
-        Dictionary<string, bool> tools = new Dictionary<string, bool>();
-        foreach (KeyValuePair<string, int> entry in _toolTiers) {
+    public Dictionary<BlockType, bool> getTools() {
+        Dictionary<BlockType, bool> tools = new Dictionary<BlockType, bool>();
+        foreach (KeyValuePair<BlockType, int> entry in _toolTiers) {
 
                 tools.Add(entry.Key, entry.Value <= _currentTier);
         }
