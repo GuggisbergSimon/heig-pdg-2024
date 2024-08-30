@@ -43,8 +43,8 @@ public partial class ToolsContainer : HBoxContainer {
                 t.Atlas = (Texture2D)GD.Load("res://assets/notes_atlas.png");
                 t.Region = _toolRegions[tool.Key];
                 child.SetTextureNormal(t);
-                //TODO doesnt work
-                child.Size = new Vector2(64, 64);
+                child.StretchMode = TextureButton.StretchModeEnum.KeepAspectCentered;
+                child.SetCustomMinimumSize(new Vector2(64, 64));
                 AddChild(child);
             }
             else {
