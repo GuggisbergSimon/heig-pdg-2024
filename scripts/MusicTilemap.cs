@@ -154,11 +154,13 @@ public partial class MusicTilemap : TileMapLayer {
 
         Vector2I output = data.GetCustomData("output").AsVector2I();
         return type switch {
-            "belt" => new Belt(cellPos, isBusy, input, output),
-            "pitchUp" => new UpDown(cellPos, isBusy, input, output, true),
-            "pitchDown" => new UpDown(cellPos, isBusy, input, output, false),
-            //"durationUp" => new UpDown(cellPos, isBusy, input, output, true),
-            ///"durationDown" => new UpDown(cellPos, isBusy, input, output, false),
+            "belt" => new Transit(cellPos, isBusy, input, output, note => { }),
+            "pitchUp" => new Transit(cellPos, isBusy, input, output, note => note.PitchChange(1)),
+            "pitchDown" => new Transit(cellPos, isBusy, input, output, note => note.PitchChange(-1)),
+            "durationUp" => new Transit(cellPos, isBusy, input, output, note => note.DurationChange(1)),
+            "durationDown" => new Transit(cellPos, isBusy, input, output, note => note.DurationChange(-1)),
+            "instrument1" => new Transit(cellPos, isBusy, input, output, note => note.InstrumentChange(InstrumentType.Piano)),
+            "instrument2" => new Transit(cellPos, isBusy, input, output, note => note.InstrumentChange(InstrumentType.Guitar)),
             "merger" => FindMerger(cellPos),
             _ => null
         };

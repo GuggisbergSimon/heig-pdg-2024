@@ -83,52 +83,33 @@ public partial class Note : Node2D {
         float duration = 60 * GameManager.Instance.PercentToStartAnims / GameManager.Instance.Tempo;
         tween.TweenProperty(this, "position", to, duration);
     }
-
-    //TODO refactor as those 4 functions (duration/pitches/up/down) have a lot in common
-    public bool DurationUp() {
-        if (Duration.Notation == MAX_DURATION) {
-            return false;
+    
+    public void DurationChange(int value) {
+        DurationNotation notation = Duration.Notation;
+        switch (value) {
+            case > 0 when notation == MAX_DURATION:
+            case < 0 when notation == MIN_DURATION:
+                return;
+            default:
+                Duration.Notation = (DurationNotation)((int)notation + value);
+                //TODO sprite update
+                break;
         }
-
-        Duration.Notation = (DurationNotation)((int)Duration.Notation - 1);
-        //TODO update sprite
-        return true;
     }
 
-    public bool DurationDown() {
-        if (Duration.Notation == MIN_DURATION) {
-            return false;
+    public void PitchChange(int value) {
+        switch (value) {
+            case > 0 when Pitches.Any(pitch => pitch == PitchNotation.B):
+            case < 0 when Pitches.Any(pitch => pitch == PitchNotation.C):
+                return;
         }
-
-        Duration.Notation = (DurationNotation)((int)Duration.Notation + 1);
-        //TODO update sprite
-        return true;
-    }
-
-    public bool PitchesUp() {
-        if (Pitches.Any(pitch => pitch == PitchNotation.B)) {
-            return false;
-        }
-
+        
         for (int i = 0; i < Pitches.Count; i++) {
             Pitches[i] = (PitchNotation)((int)Pitches[i] + 1);
         }
 
+        //sprite update
         UpdateNotePitch();
-        return true;
-    }
-
-    public bool PitchesDown() {
-        if (Pitches.Any(pitch => pitch == PitchNotation.C)) {
-            return false;
-        }
-
-        for (int i = 0; i < Pitches.Count; i++) {
-            Pitches[i] = (PitchNotation)((int)Pitches[i] - 1);
-        }
-
-        UpdateNotePitch();
-        return true;
     }
 
     public bool AddNote(Note note) {
@@ -145,8 +126,8 @@ public partial class Note : Node2D {
         QueueFree();
         return true;
     }
-
-    public bool ChangeInstrument(InstrumentType instrument) {
+    
+    public void InstrumentChange(InstrumentType instrument) {
         Instrument = instrument;
         foreach (var notesSprite in _notesSprites) {
             notesSprite[0].Modulate = instrument == InstrumentType.Guitar ? Colors.Red : Colors.Black;
