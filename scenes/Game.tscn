@@ -1,8 +1,7 @@
-[gd_scene load_steps=12 format=3 uid="uid://unh04hp3qhxg"]
+[gd_scene load_steps=11 format=3 uid="uid://unh04hp3qhxg"]
 
 [ext_resource type="Script" path="res://scripts/Camera.cs" id="2_dpgbn"]
 [ext_resource type="PackedScene" uid="uid://6q7rrd3mwivk" path="res://scenes/Tilemap.tscn" id="3_2s2ah"]
-[ext_resource type="PackedScene" uid="uid://ynkuv82m8a7a" path="res://scenes/ToolOptionButton.tscn" id="3_u0egv"]
 [ext_resource type="Script" path="res://scripts/LevelLabel.cs" id="3_w1oj0"]
 [ext_resource type="StyleBox" uid="uid://inurytti2qge" path="res://scenes/levelui.tres" id="4_ek0vq"]
 [ext_resource type="Script" path="res://scripts/DevButtonsContainer.cs" id="4_wcymb"]
@@ -23,19 +22,6 @@ modulate_color = Color(0.576471, 0.309804, 0.333333, 1)
 
 [node name="UICanvas" type="CanvasLayer" parent="."]
 follow_viewport_scale = 441.191
-
-[node name="ToolOptionButton" parent="UICanvas" instance=ExtResource("3_u0egv")]
-anchors_preset = 7
-anchor_left = 0.5
-anchor_top = 1.0
-anchor_right = 0.5
-anchor_bottom = 1.0
-offset_left = -16.0
-offset_top = -20.0
-offset_right = 16.0
-grow_horizontal = 2
-grow_vertical = 0
-metadata/_edit_use_anchors_ = true
 
 [node name="DevButtonsContainer" type="PanelContainer" parent="UICanvas"]
 anchors_preset = 4
