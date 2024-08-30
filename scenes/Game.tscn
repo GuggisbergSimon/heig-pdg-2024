@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://unh04hp3qhxg"]
+[gd_scene load_steps=13 format=3 uid="uid://unh04hp3qhxg"]
 
 [ext_resource type="Script" path="res://scripts/Camera.cs" id="2_dpgbn"]
 [ext_resource type="PackedScene" uid="uid://6q7rrd3mwivk" path="res://scenes/Tilemap.tscn" id="3_2s2ah"]
@@ -6,8 +6,10 @@
 [ext_resource type="StyleBox" uid="uid://inurytti2qge" path="res://scenes/levelui.tres" id="4_ek0vq"]
 [ext_resource type="Script" path="res://scripts/DevButtonsContainer.cs" id="4_wcymb"]
 [ext_resource type="Script" path="res://scripts/LevelRequirements.cs" id="5_s87p4"]
+[ext_resource type="StyleBox" uid="uid://bw5kusqvgodf1" path="res://scenes/menuButton.tres" id="6_owmsx"]
 [ext_resource type="StyleBox" uid="uid://g7gpjugatj1p" path="res://scenes/toolbar.tres" id="7_5d5aw"]
 [ext_resource type="Script" path="res://scripts/ToolsContainer.cs" id="8_th2aw"]
+[ext_resource type="Texture2D" uid="uid://clw2iwp0lhgwr" path="res://assets/menu_button.png" id="9_lv5i1"]
 
 [sub_resource type="CanvasTexture" id="CanvasTexture_leg4b"]
 specular_color = Color(0.578161, 0.309391, 0.332375, 1)
@@ -117,6 +119,24 @@ theme_override_constants/margin_bottom = 20
 [node name="ToolsContainer" type="HBoxContainer" parent="UICanvas/ToolsParentContainer/MarginContainer"]
 layout_mode = 2
 script = ExtResource("8_th2aw")
+
+[node name="MenuButtonContainer" type="PanelContainer" parent="UICanvas"]
+modulate = Color(0.85098, 0.85098, 0.85098, 1)
+self_modulate = Color(0.85098, 0.85098, 0.85098, 1)
+offset_right = 94.0
+offset_bottom = 67.0
+theme_override_styles/panel = ExtResource("6_owmsx")
+
+[node name="MarginContainer" type="MarginContainer" parent="UICanvas/MenuButtonContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 20
+
+[node name="OpenMainMenuButton" type="TextureButton" parent="UICanvas/MenuButtonContainer/MarginContainer"]
+layout_mode = 2
+texture_normal = ExtResource("9_lv5i1")
 
 [node name="Camera" type="Camera2D" parent="."]
 zoom = Vector2(2, 2)
