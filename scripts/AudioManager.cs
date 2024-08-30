@@ -9,7 +9,7 @@ public partial class AudioManager : Node {
         _guitar = GetNode("Sampler/Guitar");
     }
 
-    public static void PlayNote(Note note) {
+    public void PlayNote(Note note) {
         var duration = note.Duration;
         var pitches = note.Pitches;
 

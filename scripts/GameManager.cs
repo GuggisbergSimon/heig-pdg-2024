@@ -4,8 +4,6 @@ using heigpdg2024.scripts.cells;
 
 public partial class GameManager : Node {
     [Export] private PackedScene _noteScene;
-    private readonly List<Note> _notes = new();    
-    private readonly List<Note> _notesToRemove = new();
     private readonly List<Source> _sources = new();
     public readonly List<Merger> _mergers = new();
     
@@ -18,16 +16,17 @@ public partial class GameManager : Node {
     public AudioManager AudioManager { get; private set; }
     public int Tempo { get; private set; } = 120;
     public float PercentToStartAnims { get; private set; } = 0.1f;
+    public Timer TimerTempo { get; private set; }
 
     public override void _Ready() {
         Instance = this;
 
         //Timer setup
-        _timer = GetNode<Timer>("Timer");
-        _timer.SetWaitTime(60f / Tempo);
-        _timer.Autostart = true;
-        _timer.Timeout += OnTempo;
-        _timer.Start();
+        TimerTempo = GetNode<Timer>("Timer");
+        TimerTempo.SetWaitTime(60f / Tempo);
+        TimerTempo.Autostart = true;
+        TimerTempo.Timeout += OnTempo;
+        TimerTempo.Start();
 
         // Scene Manager behaviour
         Viewport root = GetTree().Root;
@@ -37,10 +36,6 @@ public partial class GameManager : Node {
     }
 
     private void OnTempo() {
-        foreach (var note in _notes) {
-            note.Process();
-        }
-
         foreach (var source in _sources) {
             Processor output = Tilemap.GetInput(source.Position, source.Output);
             if (output == null || output.IsBusy) {
@@ -50,15 +45,8 @@ public partial class GameManager : Node {
             var note = _noteScene.Instantiate<Note>();
             note.Position = source.Position;
             GetTree().Root.AddChild(note);
-            _notes.Add(note);
             output.Process(note);
         }
-        
-        foreach (var n in _notesToRemove) {
-            _notes.Remove(n);
-            n.QueueFree();
-        }
-        _notesToRemove.Clear();
         
         foreach (var merger in _mergers) {
             GD.Print("clear"); 
@@ -76,10 +64,6 @@ public partial class GameManager : Node {
 
     public void RegisterMerger(Merger merger) {
         _mergers.Add(merger);
-    }
-	
-    public void UnregisterNote(Note note) {
-        _notesToRemove.Add(note);
     }
     
     public void UnregisterSource(Source source) {

@@ -58,25 +58,20 @@ public partial class Note : Node2D {
         foreach (var pitch in Pitches) {
             CreateNoteSprite(pitch);
         }
+        
+        GameManager.Instance.TimerTempo.Timeout += Process;
+    }
+    
+    public override void _Notification(int what) {
+        base._Notification(what);
+        if (what == NotificationPredelete) {
+            GameManager.Instance.TimerTempo.Timeout -= Process;
+        }
     }
 
-    public void Process() {
-        // TODO corriger
-        Processor input = GameManager.Instance.Tilemap.GetInput(Position);
-        if (input != null && input is not Merger) {
-            input.Process(this);
-            
-            input = GameManager.Instance.Tilemap.GetInput(Position, Vector2I.Up);
-            if (input != null && input is Merger merger1) {
-                merger1.Process(this);
-                return;
-            }
-            
-            input = GameManager.Instance.Tilemap.GetInput(Position, Vector2I.Down);
-            if (input != null && input is Merger merger2) {
-                merger2.Process(this);
-            }
-        } 
+    private void Process() {
+        var input = GameManager.Instance.Tilemap.GetInput(Position);
+        input?.Process(this);
     }
 
     public override string ToString() {
@@ -147,7 +142,7 @@ public partial class Note : Node2D {
         }
 
         //Deletes the merged note 
-        GameManager.Instance.UnregisterNote(note);
+        QueueFree();
         return true;
     }
     

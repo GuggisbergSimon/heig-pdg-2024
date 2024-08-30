@@ -25,7 +25,6 @@ public partial class MusicTilemap : TileMapLayer {
         _directionIndexes.Add(Vector2I.Up, 1);
         _directionIndexes.Add(Vector2I.Left, 2);
         _directionIndexes.Add(Vector2I.Down, 3);
-        
     }
 
     private void UpdateTool(long index) {
@@ -33,7 +32,7 @@ public partial class MusicTilemap : TileMapLayer {
             //TODO change to match final atlas spritesheet
             0 => _beltCoords,
             1 => new Vector2I(0, 4),
-            2 => _mergerCoords,
+            2 => new Vector2I(1, 4),
             3 => _sourceCoords,
             _ => -Vector2I.One
         };
