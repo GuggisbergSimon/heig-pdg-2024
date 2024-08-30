@@ -7,6 +7,7 @@ public partial class ProgressionManager : Node {
     private static Dictionary<BlockType, int> _toolTiers = new Dictionary<BlockType, int> {
         {BlockType.Belt, 0},
         {BlockType.Source, 0},
+        {BlockType.Speaker, 0},
         {BlockType.Merger, 1},
         {BlockType.ShiftUp, 1},
         {BlockType.ShiftDown, 2},

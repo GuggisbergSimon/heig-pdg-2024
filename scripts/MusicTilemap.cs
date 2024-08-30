@@ -10,7 +10,7 @@ public partial class MusicTilemap : TileMapLayer {
     private Vector2I _lastCellCoords;
     private Vector2I _lastDirection;
     private Vector2I _beltCoords = Vector2I.Zero;
-    private Vector2I _sourceCoords = new(1, 4);
+    private Vector2I _sourceCoords = new(2, 7);
     private Vector2I _mergerCoords = new(1, 5);
     private Godot.Collections.Dictionary<Vector2I, bool> _busyCells = new();
     private Godot.Collections.Dictionary<Vector2I, int> _directionIndexes = new();
@@ -33,6 +33,9 @@ public partial class MusicTilemap : TileMapLayer {
                 break;
             case BlockType.Source:
                 _atlasCoords = _sourceCoords;
+                break;
+            case BlockType.Speaker:
+                _atlasCoords = new Vector2I(1, 4);
                 break;
             case BlockType.Merger:
                 _atlasCoords = _mergerCoords;

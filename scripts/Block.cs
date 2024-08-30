@@ -8,7 +8,7 @@ public enum BlockType {
     ShiftDown,
     SpeedUp,
     SpeedDown,
-    Speaker
+    Speaker,
 }
 
 [GlobalClass]
