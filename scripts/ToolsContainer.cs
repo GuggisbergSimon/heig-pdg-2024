@@ -5,13 +5,13 @@ using System.IO;
 
 public partial class ToolsContainer : HBoxContainer {
     
-    private static Dictionary<string, Rect2> _toolRegions = new Dictionary<string, Rect2> {
-        {"Source", new Rect2(48, 48, 16, 16)},
-        {"Merger", new Rect2(16, 64, 16, 16)},
-        {"ShiftUp", new Rect2(0, 48, 16, 16)},
-        {"ShiftDown", new Rect2(0, 64, 16, 16)},
-        {"SpeedUp", new Rect2(0, 112, 16, 16)},
-        {"SpeedDown", new Rect2(16, 112, 16, 16)},
+    private static Dictionary<BlockType, Rect2> _toolRegions = new Dictionary<BlockType, Rect2> {
+        {BlockType.Source, new Rect2(16, 64, 16, 16)},
+        {BlockType.Merger, new Rect2(16, 80, 16, 16)},
+        {BlockType.ShiftUp, new Rect2(0, 64, 16, 16)},
+        {BlockType.ShiftDown, new Rect2(0, 80, 16, 16)},
+        {BlockType.SpeedUp, new Rect2(32, 64, 16, 16)},
+        {BlockType.SpeedDown, new Rect2(32, 80, 16, 16)},
     };
     
     // Called when the node enters the scene tree for the first time.
@@ -31,7 +31,7 @@ public partial class ToolsContainer : HBoxContainer {
             child.QueueFree();
         }
 
-        foreach (KeyValuePair<string, bool> tool in GameManager.Instance.ProgressionManager.getTools()) {
+        foreach (KeyValuePair<BlockType, bool> tool in GameManager.Instance.ProgressionManager.getTools()) {
             if (tool.Value) {
                 ToolButton child = new ToolButton();
                 // Resource r = ResourceLoader.Load("res://ressources/" + tool.Key + "Button.tres");
