@@ -6,7 +6,7 @@ public partial class MusicTilemap : TileMapLayer {
     [Export] private int _sourceId;
 
     private Vector2I _atlasCoords;
-    private BlockType _selectedTool = BlockType.Source;
+    private BlockType _selectedTool = BlockType.Belt;
     private Vector2I _lastCellCoords;
     private Vector2I _lastDirection;
     private Vector2I _beltCoords = Vector2I.Zero;
