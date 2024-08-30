@@ -39,10 +39,11 @@ public partial class ToolsContainer : HBoxContainer {
                 // Theme theme = (Theme)GD.Load("res://ressources/" + tool.Key + "Button.tres");
                 // child.SetTheme(theme);
                 // child.Text = tool.Key;
-                AtlasTexture t = new AtlasTexture();
-                t.Atlas = (Texture2D)GD.Load("res://assets/notes_atlas.png");
-                t.Region = _toolRegions[tool.Key];
-                child.SetTextureNormal(t);
+                // AtlasTexture t = new AtlasTexture();
+                // t.Atlas = (Texture2D)GD.Load("res://assets/notes_atlas.png");
+                // t.Region = _toolRegions[tool.Key];
+                Block b = (Block)GD.Load("res://resources/" + tool.Key + ".tres");
+                child.SetTextureNormal(b.Sprite);
                 child.StretchMode = TextureButton.StretchModeEnum.KeepAspectCentered;
                 child.SetCustomMinimumSize(new Vector2(64, 64));
                 AddChild(child);
