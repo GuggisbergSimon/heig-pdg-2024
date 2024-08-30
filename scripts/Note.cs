@@ -130,7 +130,7 @@ public partial class Note : Node2D {
         }
 
         //Deletes the merged note 
-        QueueFree();
+        note.QueueFree();
         return true;
     }
 
