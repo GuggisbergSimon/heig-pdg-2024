@@ -4,7 +4,8 @@ using System;
 public partial class Camera : Camera2D
 {
     
-    private int MAX_SPEED = 10;
+    private int MAX_KEYBOARD_SPEED = 10;
+    private int MAX_MOUSE_SPEED = 3;
     private int _velocity_x = 0;
     private int _velocity_y = 0;
     
@@ -21,20 +22,51 @@ public partial class Camera : Camera2D
     
     public override void _Input(InputEvent @event)
     {
-        if(Input.IsActionJustPressed("ui_up")) {
-            _velocity_y = -MAX_SPEED;
+        if(@event is InputEventMouseMotion mouseEvent)
+        {
+            Vector2 viewportSize = GetWindow().Size;
+            Vector2 mousePosition = mouseEvent.Position;
+
+            if (mousePosition.X < viewportSize.X / 10) // 10% of the screen
+            {
+                _velocity_x = -MAX_MOUSE_SPEED;
+            }
+            else if (mousePosition.X > (9 * viewportSize.X) / 10)
+            {
+                _velocity_x = MAX_MOUSE_SPEED;
+            }
+            else
+            {
+                _velocity_x = 0;
+            }
+
+            if (mousePosition.Y < viewportSize.Y / 10)
+            {
+                _velocity_y = -MAX_MOUSE_SPEED;
+            }
+            else if (mousePosition.Y > (9 * viewportSize.Y) / 10)
+            {
+                _velocity_y = MAX_MOUSE_SPEED;
+            }
+            else
+            {
+                _velocity_y = 0;
+            }
+        }
+        else if(Input.IsActionJustPressed("ui_up")) {
+            _velocity_y = -MAX_KEYBOARD_SPEED;
         }
         else if(Input.IsActionJustPressed("ui_down"))
         {
-            _velocity_y = MAX_SPEED;
+            _velocity_y = MAX_KEYBOARD_SPEED;
         }
         else if(Input.IsActionJustPressed("ui_left"))
         {
-            _velocity_x = -MAX_SPEED;
+            _velocity_x = -MAX_KEYBOARD_SPEED;
         }
         else if(Input.IsActionJustPressed("ui_right"))
         {
-            _velocity_x = MAX_SPEED;
+            _velocity_x = MAX_KEYBOARD_SPEED;
         }
         else if(Input.IsActionJustReleased("ui_up") || Input.IsActionJustReleased("ui_down"))
         {
