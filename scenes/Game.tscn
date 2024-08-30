@@ -1,46 +1,142 @@
-[gd_scene load_steps=4 format=3 uid="uid://c1p8c0cjke2h7"]
+[gd_scene load_steps=12 format=3 uid="uid://unh04hp3qhxg"]
 
+[ext_resource type="Script" path="res://scripts/Camera.cs" id="2_dpgbn"]
 [ext_resource type="PackedScene" uid="uid://6q7rrd3mwivk" path="res://scenes/Tilemap.tscn" id="3_2s2ah"]
 [ext_resource type="PackedScene" uid="uid://ynkuv82m8a7a" path="res://scenes/ToolOptionButton.tscn" id="3_u0egv"]
-[ext_resource type="Script" path="res://scripts/Label.cs" id="3_w1oj0"]
+[ext_resource type="Script" path="res://scripts/LevelLabel.cs" id="3_w1oj0"]
+[ext_resource type="StyleBox" uid="uid://inurytti2qge" path="res://scenes/levelui.tres" id="4_ek0vq"]
+[ext_resource type="Script" path="res://scripts/DevButtonsContainer.cs" id="4_wcymb"]
+[ext_resource type="Script" path="res://scripts/LevelRequirements.cs" id="5_s87p4"]
+[ext_resource type="StyleBox" uid="uid://g7gpjugatj1p" path="res://scenes/toolbar.tres" id="7_5d5aw"]
+[ext_resource type="Script" path="res://scripts/ToolsContainer.cs" id="8_th2aw"]
 
-[node name="Node2D" type="Node2D"]
+[sub_resource type="CanvasTexture" id="CanvasTexture_leg4b"]
+specular_color = Color(0.578161, 0.309391, 0.332375, 1)
 
-[node name="Camera2D" type="Camera2D" parent="."]
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_l0isx"]
+texture = SubResource("CanvasTexture_leg4b")
+modulate_color = Color(0.576471, 0.309804, 0.333333, 1)
+
+[node name="Game" type="Node2D"]
 
 [node name="Tilemap" parent="." instance=ExtResource("3_2s2ah")]
 
-[node name="ToolOptionButton" parent="Tilemap" instance=ExtResource("3_u0egv")]
-offset_top = 130.0
-offset_right = 32.0
-offset_bottom = 150.0
+[node name="UICanvas" type="CanvasLayer" parent="."]
+follow_viewport_scale = 441.191
 
-[node name="LevelUpButton" type="Button" parent="Tilemap"]
-offset_left = -351.0
-offset_top = 272.0
-offset_right = -278.0
-offset_bottom = 303.0
+[node name="ToolOptionButton" parent="UICanvas" instance=ExtResource("3_u0egv")]
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -16.0
+offset_top = -20.0
+offset_right = 16.0
+grow_horizontal = 2
+grow_vertical = 0
+metadata/_edit_use_anchors_ = true
+
+[node name="DevButtonsContainer" type="PanelContainer" parent="UICanvas"]
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_top = -56.5
+offset_right = 118.0
+offset_bottom = 56.5
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxTexture_l0isx")
+script = ExtResource("4_wcymb")
+
+[node name="MarginContainer" type="MarginContainer" parent="UICanvas/DevButtonsContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="VBoxContainer" type="VBoxContainer" parent="UICanvas/DevButtonsContainer/MarginContainer"]
+layout_mode = 2
+
+[node name="DevButtonsLabel" type="Label" parent="UICanvas/DevButtonsContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Dev tools"
+horizontal_alignment = 1
+
+[node name="LevelUpButton" type="Button" parent="UICanvas/DevButtonsContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
 text = "Level Up"
+metadata/_edit_use_anchors_ = true
 
-[node name="LevelDownButton" type="Button" parent="Tilemap"]
-offset_left = -277.0
-offset_top = 272.0
-offset_right = -179.0
-offset_bottom = 303.0
+[node name="LevelDownButton" type="Button" parent="UICanvas/DevButtonsContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
 text = "Level Down"
+metadata/_edit_use_anchors_ = true
 
-[node name="Label" type="Label" parent="Tilemap"]
+[node name="LevelInfoContainer" type="PanelContainer" parent="UICanvas"]
+modulate = Color(0.85098, 0.85098, 0.85098, 1)
+self_modulate = Color(0.85098, 0.85098, 0.85098, 1)
 anchors_preset = 1
 anchor_left = 1.0
 anchor_right = 1.0
-offset_left = 522.0
-offset_top = -324.0
-offset_right = 576.0
-offset_bottom = -301.0
+offset_left = -54.0
+offset_bottom = 40.0
 grow_horizontal = 0
+theme_override_styles/panel = ExtResource("4_ek0vq")
+
+[node name="MarginContainer" type="MarginContainer" parent="UICanvas/LevelInfoContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 20
+
+[node name="VBoxContainer" type="VBoxContainer" parent="UICanvas/LevelInfoContainer/MarginContainer"]
+layout_mode = 2
+
+[node name="LevelLabel" type="Label" parent="UICanvas/LevelInfoContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
 text = "Level 0"
 horizontal_alignment = 2
 script = ExtResource("3_w1oj0")
+metadata/_edit_use_anchors_ = true
 
-[connection signal="pressed" from="Tilemap/LevelUpButton" to="Tilemap" method="OnLevelUpButtonPressed"]
-[connection signal="pressed" from="Tilemap/LevelDownButton" to="Tilemap" method="OnLevelDownButtonPressed"]
+[node name="LevelRequirementsContainer" type="HBoxContainer" parent="UICanvas/LevelInfoContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+script = ExtResource("5_s87p4")
+
+[node name="ToolsParentContainer" type="PanelContainer" parent="UICanvas"]
+modulate = Color(0.85098, 0.85098, 0.85098, 1)
+self_modulate = Color(0.85098, 0.85098, 0.85098, 1)
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -47.0
+offset_top = -67.0
+offset_right = 47.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_styles/panel = ExtResource("7_5d5aw")
+
+[node name="MarginContainer" type="MarginContainer" parent="UICanvas/ToolsParentContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 20
+
+[node name="ToolsContainer" type="HBoxContainer" parent="UICanvas/ToolsParentContainer/MarginContainer"]
+layout_mode = 2
+script = ExtResource("8_th2aw")
+
+[node name="Camera" type="Camera2D" parent="."]
+zoom = Vector2(2, 2)
+position_smoothing_enabled = true
+position_smoothing_speed = 20.0
+script = ExtResource("2_dpgbn")
+
+[connection signal="pressed" from="UICanvas/DevButtonsContainer/MarginContainer/VBoxContainer/LevelUpButton" to="Tilemap" method="OnLevelUpButtonPressed"]
+[connection signal="pressed" from="UICanvas/DevButtonsContainer/MarginContainer/VBoxContainer/LevelDownButton" to="Tilemap" method="OnLevelDownButtonPressed"]
