@@ -14,9 +14,8 @@ public class Merger : Processor {
         InputDown = inputDown;
     }
 
-    public override bool IsCompatible(Vector2I input) {
-        return !IsBusy &&
-               (input.Equals(-Input) || input.Equals(-InputDown));
+    public override bool IsCompatible(Vector2I input, Note note) {
+        return !IsBusy && (input.Equals(-Input) || input.Equals(-InputDown));
     }
 
     public override void Process(Note note) {
@@ -26,7 +25,7 @@ public class Merger : Processor {
         else {
             var output =
                 GameManager.Instance.Tilemap.GetProcessor(Position, Output);
-            if (output != null && output.IsCompatible(Output)) {
+            if (output != null && output.IsCompatible(Output, note)) {
                 note.AddNote(_note);
                 note.MoveByTempo(Position);
                 output.Process(note);

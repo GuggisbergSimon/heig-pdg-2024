@@ -161,7 +161,7 @@ public partial class MusicTilemap : TileMapLayer {
     private void OnTempo() {
         foreach (var source in _sources) {
             var output = GetProcessor(source.Value.Position, source.Value.Output);
-            if (output == null || output.IsBusy || !output.IsCompatible(source.Value.Output)) {
+            if (output == null || output.IsBusy || !output.IsCompatible(source.Value.Output, null)) {
                 continue;
             }
 

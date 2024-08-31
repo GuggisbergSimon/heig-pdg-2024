@@ -6,11 +6,12 @@ public class Speaker : Processor {
     public Speaker(Vector2 position, bool isBusy, Vector2I input) : base(position, isBusy, input) { }
 
     public override void Process(Note note) {
-        if (note.Instrument == InstrumentType.None) {
-            return;
-        }
-
         GameManager.Instance.AudioManager.PlayNote(note);
         note.QueueFree();
+    }
+
+    public override bool IsCompatible(Vector2I input, Note note) {
+        return base.IsCompatible(input, note) &&
+               note != null && note.Instrument != InstrumentType.None;
     }
 }
