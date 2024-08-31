@@ -5,11 +5,11 @@
 [ext_resource type="Resource" uid="uid://sc6o6lmfstcc" path="res://resources/duration/Half.tres" id="3_4e7qk"]
 [ext_resource type="Resource" uid="uid://c0q2nn6nxebxx" path="res://resources/duration/Eighth.tres" id="4_8eca1"]
 [ext_resource type="Resource" uid="uid://da54b0vo7725c" path="res://resources/duration/Whole.tres" id="5_hwtby"]
-[ext_resource type="PackedScene" uid="uid://dfqyf70n4tbhj" path="res://scenes/SingleNote.tscn" id="6_ojwyv"]
+[ext_resource type="PackedScene" uid="uid://dfqyf70n4tbhj" path="res://scenes/note/SingleNote.tscn" id="6_ojwyv"]
 [ext_resource type="Resource" uid="uid://ok6bkmgvlj6q" path="res://resources/instrument/Guitar.tres" id="6_uaxva"]
 [ext_resource type="Resource" uid="uid://dsugcnl41j5ru" path="res://resources/instrument/None.tres" id="7_43xsp"]
-[ext_resource type="PackedScene" uid="uid://bjjamawfh8gov" path="res://scenes/LineStaff.tscn" id="7_nq45h"]
-[ext_resource type="PackedScene" uid="uid://cnr6d5hn5xnok" path="res://scenes/WhiteDot.tscn" id="7_tgk6f"]
+[ext_resource type="PackedScene" uid="uid://bjjamawfh8gov" path="res://scenes/note/LineStaff.tscn" id="7_nq45h"]
+[ext_resource type="PackedScene" uid="uid://cnr6d5hn5xnok" path="res://scenes/note/WhiteDot.tscn" id="7_tgk6f"]
 [ext_resource type="Resource" uid="uid://b1ymgkw3xrsmo" path="res://resources/instrument/Piano.tres" id="8_18owu"]
 
 [node name="Note" type="Node2D"]
@@ -23,25 +23,25 @@ _lineStaffScene = ExtResource("7_nq45h")
 [node name="C" type="Node2D" parent="."]
 
 [node name="D" type="Node2D" parent="."]
-position = Vector2(0, -5)
+position = Vector2(0, -3)
 
 [node name="E" type="Node2D" parent="."]
-position = Vector2(0, -10)
+position = Vector2(0, -6)
 
 [node name="F" type="Node2D" parent="."]
-position = Vector2(0, -15)
+position = Vector2(0, -9)
 
 [node name="G" type="Node2D" parent="."]
-position = Vector2(0, -20)
+position = Vector2(0, -12)
 
 [node name="A" type="Node2D" parent="."]
-position = Vector2(0, -25)
+position = Vector2(0, -15)
 
 [node name="B" type="Node2D" parent="."]
-position = Vector2(0, -30)
+position = Vector2(0, -18)
 
 [node name="Dva" type="Node2D" parent="."]
-position = Vector2(0, -40)
+position = Vector2(0, -24)
 
 [node name="Fva" type="Node2D" parent="."]
-position = Vector2(0, -50)
+position = Vector2(0, -30)
