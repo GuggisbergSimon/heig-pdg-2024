@@ -15,7 +15,7 @@ public partial class LevelRequirements : HBoxContainer {
             child.QueueFree();
         }
 
-        foreach (string requirement in GameManager.Instance.ProgressionManager.getLevelRequirements()) {
+        foreach (string requirement in GameManager.Instance.ProgressionManager.GetLevelRequirements()) {
             AddRequirementBox(requirement);
         }
     }

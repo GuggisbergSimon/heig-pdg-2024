@@ -7,6 +7,7 @@ public class Speaker : Processor {
 
     public override void Process(Note note) {
         GameManager.Instance.AudioManager.PlayNote(note);
+        GameManager.Instance.ProgressionManager.TryRequirement(note);
         note.QueueFree();
     }
 

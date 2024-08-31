@@ -15,7 +15,7 @@ public partial class ToolsContainer : HBoxContainer {
             child.QueueFree();
         }
 
-        foreach (KeyValuePair<BlockType, bool> tool in GameManager.Instance.ProgressionManager.getTools()) {
+        foreach (KeyValuePair<BlockType, bool> tool in GameManager.Instance.ProgressionManager.GetTools()) {
             if (tool.Value) {
                 ToolButton child = new ToolButton(tool.Key);
                 AddChild(child);

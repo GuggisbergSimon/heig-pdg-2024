@@ -1,68 +1,81 @@
 using Godot;
 using System.Collections.Generic;
+using System.Linq;
 
 public partial class ProgressionManager : Node {
-    private int _currentTier;
+    [Export] private Requirement[] _requirementsResources;
 
     private static Dictionary<BlockType, int> _toolTiers = new Dictionary<BlockType, int> {
-        {BlockType.Belt, 0},
-        {BlockType.Source, 0},
-        {BlockType.Speaker, 0},
-        {BlockType.Instrument1, 0},
-        {BlockType.Merger, 1},
-        {BlockType.ShiftUp, 1},
-        {BlockType.ShiftDown, 2},
-        {BlockType.SpeedUp, 3},
-        {BlockType.SpeedDown, 3},
-        {BlockType.Instrument2, 4},
+        { BlockType.Belt, 0 },
+        { BlockType.Source, 0 },
+        { BlockType.Speaker, 0 },
+        { BlockType.Instrument1, 0 },
+        { BlockType.ShiftUp, 1 },
+        { BlockType.ShiftDown, 1 },
+        { BlockType.SpeedUp, 2 },
+        { BlockType.SpeedDown, 2 },
+        { BlockType.Merger, 3 },
+        { BlockType.Instrument2, 4 },
     };
 
-    private static Godot.Collections.Dictionary<string, int> _levelRequirements = new Godot.Collections.Dictionary<string, int> {
-        { "Requirement 1", 0 },
-        { "Requirement 2", 1 },
-        { "Requirement 3", 1 },
-        { "Requirement 4", 2 },
-    };
-    
+    private List<Requirement> _todos = new();
+
     [Signal]
     public delegate void LevelChangeEventHandler();
 
+    public int CurrentTier { get; private set; }
+
     public override void _Ready() {
-        _currentTier = 0;
+        base._Ready();
+        UpdateTodos();
     }
 
-    public void levelUp() {
-        _currentTier++;
-        EmitSignal(SignalName.LevelChange);
-    }
-
-    public void levelDown() {
-        _currentTier--;
-        EmitSignal(SignalName.LevelChange);
-    }
-
-    public Dictionary<BlockType, bool> getTools() {
-        Dictionary<BlockType, bool> tools = new Dictionary<BlockType, bool>();
-        foreach (KeyValuePair<BlockType, int> entry in _toolTiers) {
-
-                tools.Add(entry.Key, entry.Value <= _currentTier);
-        }
-
-        return tools;
-    }
-    
-    public int CurrentTier {
-        get => _currentTier;
-    }
-
-    public string[] getLevelRequirements() {
-        List<string> requirements = new List<string>();
-        foreach (KeyValuePair<string, int> entry in _levelRequirements) {
-            if (entry.Value == _currentTier) {
-                requirements.Add(entry.Key);
+    public void TryRequirement(Note note) {
+        foreach (var requirement in _todos) {
+            if (requirement.Duration != note.Duration.Notation || requirement.Instrument != note.Instrument ||
+                requirement.Pitches.Length != note.Pitches.Count) {
+                continue;
             }
-        }
 
-        return requirements.ToArray();
+            List<PitchNotation> requiredPitches = requirement.Pitches.Select(pitch => (PitchNotation)pitch).ToList();
+            requiredPitches.Sort();
+            note.Pitches.Sort();
+            if (requiredPitches.Where((t, i) => t != note.Pitches[i]).Any()) {
+                return;
+            }
+
+            _todos.Remove(requirement);
+            break;
+        }
+        
+        if (_todos.Count == 0) {
+            LevelUp();
+        }
+    }
+
+    public void LevelUp() {
+        CurrentTier++;
+        UpdateTodos();
+        EmitSignal(SignalName.LevelChange);
+    }
+
+    public void LevelDown() {
+        CurrentTier--;
+        UpdateTodos();
+        EmitSignal(SignalName.LevelChange);
+    }
+
+    public Dictionary<BlockType, bool> GetTools() {
+        return _toolTiers.ToDictionary(entry => entry.Key, entry => entry.Value <= CurrentTier);
+    }
+
+    private void UpdateTodos() {
+        _todos = _requirementsResources.Where(requirement => requirement.Level == CurrentTier).ToList();
+    }
+
+    public string[] GetLevelRequirements() {
+        return (from requirement in _requirementsResources
+            where requirement.Level == CurrentTier
+            select requirement.ToString()).ToArray();
     }
 }

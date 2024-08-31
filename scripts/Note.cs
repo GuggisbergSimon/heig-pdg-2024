@@ -4,15 +4,16 @@ using System.Linq;
 using Godot;
 
 public enum PitchNotation {
-    C, //Do
-    D, //Ré
-    E, //Mi
-    F, //Fa
-    G, //Sol
-    A, //La
-    B //Si
+    C = 0, //Do
+    D = 1, //Ré
+    E = 2, //Mi
+    F = 3, //Fa
+    G = 4, //Sol
+    A = 5, //La
+    B = 6 //Si
 }
 
+// TODO debug mmultiple notes played at the same time ?
 public partial class Note : Node2D {
     [Export] private Duration[] _durationsResources;
     [Export] private Instrument[] _instrumentsResources;
