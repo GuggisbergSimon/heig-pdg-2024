@@ -5,7 +5,7 @@ public partial class ToolButton : TextureButton {
 
     public ToolButton(BlockType type) {
         _type = type;
-        Block b = (Block)GD.Load("res://resources/" + _type + ".tres");
+        Block b = (Block)GD.Load("res://resources/block/" + _type + ".tres");
         SetTextureNormal(b.Sprite);
         StretchMode = StretchModeEnum.KeepAspectCentered;
         SetCustomMinimumSize(new Vector2(64, 64));

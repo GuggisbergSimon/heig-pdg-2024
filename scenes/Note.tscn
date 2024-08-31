@@ -1,18 +1,18 @@
 [gd_scene load_steps=8 format=3 uid="uid://jvu2psiopk1b"]
 
 [ext_resource type="Script" path="res://scripts/Note.cs" id="1_qoxqa"]
-[ext_resource type="Resource" uid="uid://cgtrri1us7wxj" path="res://resources/Crotchet.tres" id="2_qbing"]
-[ext_resource type="Resource" uid="uid://of2ghsu6l16v" path="res://resources/Minim.tres" id="3_4e7qk"]
-[ext_resource type="Resource" uid="uid://bba7ibaoyrrpc" path="res://resources/Quaver.tres" id="4_8eca1"]
-[ext_resource type="Resource" uid="uid://bxidqkf4fwmln" path="res://resources/Semibreve.tres" id="5_hwtby"]
+[ext_resource type="Resource" uid="uid://btscnebqvbh7s" path="res://resources/duration/Crotchet.tres" id="2_qbing"]
+[ext_resource type="Resource" uid="uid://sc6o6lmfstcc" path="res://resources/duration/Minim.tres" id="3_4e7qk"]
+[ext_resource type="Resource" uid="uid://c0q2nn6nxebxx" path="res://resources/duration/Quaver.tres" id="4_8eca1"]
+[ext_resource type="Resource" uid="uid://da54b0vo7725c" path="res://resources/duration/Semibreve.tres" id="5_hwtby"]
 [ext_resource type="PackedScene" uid="uid://dfqyf70n4tbhj" path="res://scenes/SingleNote.tscn" id="6_ojwyv"]
 [ext_resource type="PackedScene" uid="uid://bjjamawfh8gov" path="res://scenes/LineStaff.tscn" id="7_nq45h"]
 
 [node name="Note" type="Node2D"]
 script = ExtResource("1_qoxqa")
 _durationsResources = Array[Object]([ExtResource("2_qbing"), ExtResource("3_4e7qk"), ExtResource("4_8eca1"), ExtResource("5_hwtby")])
-_singleNoteScene = ExtResource("6_ojwyv")
 _lineStaffScene = ExtResource("7_nq45h")
+_singleNoteScene = ExtResource("6_ojwyv")
 
 [node name="C" type="Node2D" parent="."]
 

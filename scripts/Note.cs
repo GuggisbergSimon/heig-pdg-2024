@@ -19,15 +19,8 @@ public enum InstrumentType {
 }
 
 public partial class Note : Node2D {
-    private static readonly DurationNotation MAX_DURATION =
-        DurationNotation.Minim;
-
-    private static readonly DurationNotation MIN_DURATION =
-        DurationNotation.Crotchet;
-
-    private readonly Dictionary<DurationNotation, Duration> _durations =
-        new();
-
+    private static readonly DurationNotation MAX_DURATION = DurationNotation.Minim;
+    private static readonly DurationNotation MIN_DURATION = DurationNotation.Crotchet;
     [Export] private Duration[] _durationsResources;
     [Export] private PackedScene _lineStaffScene;
     private Dictionary<PitchNotation, Node2D> _positions = new();

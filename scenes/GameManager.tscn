@@ -1,9 +1,9 @@
 [gd_scene load_steps=6 format=3 uid="uid://wjjvck7uxuti"]
 
-[ext_resource type="Script" path="res://scripts/GameManager.cs" id="1_i8ltt"]
-[ext_resource type="Script" path="res://scripts/ProgressionManager.cs" id="2_41yyc"]
+[ext_resource type="Script" path="res://scripts/managers/GameManager.cs" id="1_i8ltt"]
+[ext_resource type="Script" path="res://scripts/managers/ProgressionManager.cs" id="2_41yyc"]
 [ext_resource type="PackedScene" uid="uid://jvu2psiopk1b" path="res://scenes/Note.tscn" id="2_k27xt"]
-[ext_resource type="Script" path="res://scripts/AudioManager.cs" id="3_ecg0a"]
+[ext_resource type="Script" path="res://scripts/managers/AudioManager.cs" id="3_ecg0a"]
 [ext_resource type="PackedScene" path="res://scenes/sampler.tscn" id="4_mlq4f"]
 
 [node name="GameManager" type="Node"]

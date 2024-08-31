@@ -4,20 +4,22 @@ using heigpdg2024.scripts.cells;
 
 public partial class MusicTilemap : TileMapLayer {
     [Export] private int _sourceId;
+    [Export] private PackedScene _noteScene;
+    private BlockType _selectedTool = BlockType.Belt;
     private Vector2I _atlasCoords;
-    private Vector2I _beltCoords = Vector2I.Zero;
-    private Godot.Collections.Dictionary<Vector2I, bool> _busyCells = new();
-    private Godot.Collections.Dictionary<Vector2I, int> _directionIndexes = new();
     private Vector2I _lastCellCoords;
     private Vector2I _lastDirection;
-    private BlockType _selectedTool = BlockType.Belt;
-    private Vector2I _sourceCoords = new(2, 7);
+    private readonly Dictionary<Vector2I, bool> _busyCells = new();
+    private readonly Dictionary<Vector2I, int> _directionIndexes = new();
+    private readonly Dictionary<Vector2I, Merger> _mergers = new();
+    private readonly Dictionary<Vector2I, Source> _sources = new();
 
     #region Godot methods
 
     public override void _Ready() {
         //There can be only one MusicTilemap per active scene
         GameManager.Instance.RegisterTilemap(this);
+        GameManager.Instance.TimerTempo.Timeout += OnTempo;
 
         _directionIndexes.Add(Vector2I.Right, 0);
         _directionIndexes.Add(Vector2I.Up, 1);
@@ -31,39 +33,19 @@ public partial class MusicTilemap : TileMapLayer {
 
     public void UpdateTool(BlockType tool) {
         _selectedTool = tool;
-        switch (tool) {
-            case BlockType.Belt:
-                _atlasCoords = _beltCoords;
-                break;
-            case BlockType.Source:
-                _atlasCoords = _sourceCoords;
-                break;
-            case BlockType.Speaker:
-                _atlasCoords = new Vector2I(1, 4);
-                break;
-            case BlockType.Merger:
-                _atlasCoords = new Vector2I(1, 5);
-                break;
-            case BlockType.ShiftUp:
-                _atlasCoords = new Vector2I(0, 4);
-                break;
-            case BlockType.ShiftDown:
-                _atlasCoords = new Vector2I(0, 5);
-                break;
-            case BlockType.SpeedUp:
-                _atlasCoords = new Vector2I(2, 4);
-                break;
-            case BlockType.SpeedDown:
-                _atlasCoords = new Vector2I(2, 5);
-                break;
-            default:
-                _atlasCoords = Vector2I.Zero;
-                break;
-        }
+        _atlasCoords = tool switch {
+            BlockType.Belt => Vector2I.Zero,
+            BlockType.Source => new Vector2I(2, 7),
+            BlockType.Speaker => new Vector2I(1, 4),
+            BlockType.Merger => new Vector2I(1, 5),
+            BlockType.ShiftUp => new Vector2I(0, 4),
+            BlockType.ShiftDown => new Vector2I(0, 5),
+            BlockType.SpeedUp => new Vector2I(2, 4),
+            BlockType.SpeedDown => new Vector2I(2, 5),
+            _ => Vector2I.Zero
+        };
     }
 
-    //TODO delete source properly
-    //TODO delete note on delete block
     public void OnPressed() {
         Vector2I cellCoords = LocalToMap(GetGlobalMousePosition());
         if (Input.IsActionJustPressed("PrimaryAction")) {
@@ -76,7 +58,7 @@ public partial class MusicTilemap : TileMapLayer {
                 else {
                     _lastDirection = Vector2I.Right;
                 }
-                
+
                 int directionIndex = _directionIndexes[_lastDirection];
                 SetCell(cellCoords, _sourceId, new Vector2I(directionIndex, directionIndex));
                 SetBusy(cellCoords, false);
@@ -158,7 +140,7 @@ public partial class MusicTilemap : TileMapLayer {
                 note => note.InstrumentChange(InstrumentType.Piano)),
             "instrument2" => new Transit(cellPos, isBusy, input, output,
                 note => note.InstrumentChange(InstrumentType.Guitar)),
-            "merger" => FindMerger(cellPos),
+            "merger" => _mergers.GetValueOrDefault(cellCoords),
             _ => null
         };
     }
@@ -175,17 +157,40 @@ public partial class MusicTilemap : TileMapLayer {
 
     #region private methods
 
+    private void OnTempo() {
+        foreach (var source in _sources) {
+            var output = GetProcessor(source.Value.Position, source.Value.Output);
+            if (output == null || output.IsBusy || !output.IsCompatible(source.Value.Output)) {
+                continue;
+            }
+
+            var note = _noteScene.Instantiate<Note>();
+            note.Position = source.Value.Position;
+            AddChild(note);
+            output.Process(note);
+        }
+
+        foreach (var merger in _mergers) {
+            merger.Value.ClearMemory();
+        }
+    }
+
     private void CreateAt(Vector2I cellCoords) {
         if (_selectedTool == BlockType.Source) {
-            GameManager.Instance.RegisterSource(new Source(GameManager.Instance.Tilemap.MapToLocal(cellCoords),
-                Vector2I.Right));
+            Source s = new Source(MapToLocal(cellCoords), Vector2I.Right);
+            if (!_sources.TryAdd(cellCoords, s)) {
+                _sources[cellCoords] = s;
+            }
+
             SetCell(cellCoords, _sourceId, _atlasCoords);
             SetBusy(cellCoords, false);
         }
         else if (_selectedTool == BlockType.Merger) {
-            GameManager.Instance.RegisterMerger(
-                new Merger(MapToLocal(cellCoords), false, Vector2I.Up,
-                    Vector2I.Down, Vector2I.Right));
+            Merger m = new Merger(MapToLocal(cellCoords), false, Vector2I.Up, Vector2I.Down, Vector2I.Right);
+            if (!_mergers.TryAdd(cellCoords, m)) {
+                _mergers[cellCoords] = m;
+            }
+
             SetCell(cellCoords, _sourceId, _atlasCoords);
             if (!_busyCells.TryAdd(cellCoords, false))
                 _busyCells[cellCoords] = false;
@@ -200,27 +205,15 @@ public partial class MusicTilemap : TileMapLayer {
     private void DeleteAt(Vector2I cellCoords) {
         //Resets the cell
         SetCell(cellCoords);
-        RemoveBusy(cellCoords);
+        _busyCells.Remove(cellCoords);
+        _sources.Remove(cellCoords);
+        _mergers.Remove(cellCoords);
     }
 
     private void SetBusy(Vector2I cellCoords, bool busy) {
         if (!_busyCells.TryAdd(cellCoords, busy)) {
             _busyCells[cellCoords] = busy;
         }
-    }
-
-    private void RemoveBusy(Vector2I cellCoords) {
-        _busyCells.Remove(cellCoords);
-    }
-
-    // TODO améliorer
-    // Nouvelle méthode pour trouver un Merger à une position spécifique
-    private Merger FindMerger(Vector2 cellPos) {
-        foreach (var merger in GameManager.Instance._mergers)
-            if (merger.GetPosition() == cellPos)
-                return merger;
-
-        return null;
     }
 
     #endregion

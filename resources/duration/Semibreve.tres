@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="Duration" load_steps=4 format=3 uid="uid://da54b0vo7725c"]
+
+[ext_resource type="Texture2D" uid="uid://c1pngm7njvbyk" path="res://assets/notes_atlas.png" id="1_eekwg"]
+[ext_resource type="Script" path="res://scripts/resources/Duration.cs" id="1_kq54b"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_vgfpy"]
+atlas = ExtResource("1_eekwg")
+region = Rect2(0, 96, 16, 16)
+
+[resource]
+script = ExtResource("1_kq54b")
+Notation = 0
+Sprite = SubResource("AtlasTexture_vgfpy")
