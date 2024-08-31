@@ -1,19 +1,16 @@
 using Godot;
-using System;
 
 public partial class ToolButton : TextureButton {
-
     private BlockType _type;
 
     public ToolButton(BlockType type) {
         _type = type;
         Block b = (Block)GD.Load("res://resources/" + _type + ".tres");
         SetTextureNormal(b.Sprite);
-        StretchMode = TextureButton.StretchModeEnum.KeepAspectCentered;
+        StretchMode = StretchModeEnum.KeepAspectCentered;
         SetCustomMinimumSize(new Vector2(64, 64));
     }
 
-    // Called when the node enters the scene tree for the first time.
     public override void _Ready() {
         //connect mouse entered and exited signals
         Connect("mouse_entered", new Callable(this, nameof(OnMouseEntered)));

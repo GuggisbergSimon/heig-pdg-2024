@@ -40,7 +40,7 @@ public class Merger : Processor {
         }
         else {
             var output =
-                GameManager.Instance.Tilemap.GetInput(Position, Output);
+                GameManager.Instance.Tilemap.GetProcessor(Position, Output);
             if (output != null && output.IsCompatible(Output)) {
                 note.AddNote(_note);
                 note.MoveByTempo(Position);

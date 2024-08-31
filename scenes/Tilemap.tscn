@@ -126,4 +126,3 @@ sources/1 = SubResource("TileSetAtlasSource_er1vb")
 [node name="Tilemap" type="TileMapLayer"]
 tile_set = SubResource("TileSet_sbu41")
 script = ExtResource("2_o3egs")
-_sourceId = 1

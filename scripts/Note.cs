@@ -76,7 +76,7 @@ public partial class Note : Node2D {
     }
 
     private void Process() {
-        var input = GameManager.Instance.Tilemap.GetInput(Position);
+        var input = GameManager.Instance.Tilemap.GetProcessor(Position);
         input?.Process(this);
     }
 

@@ -13,7 +13,7 @@ public partial class GameManager : Node {
     public MusicTilemap Tilemap { get; private set; }
     public AudioManager AudioManager { get; private set; }
     public int Tempo { get; private set; } = 120;
-    public float PercentToStartAnims { get; private set; } = 0.1f;
+    public float PercentToStartAnims { get; private set; } = 0.2f;
     public Timer TimerTempo { get; private set; }
 
     public override void _Ready() {
@@ -38,7 +38,7 @@ public partial class GameManager : Node {
 
     private void OnTempo() {
         foreach (var source in _sources) {
-            var output = Tilemap.GetInput(source.Position, source.Output);
+            var output = Tilemap.GetProcessor(source.Position, source.Output);
             if (output == null || output.IsBusy) continue;
 
             if (output.IsCompatible(source.Output)) {

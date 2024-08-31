@@ -21,7 +21,7 @@ public class Transit : Processor {
                 note.MoveByTempo(Position);
                 break;
             case true:
-                Processor output = GameManager.Instance.Tilemap.GetInput(Position, _output);
+                Processor output = GameManager.Instance.Tilemap.GetProcessor(Position, _output);
                 if (output != null && output.IsCompatible(_output)) {
                     _callback(note);
                     output.Process(note);

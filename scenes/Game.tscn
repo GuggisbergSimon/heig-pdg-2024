@@ -1,6 +1,7 @@
-[gd_scene load_steps=11 format=3 uid="uid://unh04hp3qhxg"]
+[gd_scene load_steps=12 format=3 uid="uid://unh04hp3qhxg"]
 
 [ext_resource type="Script" path="res://scripts/Camera.cs" id="2_dpgbn"]
+[ext_resource type="Script" path="res://scripts/ButtonTilemap.cs" id="2_h5doo"]
 [ext_resource type="PackedScene" uid="uid://6q7rrd3mwivk" path="res://scenes/Tilemap.tscn" id="3_2s2ah"]
 [ext_resource type="Script" path="res://scripts/LevelLabel.cs" id="3_w1oj0"]
 [ext_resource type="StyleBox" uid="uid://inurytti2qge" path="res://scenes/levelui.tres" id="4_ek0vq"]
@@ -19,9 +20,23 @@ modulate_color = Color(0.576471, 0.309804, 0.333333, 1)
 [node name="Game" type="Node2D"]
 
 [node name="Tilemap" parent="." instance=ExtResource("3_2s2ah")]
+_sourceId = 1
 
 [node name="UICanvas" type="CanvasLayer" parent="."]
 follow_viewport_scale = 441.191
+
+[node name="TilemapContainer" type="PanelContainer" parent="UICanvas"]
+modulate = Color(0, 0, 0, 0)
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ButtonTilemap" type="Button" parent="UICanvas/TilemapContainer"]
+layout_mode = 2
+button_mask = 3
+script = ExtResource("2_h5doo")
 
 [node name="DevButtonsContainer" type="PanelContainer" parent="UICanvas"]
 anchors_preset = 4
@@ -100,9 +115,9 @@ anchor_left = 0.5
 anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
-offset_left = -47.0
-offset_top = -67.0
-offset_right = 47.0
+offset_left = -22.0
+offset_top = -42.0
+offset_right = 22.0
 grow_horizontal = 2
 grow_vertical = 0
 theme_override_styles/panel = ExtResource("7_5d5aw")
@@ -123,6 +138,3 @@ zoom = Vector2(2, 2)
 position_smoothing_enabled = true
 position_smoothing_speed = 20.0
 script = ExtResource("2_dpgbn")
-
-[connection signal="pressed" from="UICanvas/DevButtonsContainer/MarginContainer/VBoxContainer/LevelUpButton" to="Tilemap" method="OnLevelUpButtonPressed"]
-[connection signal="pressed" from="UICanvas/DevButtonsContainer/MarginContainer/VBoxContainer/LevelDownButton" to="Tilemap" method="OnLevelDownButtonPressed"]
