@@ -13,48 +13,37 @@ public enum PitchNotation {
     B //Si
 }
 
-public enum InstrumentType {
-    Piano,
-    Guitar
-}
-
 public partial class Note : Node2D {
-    private static readonly DurationNotation MAX_DURATION = DurationNotation.Minim;
-    private static readonly DurationNotation MIN_DURATION = DurationNotation.Crotchet;
     [Export] private Duration[] _durationsResources;
+    [Export] private Instrument[] _instrumentsResources;
+    [Export] private PackedScene _singleNoteScene;
+    [Export] private PackedScene _whiteDotScene;
     [Export] private PackedScene _lineStaffScene;
-    private Dictionary<PitchNotation, Node2D> _positions = new();
-    private Dictionary<DurationNotation, Duration> _durations = new();
-    private List<List<Sprite2D>> _notesSprites = new();
+    private static readonly DurationNotation MAX_DURATION = DurationNotation.Half;
+    private static readonly DurationNotation MIN_DURATION = DurationNotation.Whole;
+    private readonly Dictionary<PitchNotation, Node2D> _positions = new();
+    private readonly Dictionary<DurationNotation, Duration> _durations = new();
+    private readonly Dictionary<InstrumentType, Instrument> _instruments = new();
+    private readonly List<Sprite2D> _notesSprites = new();
+    private readonly List<Sprite2D> _whiteDotSprites = new();
     public Duration Duration { get; private set; }
-    public InstrumentType Instrument { get; set; }
+    public InstrumentType Instrument { get; private set; }
     public List<PitchNotation> Pitches { get; } = new();
-
-    private static DurationNotation MAX_DURATION = DurationNotation.Minim;
-    private static DurationNotation MIN_DURATION = DurationNotation.Crotchet;
 
     public override void _Ready() {
         base._Ready();
 
-        //Setups dictionary
-        foreach (var durationsResource in _durationsResources)
-            _durations.Add(durationsResource.Notation, durationsResource);
-        }
-
-        Pitches.Add(PitchNotation.C);
-        Duration = _durations[DurationNotation.Minim];
-
         //Positions of each note 
-        foreach (var pitch in Enum.GetValues<PitchNotation>())
+        foreach (var pitch in Enum.GetValues<PitchNotation>()) {
             _positions.Add(pitch, GetNode<Node2D>(pitch.ToString()));
+        }
 
         //Staff is only drawn on some lines
         string[] lines = { "E", "G", "B", "Dva", "Fva" };
-        foreach (var line in lines)
-            GetNode<Node2D>(line)
-                .AddChild(_lineStaffScene.Instantiate<Sprite2D>());
+        foreach (var line in lines) {
+            GetNode<Node2D>(line).AddChild(_lineStaffScene.Instantiate<Sprite2D>());
+        }
 
-        //TODO add special symbol under the staff if C or D
         foreach (var pitch in Pitches) {
             CreateNoteSprite(pitch);
         }
@@ -64,17 +53,34 @@ public partial class Note : Node2D {
 
     public override void _Notification(int what) {
         base._Notification(what);
-        if (what == NotificationPredelete)
+        if (what == NotificationPredelete) {
             GameManager.Instance.TimerTempo.Timeout -= Process;
+        }
     }
 
     private void Process() {
         var input = GameManager.Instance.Tilemap.GetProcessor(Position);
-        input?.Process(this);
+        if (input == null) {
+            //TODO destroy animation
+            QueueFree();
+        }
+        else {
+            input.Process(this);
+        }
     }
 
-    public override string ToString() {
-        return Instrument + " : " + Duration + " : " + Pitches;
+    public void Initialize(DurationNotation duration, PitchNotation pitch) {
+        foreach (var durationsResource in _durationsResources) {
+            _durations.Add(durationsResource.Notation, durationsResource);
+        }
+
+        foreach (var instrumentsResource in _instrumentsResources) {
+            _instruments.Add(instrumentsResource.Type, instrumentsResource);
+        }
+
+        Instrument = InstrumentType.None;
+        Duration = _durations[duration];
+        Pitches.Add(pitch);
     }
 
     public void MoveByTempo(Vector2 to) {
@@ -91,9 +97,8 @@ public partial class Note : Node2D {
             case < 0 when notation == MIN_DURATION:
                 return;
             default:
-                Duration.Notation =
-                    (DurationNotation)((int)notation + value);
-                //TODO sprite update
+                Duration = _durations[(DurationNotation)((int)notation + value)];
+                UpdateSpriteDuration();
                 break;
         }
     }
@@ -105,19 +110,20 @@ public partial class Note : Node2D {
                 return;
         }
 
-        for (var i = 0; i < Pitches.Count; i++)
-            Pitches[i] = (PitchNotation)((int)Pitches[i] + 1);
+        for (var i = 0; i < Pitches.Count; i++) {
+            Pitches[i] = (PitchNotation)((int)Pitches[i] + value);
+        }
 
         //sprite update
-        UpdateNotePitch();
+        UpdateSpritePitch();
     }
 
     public bool AddNote(Note note) {
-        if (note.Instrument != Instrument || note.Duration != Duration)
+        if (note.Instrument != Instrument || note.Duration != Duration) {
             return false;
+        }
 
-        foreach (var pitch in note.Pitches.Where(pitch =>
-                     !Pitches.Contains(pitch))) {
+        foreach (var pitch in note.Pitches.Where(pitch => !Pitches.Contains(pitch))) {
             Pitches.Add(pitch);
             CreateNoteSprite(pitch);
         }
@@ -129,43 +135,47 @@ public partial class Note : Node2D {
 
     public void InstrumentChange(InstrumentType instrument) {
         Instrument = instrument;
-        foreach (var notesSprite in _notesSprites) {
-            notesSprite[0].Modulate = instrument == InstrumentType.Guitar ? Colors.Red : Colors.Black;
+        foreach (var sprite in _notesSprites) {
+            sprite.Modulate = _instruments[instrument].Color;
         }
-        return true;
     }
 
     private void CreateNoteSprite(PitchNotation pitch) {
-        var spriteList = new List<Sprite2D>();
-        var spriteInstance = _singleNoteScene.Instantiate<Sprite2D>();
         //Duration and pitch setup
-        spriteInstance.Texture = Duration.Sprite;
-        spriteInstance.Position = _positions[pitch].Position;
-        spriteInstance.Modulate = Instrument == InstrumentType.Guitar ? Colors.Red : Colors.Black;
-        spriteInstance.ZIndex = 0;
 
-        // Add a white spot to the note if it's a minim or a semibreve
-        if (Duration.SpriteWhiteDot != null) {
-            var topSprite = new Sprite2D();
-            topSprite.Texture = Duration.SpriteWhiteDot;
-            topSprite.Position = _positions[pitch].Position;
-            topSprite.ZIndex = 1;
-            AddChild(topSprite);
-            spriteList.Add(topSprite);
-        }
+        var sprite = _singleNoteScene.Instantiate<Sprite2D>();
+        sprite.Texture = Duration.Sprite;
+        sprite.Position = _positions[pitch].Position;
+        sprite.Modulate = _instruments[Instrument].Color;
+        AddChild(sprite);
 
-        AddChild(spriteInstance);
-        // Add the note to the start of the list
-        spriteList.Insert(0, spriteInstance);
+        var whiteDotSprite = _whiteDotScene.Instantiate<Sprite2D>();
+        whiteDotSprite.Texture = Duration.SpriteWhiteDot;
+        whiteDotSprite.Position = _positions[pitch].Position;
+        whiteDotSprite.Visible = Duration.SpriteWhiteDot != null;
+        AddChild(whiteDotSprite);
 
-        _notesSprites.Add(spriteList);
+        _notesSprites.Add(sprite);
+        _whiteDotSprites.Add(whiteDotSprite);
     }
 
-    private void UpdateNotePitch() {
+    private void UpdateSpriteDuration() {
+        foreach (var sprite in _notesSprites) {
+            sprite.Texture = Duration.Sprite;
+        }
+
+        foreach (var whiteDot in _whiteDotSprites) {
+            whiteDot.Visible = Duration.SpriteWhiteDot != null;
+        }
+    }
+
+    private void UpdateSpritePitch() {
         for (var i = 0; i < _notesSprites.Count; i++) {
-            foreach (var sprite in _notesSprites[i]) {
-                sprite.Position = _positions[Pitches[i]].Position;
-            }
+            _notesSprites[i].Position = _positions[Pitches[i]].Position;
+        }
+
+        for (var i = 0; i < _whiteDotSprites.Count; i++) {
+            _whiteDotSprites[i].Position = _positions[Pitches[i]].Position;
         }
     }
 }

@@ -8,11 +8,13 @@ public partial class ProgressionManager : Node {
         {BlockType.Belt, 0},
         {BlockType.Source, 0},
         {BlockType.Speaker, 0},
+        {BlockType.Instrument1, 0},
         {BlockType.Merger, 1},
         {BlockType.ShiftUp, 1},
         {BlockType.ShiftDown, 2},
         {BlockType.SpeedUp, 3},
         {BlockType.SpeedDown, 3},
+        {BlockType.Instrument2, 4},
     };
 
     private static Godot.Collections.Dictionary<string, int> _levelRequirements = new Godot.Collections.Dictionary<string, int> {

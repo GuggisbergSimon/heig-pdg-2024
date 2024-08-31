@@ -42,6 +42,8 @@ public partial class MusicTilemap : TileMapLayer {
             BlockType.ShiftDown => new Vector2I(0, 5),
             BlockType.SpeedUp => new Vector2I(2, 4),
             BlockType.SpeedDown => new Vector2I(2, 5),
+            BlockType.Instrument1 => new Vector2I(3, 4),
+            BlockType.Instrument2 => new Vector2I(3, 5),
             _ => Vector2I.Zero
         };
     }
@@ -83,7 +85,6 @@ public partial class MusicTilemap : TileMapLayer {
         }
 
         if (Input.IsActionPressed("PrimaryAction")) {
-            // TODO add Belt to Block types
             if (_selectedTool == BlockType.Belt) {
                 //Only adjacent cells
                 if (_lastCellCoords.DistanceSquaredTo(cellCoords) > 1) {
@@ -165,6 +166,7 @@ public partial class MusicTilemap : TileMapLayer {
             }
 
             var note = _noteScene.Instantiate<Note>();
+            note.Initialize(source.Value.Duration, PitchNotation.G);
             note.Position = source.Value.Position;
             AddChild(note);
             output.Process(note);
@@ -177,7 +179,7 @@ public partial class MusicTilemap : TileMapLayer {
 
     private void CreateAt(Vector2I cellCoords) {
         if (_selectedTool == BlockType.Source) {
-            Source s = new Source(MapToLocal(cellCoords), Vector2I.Right);
+            Source s = new Source(MapToLocal(cellCoords), Vector2I.Right, DurationNotation.Half);
             if (!_sources.TryAdd(cellCoords, s)) {
                 _sources[cellCoords] = s;
             }

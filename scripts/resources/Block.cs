@@ -9,6 +9,8 @@ public enum BlockType {
     SpeedUp,
     SpeedDown,
     Speaker,
+    Instrument1,
+    Instrument2,
 }
 
 [GlobalClass]
