@@ -3,7 +3,7 @@
 namespace heigpdg2024.scripts.cells;
 
 public abstract class Processor {
-    public bool IsBusy { get; }
+    public bool IsBusy { get; protected set; }
     protected Vector2 Position { get; }
     protected Vector2I Input;
 
@@ -15,7 +15,7 @@ public abstract class Processor {
 
     public abstract void Process(Note note);
 
-    public virtual bool IsCompatible(Vector2I input, Note note) {
+    public virtual bool IsCompatible(Vector2I input) {
         return !IsBusy && input.Equals(-Input);
     }
 }

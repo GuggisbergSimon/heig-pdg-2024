@@ -22,7 +22,7 @@ public class Transit : Processor {
                 break;
             case true:
                 Processor output = GameManager.Instance.Tilemap.GetProcessor(Position, _output);
-                if (output != null && output.IsCompatible(_output, note)) {
+                if (output != null && output.IsCompatible(_output)) {
                     _callback(note);
                     output.Process(note);
                     GameManager.Instance.Tilemap.SetBusy(Position, false);

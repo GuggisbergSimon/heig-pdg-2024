@@ -93,6 +93,10 @@ public partial class MusicTilemap : TileMapLayer {
                 }
 
                 Vector2I direction = cellCoords - _lastCellCoords;
+                if (direction == Vector2I.Zero) {
+                    return;
+                }
+
                 //Update _lastCellCoords based on direction
                 SetCell(_lastCellCoords, _sourceId,
                     new Vector2I(_directionIndexes[_lastDirection], _directionIndexes[direction]));
@@ -161,7 +165,7 @@ public partial class MusicTilemap : TileMapLayer {
     private void OnTempo() {
         foreach (var source in _sources) {
             var output = GetProcessor(source.Value.Position, source.Value.Output);
-            if (output == null || output.IsBusy || !output.IsCompatible(source.Value.Output, null)) {
+            if (output == null || output.IsBusy || !output.IsCompatible(source.Value.Output)) {
                 continue;
             }
 
@@ -170,10 +174,6 @@ public partial class MusicTilemap : TileMapLayer {
             note.Position = source.Value.Position;
             AddChild(note);
             output.Process(note);
-        }
-
-        foreach (var merger in _mergers) {
-            merger.Value.ClearMemory();
         }
     }
 

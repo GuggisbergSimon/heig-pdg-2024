@@ -3,7 +3,7 @@
 namespace heigpdg2024.scripts.cells;
 
 public class Merger : Processor {
-    private Note _note;
+    private Note _singleNote;
     private Vector2I Output { get; }
     private Vector2I InputDown { get; }
 
@@ -14,34 +14,38 @@ public class Merger : Processor {
         InputDown = inputDown;
     }
 
-    public override bool IsCompatible(Vector2I input, Note note) {
+    public override bool IsCompatible(Vector2I input) {
         return !IsBusy && (input.Equals(-Input) || input.Equals(-InputDown));
     }
 
     public override void Process(Note note) {
-        if (_note == null) {
-            _note = note;
+        if (IsBusy) {
+            TryMoving(note);
         }
-        else {
-            var output =
-                GameManager.Instance.Tilemap.GetProcessor(Position, Output);
-            if (output != null && output.IsCompatible(Output, note)) {
-                note.AddNote(_note);
-                note.MoveByTempo(Position);
-                output.Process(note);
-                GameManager.Instance.Tilemap.SetBusy(
-                    GameManager.Instance.Tilemap.MapToLocal(
-                        GameManager.Instance.Tilemap.LocalToMap(Position) +
-                        Input), false);
-                GameManager.Instance.Tilemap.SetBusy(
-                    GameManager.Instance.Tilemap.MapToLocal(
-                        GameManager.Instance.Tilemap.LocalToMap(Position) +
-                        InputDown), false);
+        else if (!note.Equals(_singleNote)){
+            note.MoveByTempo(Position);
+            if (_singleNote == null) {
+                _singleNote = note;
+            }
+            else {
+                note.AddNote(_singleNote);
+                _singleNote = null;
+            
+                TryMoving(note);
             }
         }
     }
-
-    public void ClearMemory() {
-        _note = null;
+    
+    private void TryMoving(Note note) {
+        var output = GameManager.Instance.Tilemap.GetProcessor(Position, Output);
+        if (output == null || !output.IsCompatible(Output)) {
+            GameManager.Instance.Tilemap.SetBusy(Position, true);
+            IsBusy = true;
+            return;
+        }
+        
+        output.Process(note);
+        IsBusy = false;
+        GameManager.Instance.Tilemap.SetBusy(Position, false);
     }
 }

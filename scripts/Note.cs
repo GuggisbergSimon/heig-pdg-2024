@@ -85,10 +85,15 @@ public partial class Note : Node2D {
     }
 
     public void MoveByTempo(Vector2 to) {
+        MoveByTempo(to, Callable.From(() => { }));
+    }
+    
+    public void MoveByTempo(Vector2 to, Callable callback) {
         var tween = GetTree().CreateTween();
         var duration = 60 * GameManager.Instance.PercentToStartAnims /
                        GameManager.Instance.Tempo;
         tween.TweenProperty(this, "position", to, duration);
+        tween.TweenCallback(callback);
     }
 
     public void DurationChange(int value) {
