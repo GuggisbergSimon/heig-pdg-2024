@@ -1,10 +1,23 @@
-# heig-pdg-2024
+# Musicz
 
-Répertoire concernant le module PDG d'été 2024 à la HEIG-VD réalisé par groupe 6.
+Répertoire concernant le module PDG d'été 2024 à la HEIG-VD.
 
-## Mockups et recherche
+## Équipe
 
-Nous avons d'abord réfléchi au Game design en exprimant les éléments au travers via une 
+| Nom | Prénom | Github |
+| --- | ------ | ----- |
+| Guggisberg   | Simon | [@GuggisbergSimon](https://github.com/GuggisbergSimon) |
+| Bourquin	| Olin	| [@OlinB](https://github.com/OlinB) |
+| Troeltsch	| Jonas	| [@jonas-tr](https://github.com/jonas-tr) |
+| Demont	| Kilian | [@kdemont](https://github.com/kdemont) |
+
+## Description
+
+Musicz est un jeu d'automatisation de notes de musique. Le joueur doit placer des éléments sur un circuit pour que les notes de musique puissent être jouées. Le jeu est basé sur le moteur Godot et est écrit en C#.
+
+### Mockups et recherche
+
+Nous avons d'abord réfléchi au Game design en exprimant les éléments au travers via une mindmap :
 ![Game design](/rapport/img/game-design.png)
 
 Nous avons également représenté un exemple de circuit que les joueurs pourraient être amenés à créer :
