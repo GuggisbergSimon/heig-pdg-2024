@@ -20,8 +20,8 @@ public partial class Note : Node2D {
     [Export] private PackedScene _singleNoteScene;
     [Export] private PackedScene _whiteDotScene;
     [Export] private PackedScene _lineStaffScene;
-    private static readonly DurationNotation MAX_DURATION = DurationNotation.Half;
-    private static readonly DurationNotation MIN_DURATION = DurationNotation.Whole;
+    private static readonly DurationNotation MAX_DURATION = DurationNotation.Quarter;
+    private static readonly DurationNotation MIN_DURATION = DurationNotation.Half;
     private readonly Dictionary<PitchNotation, Node2D> _positions = new();
     private readonly Dictionary<DurationNotation, Duration> _durations = new();
     private readonly Dictionary<InstrumentType, Instrument> _instruments = new();
