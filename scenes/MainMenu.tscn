@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=3 uid="uid://v01tmbtwtbib"]
+[gd_scene load_steps=3 format=3 uid="uid://v01tmbtwtbib"]
 
-[ext_resource type="Script" path="res://scripts/MainMenu.cs" id="1_tioh5"]
+[ext_resource type="Script" path="res://scripts/ui/MainMenu.cs" id="1_tioh5"]
+[ext_resource type="Texture2D" uid="uid://vlqsuqitw1hu" path="res://assets/menu_quit.png" id="2_uim22"]
 
 [node name="MainMenu" type="Control"]
 layout_mode = 3
@@ -10,3 +11,55 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_tioh5")
+
+[node name="TextEdit" type="TextEdit" parent="."]
+layout_mode = 0
+offset_left = 332.0
+offset_top = 133.0
+offset_right = 764.0
+offset_bottom = 433.0
+text = "Test"
+
+[node name="MenuButtonContainer" type="PanelContainer" parent="."]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -74.0
+offset_bottom = 74.0
+grow_horizontal = 0
+
+[node name="MarginContainer" type="MarginContainer" parent="MenuButtonContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 20
+
+[node name="CloseMainMenuButton" type="TextureButton" parent="MenuButtonContainer/MarginContainer"]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+texture_normal = ExtResource("2_uim22")
+stretch_mode = 5
+script = ExtResource("1_tioh5")
+
+[node name="QuitButtonContainer" type="PanelContainer" parent="."]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -64.0
+offset_top = -48.0
+offset_right = 64.0
+grow_horizontal = 2
+grow_vertical = 0
+
+[node name="Button" type="Button" parent="QuitButtonContainer"]
+layout_mode = 2
+text = "Quit"
+script = ExtResource("1_tioh5")
+
+[connection signal="pressed" from="MenuButtonContainer/MarginContainer/CloseMainMenuButton" to="MenuButtonContainer/MarginContainer/CloseMainMenuButton" method="OnHideMainMenu"]
+[connection signal="pressed" from="QuitButtonContainer/Button" to="QuitButtonContainer/Button" method="OnQuit"]

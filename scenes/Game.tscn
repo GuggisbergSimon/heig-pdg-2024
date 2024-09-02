@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=3 uid="uid://unh04hp3qhxg"]
+[gd_scene load_steps=15 format=3 uid="uid://unh04hp3qhxg"]
 
 [ext_resource type="Script" path="res://scripts/Camera.cs" id="2_dpgbn"]
 [ext_resource type="Script" path="res://scripts/ui/ButtonTilemap.cs" id="2_h5doo"]
@@ -11,6 +11,7 @@
 [ext_resource type="StyleBox" uid="uid://g7gpjugatj1p" path="res://scenes/ui/toolbar.tres" id="7_5d5aw"]
 [ext_resource type="Script" path="res://scripts/ui/ToolsContainer.cs" id="8_th2aw"]
 [ext_resource type="Texture2D" uid="uid://clw2iwp0lhgwr" path="res://assets/menu_button.png" id="9_lv5i1"]
+[ext_resource type="Script" path="res://scripts/ui/MainMenu.cs" id="11_utwbq"]
 
 [sub_resource type="CanvasTexture" id="CanvasTexture_leg4b"]
 specular_color = Color(0.578161, 0.309391, 0.332375, 1)
@@ -137,8 +138,8 @@ script = ExtResource("8_th2aw")
 [node name="MenuButtonContainer" type="PanelContainer" parent="UICanvas"]
 modulate = Color(0.85098, 0.85098, 0.85098, 1)
 self_modulate = Color(0.85098, 0.85098, 0.85098, 1)
-offset_right = 94.0
-offset_bottom = 67.0
+offset_right = 74.0
+offset_bottom = 74.0
 theme_override_styles/panel = ExtResource("6_owmsx")
 
 [node name="MarginContainer" type="MarginContainer" parent="UICanvas/MenuButtonContainer"]
@@ -149,11 +150,16 @@ theme_override_constants/margin_right = 20
 theme_override_constants/margin_bottom = 20
 
 [node name="OpenMainMenuButton" type="TextureButton" parent="UICanvas/MenuButtonContainer/MarginContainer"]
+custom_minimum_size = Vector2(32, 32)
 layout_mode = 2
 texture_normal = ExtResource("9_lv5i1")
+stretch_mode = 5
+script = ExtResource("11_utwbq")
 
 [node name="Camera" type="Camera2D" parent="."]
 zoom = Vector2(3, 3)
 position_smoothing_enabled = true
 position_smoothing_speed = 20.0
 script = ExtResource("2_dpgbn")
+
+[connection signal="pressed" from="UICanvas/MenuButtonContainer/MarginContainer/OpenMainMenuButton" to="UICanvas/MenuButtonContainer/MarginContainer/OpenMainMenuButton" method="OnShowMainMenu"]
