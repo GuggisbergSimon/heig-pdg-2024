@@ -1,0 +1,4 @@
+[gd_scene format=3 uid="uid://cnr6d5hn5xnok"]
+
+[node name="Pitch" type="Sprite2D"]
+z_index = 20

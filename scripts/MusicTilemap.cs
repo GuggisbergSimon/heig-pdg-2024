@@ -4,16 +4,22 @@ using heigpdg2024.scripts.cells;
 
 public partial class MusicTilemap : TileMapLayer {
     [Export] private int _sourceId;
+    [Export] private PackedScene _noteScene;
 
     private BlockType _selectedTool = BlockType.Belt;
     private Vector2I _lastCellCoords;
     private Vector2I _lastDirection;
-    private Godot.Collections.Dictionary<Vector2I, bool> _busyCells = new();
-    private Godot.Collections.Dictionary<Vector2I, int> _directionIndexes = new();
+    private readonly Dictionary<Vector2I, bool> _busyCells = new();
+    private readonly Dictionary<Vector2I, int> _directionIndexes = new();
+    private readonly Dictionary<Vector2I, Merger> _mergers = new();
+    private readonly Dictionary<Vector2I, Source> _sources = new();
+
+    #region Godot methods
 
     public override void _Ready() {
         //There can be only one MusicTilemap per active scene
         GameManager.Instance.RegisterTilemap(this);
+        GameManager.Instance.TimerTempo.Timeout += OnTempo;
 
         _directionIndexes.Add(Vector2I.Right, 0);
         _directionIndexes.Add(Vector2I.Up, 1);
@@ -21,19 +27,42 @@ public partial class MusicTilemap : TileMapLayer {
         _directionIndexes.Add(Vector2I.Down, 3);
     }
 
+    #endregion
+
+    #region public methods
+
     public void UpdateTool(BlockType tool) {
         _selectedTool = tool;
     }
 
-    public override void _Input(InputEvent @event) {
-        //TODO detect clicks through UI layer
+    public void OnPressed() {
         Vector2I cellCoords = LocalToMap(GetGlobalMousePosition());
-        if (!Input.IsActionPressed("PrimaryAction") &&
-            !Input.IsActionPressed("SecondaryAction")) {
-            return;
+        DeleteAt(cellCoords);
+        if (Input.IsActionJustPressed("PrimaryAction")) {
+            if (_selectedTool == BlockType.Belt) {
+                //Add basic "->" belt
+                var data = GetCellTileData(cellCoords);
+                if (data != null && data.GetCustomData("type").AsString().Equals("belt")) {
+                    _lastDirection = -data.GetCustomData("input").AsVector2I();
+                }
+                else {
+                    _lastDirection = Vector2I.Right;
+                }
+
+                int directionIndex = _directionIndexes[_lastDirection];
+                SetCell(cellCoords, _sourceId, new Vector2I(directionIndex, directionIndex));
+                SetBusy(cellCoords, false);
+            }
+            else {
+                CreateAt(cellCoords);
+            }
         }
 
-        //Only one action per cell or only just pressed actions
+        _lastCellCoords = cellCoords;
+    }
+
+    public void OnDragged() {
+        Vector2I cellCoords = LocalToMap(GetGlobalMousePosition());
         if (_lastCellCoords.Equals(cellCoords) &&
             !Input.IsActionJustPressed("PrimaryAction") &&
             !Input.IsActionJustPressed("SecondaryAction")) {
@@ -41,121 +70,138 @@ public partial class MusicTilemap : TileMapLayer {
         }
 
         if (Input.IsActionPressed("PrimaryAction")) {
-            // TODO add Belt to Block types
             if (_selectedTool == BlockType.Belt) {
-                if (Input.IsActionJustPressed("PrimaryAction")) {
-                    //Add basic "->" belt
-                    SetCell(cellCoords, _sourceId, Vector2I.Zero);
-                    _lastDirection = Vector2I.Right;
-                    if (!_busyCells.TryAdd(cellCoords, false)) {
-                        _busyCells[cellCoords] = false;
-                    }
+                //Only adjacent cells
+                if (_lastCellCoords.DistanceSquaredTo(cellCoords) > 1) {
+                    _lastCellCoords = cellCoords;
+                    return;
                 }
-                else {
-                    //Only adjacent cells
-                    if (_lastCellCoords.DistanceSquaredTo(cellCoords) > 1) {
-                        _lastCellCoords = cellCoords;
-                        return;
-                    }
 
-                    Vector2I direction = cellCoords - _lastCellCoords;
-                    //Update _lastCellCoords based on direction
-                    SetCell(_lastCellCoords, _sourceId,
-                        new Vector2I(_directionIndexes[_lastDirection], _directionIndexes[direction]));
-                    SetCell(cellCoords, _sourceId,
-                        new Vector2I(_directionIndexes[direction], _directionIndexes[direction]));
-                    _lastDirection = direction;
+                Vector2I direction = cellCoords - _lastCellCoords;
+                if (direction == Vector2I.Zero) {
+                    return;
+                }
 
-                    if (!_busyCells.TryAdd(cellCoords, false)) {
-                        _busyCells[cellCoords] = false;
-                    }
-                }
-            }
-            else if (_selectedTool == BlockType.Source) {
-                GameManager.Instance.RegisterSource(new Source(MapToLocal(cellCoords), Vector2I.Right));
-                SetCell(cellCoords, _sourceId, _selectedTool.GetAtlasCoords());
-                if (!_busyCells.TryAdd(cellCoords, false)) {
-                    _busyCells[cellCoords] = false;
-                }
-            }
-            else if (_selectedTool == BlockType.Merger) {
-                GameManager.Instance.RegisterMerger(
-                    new Merger(MapToLocal(cellCoords), false, Vector2I.Up, Vector2I.Down, Vector2I.Right));
-                SetCell(cellCoords, _sourceId, _selectedTool.GetAtlasCoords());
-                if (!_busyCells.TryAdd(cellCoords, false)) {
-                    _busyCells[cellCoords] = false;
-                }
+                //Update _lastCellCoords based on direction
+                SetCell(_lastCellCoords, _sourceId,
+                    new Vector2I(_directionIndexes[_lastDirection], _directionIndexes[direction]));
+                SetCell(cellCoords, _sourceId,
+                    new Vector2I(_directionIndexes[direction], _directionIndexes[direction]));
+                _lastDirection = direction;
+                SetBusy(cellCoords, false);
             }
             else {
-                //Handles all other cases
-                SetCell(cellCoords, _sourceId, _selectedTool.GetAtlasCoords());
-                if (!_busyCells.TryAdd(cellCoords, false)) {
-                    _busyCells[cellCoords] = false;
-                }
+                CreateAt(cellCoords);
             }
         }
         else if (Input.IsActionPressed("SecondaryAction")) {
-            //Resets the cell
-            SetCell(cellCoords);
-            _busyCells.Remove(cellCoords);
+            DeleteAt(cellCoords);
         }
 
         _lastCellCoords = cellCoords;
     }
 
-    public Processor GetInput(Vector2 worldPos, Vector2I cellOffset) {
-        Vector2I cellCoord = LocalToMap(worldPos);
-        cellCoord += cellOffset;
-        TileData data = GetCellTileData(cellCoord);
-        if (data == null) {
-            return null;
-        }
+    public Processor GetProcessor(Vector2 worldPos, Vector2I cellOffset) {
+        var cellCoords = LocalToMap(worldPos);
+        cellCoords += cellOffset;
+        var data = GetCellTileData(cellCoords);
+        if (data == null) return null;
 
-        Vector2 cellPos = MapToLocal(cellCoord);
-        bool isBusy = _busyCells[cellCoord];
-        string type = data.GetCustomData("type").AsString();
-        Vector2I input = data.GetCustomData("input").AsVector2I();
-        if (type.Equals("speaker")) {
+        var cellPos = MapToLocal(cellCoords);
+        var isBusy = _busyCells[cellCoords];
+        var type = data.GetCustomData("type").AsString();
+        var input = data.GetCustomData("input").AsVector2I();
+        if (type.Equals("speaker"))
             return new Speaker(cellPos, isBusy, input);
-        }
 
-        Vector2I output = data.GetCustomData("output").AsVector2I();
+        var output = data.GetCustomData("output").AsVector2I();
         return type switch {
-            "belt" => new Belt(cellPos, isBusy, input, output),
-            "pitchUp" => new UpDown(cellPos, isBusy, input, output, true),
-            "pitchDown" => new UpDown(cellPos, isBusy, input, output, false),
-            //"durationUp" => new UpDown(cellPos, isBusy, input, output, true),
-            ///"durationDown" => new UpDown(cellPos, isBusy, input, output, false),
-            "merger" => FindMerger(cellPos),
+            "belt" => new Transit(cellPos, isBusy, input, output,
+                note => { }),
+            "pitchUp" => new Transit(cellPos, isBusy, input, output,
+                note => note.PitchChange(1)),
+            "pitchDown" => new Transit(cellPos, isBusy, input, output,
+                note => note.PitchChange(-1)),
+            "durationUp" => new Transit(cellPos, isBusy, input, output,
+                note => note.DurationChange(1)),
+            "durationDown" => new Transit(cellPos, isBusy, input, output,
+                note => note.DurationChange(-1)),
+            "instrument1" => new Transit(cellPos, isBusy, input, output,
+                note => note.InstrumentChange(InstrumentType.Piano)),
+            "instrument2" => new Transit(cellPos, isBusy, input, output,
+                note => note.InstrumentChange(InstrumentType.Guitar)),
+            "merger" => _mergers.GetValueOrDefault(cellCoords),
             _ => null
         };
     }
 
-    public Processor GetInput(Vector2 worldPos) {
-        return GetInput(worldPos, Vector2I.Zero);
-    }
-
-    // TODO améliorer
-    // Nouvelle méthode pour trouver un Merger à une position spécifique
-    private Merger FindMerger(Vector2 cellPos) {
-        foreach (var merger in GameManager.Instance._mergers) {
-            if (merger.getPosition() == cellPos) {
-                return merger;
-            }
-        }
-
-        return null;
+    public Processor GetProcessor(Vector2 worldPos) {
+        return GetProcessor(worldPos, Vector2I.Zero);
     }
 
     public void SetBusy(Vector2 cellPos, bool busy) {
-        _busyCells[LocalToMap(cellPos)] = busy;
+        SetBusy(LocalToMap(cellPos), busy);
     }
 
-    public void OnLevelUpButtonPressed() {
-        GameManager.Instance.ProgressionManager.levelUp();
+    #endregion
+
+    #region private methods
+
+    private void OnTempo() {
+        foreach (var source in _sources) {
+            var output = GetProcessor(source.Value.Position, source.Value.Output);
+            if (output == null || output.IsBusy || !output.IsCompatible(source.Value.Output)) {
+                continue;
+            }
+
+            var note = _noteScene.Instantiate<Note>();
+            note.Initialize(source.Value.Duration, PitchNotation.G);
+            note.Position = source.Value.Position;
+            AddChild(note);
+            output.Process(note);
+        }
     }
 
-    public void OnLevelDownButtonPressed() {
-        GameManager.Instance.ProgressionManager.levelDown();
+    private void CreateAt(Vector2I cellCoords) {
+        if (_selectedTool == BlockType.Source) {
+            Source s = new Source(MapToLocal(cellCoords), Vector2I.Right, DurationNotation.Half);
+            if (!_sources.TryAdd(cellCoords, s)) {
+                _sources[cellCoords] = s;
+            }
+
+            SetCell(cellCoords, _sourceId, _selectedTool.GetAtlasCoords());
+            SetBusy(cellCoords, false);
+        }
+        else if (_selectedTool == BlockType.Merger) {
+            Merger m = new Merger(MapToLocal(cellCoords), false, Vector2I.Up, Vector2I.Down, Vector2I.Right);
+            if (!_mergers.TryAdd(cellCoords, m)) {
+                _mergers[cellCoords] = m;
+            }
+
+            SetCell(cellCoords, _sourceId, _selectedTool.GetAtlasCoords());
+            if (!_busyCells.TryAdd(cellCoords, false))
+                _busyCells[cellCoords] = false;
+        }
+        else {
+            //Handles all other cases
+            SetCell(cellCoords, _sourceId, _selectedTool.GetAtlasCoords());
+            SetBusy(cellCoords, false);
+        }
     }
+
+    private void DeleteAt(Vector2I cellCoords) {
+        //Resets the cell
+        SetCell(cellCoords);
+        _busyCells.Remove(cellCoords);
+        _sources.Remove(cellCoords);
+        _mergers.Remove(cellCoords);
+    }
+
+    private void SetBusy(Vector2I cellCoords, bool busy) {
+        if (!_busyCells.TryAdd(cellCoords, busy)) {
+            _busyCells[cellCoords] = busy;
+        }
+    }
+
+    #endregion
 }

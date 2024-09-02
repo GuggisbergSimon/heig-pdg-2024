@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="Requirement" load_steps=2 format=3 uid="uid://d3so6yqw85bhb"]
+
+[ext_resource type="Script" path="res://scripts/resources/Requirement.cs" id="1_87l86"]
+
+[resource]
+script = ExtResource("1_87l86")
+Level = 2
+Pitches = PackedInt32Array(0)
+Duration = 2
+Instrument = 1

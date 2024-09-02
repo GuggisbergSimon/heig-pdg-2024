@@ -6,7 +6,12 @@ public class Speaker : Processor {
     public Speaker(Vector2 position, bool isBusy, Vector2I input) : base(position, isBusy, input) { }
 
     public override void Process(Note note) {
+        if (note.Instrument == InstrumentType.None) {
+            note.MoveByTempo(Position, Callable.From(note.QueueFree));
+            return;
+        }
         GameManager.Instance.AudioManager.PlayNote(note);
-        note.QueueFree();
+        GameManager.Instance.ProgressionManager.TryRequirement(note);
+        note.MoveByTempo(Position, Callable.From(note.QueueFree));
     }
 }
