@@ -28,7 +28,6 @@ public class Merger : Processor {
                 _singleNote = note;
             }
             else if (_singleNote.AddNote(note)) {
-                note.MoveByTempo(Position);
                 TryMoving(_singleNote);
                 _singleNote = null;
             }
