@@ -6,6 +6,9 @@ using heigpdg2024.scripts.resources;
 
 namespace heigpdg2024.scripts.managers;
 
+/// <summary>
+/// Class representing a progression manager, handling the progress of the player
+/// </summary>
 public partial class ProgressionManager : Node {
     [Export] private Level[] _levelsResources;
 
@@ -31,6 +34,9 @@ public partial class ProgressionManager : Node {
 
     private List<Requirement> _todos = new();
 
+    /// <summary>
+    /// Signal called on level change
+    /// </summary>
     [Signal]
     public delegate void LevelChangeEventHandler();
 
@@ -41,6 +47,10 @@ public partial class ProgressionManager : Node {
         LevelChangement(0);
     }
 
+    /// <summary>
+    /// Try to match a note to current requirements
+    /// </summary>
+    /// <param name="note">The note to try to match</param>
     public void TryRequirement(Note note) {
         foreach (var requirement in _todos) {
             if (requirement.Duration != note.Duration.Notation ||
@@ -67,10 +77,16 @@ public partial class ProgressionManager : Node {
         }
     }
 
+    /// <summary>
+    /// Level up the current tier
+    /// </summary>
     public void LevelUp() {
         LevelChangement(CurrentTier++);
     }
 
+    /// <summary>
+    /// Level down the current tier
+    /// </summary>
     public void LevelDown() {
         LevelChangement(CurrentTier--);
     }
@@ -90,6 +106,10 @@ public partial class ProgressionManager : Node {
         EmitSignal(SignalName.LevelChange);
     }
 
+    /// <summary>
+    /// Get the tools available for current tier
+    /// </summary>
+    /// <returns>A dictionary of tools and whether they're enabled, or not</returns>
     public Dictionary<BlockType, bool> GetTools() {
         return _toolsUnlocked;
     }
@@ -121,6 +141,10 @@ public partial class ProgressionManager : Node {
         }
     }
 
+    /// <summary>
+    /// Get the requirements for current tier
+    /// </summary>
+    /// <returns>An array of the requirements, as string</returns>
     public string[] GetLevelRequirements() {
         Level level =
             _levelsResources.FirstOrDefault(lvl =>

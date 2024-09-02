@@ -8,6 +8,9 @@ using System.Linq;
 
 namespace heigpdg2024.scripts.ui;
 
+/// <summary>
+/// Class representing a UI container holding the different tools as buttons
+/// </summary>
 public partial class ToolsContainer : HBoxContainer {
     public override void _Ready() {
         base._Ready();
@@ -15,6 +18,9 @@ public partial class ToolsContainer : HBoxContainer {
         GameManager.Instance.ProgressionManager.LevelChange += UpdateOptions;
     }
 
+    /// <summary>
+    /// Update the options displayed based on the progression manager 
+    /// </summary>
     public void UpdateOptions() {
         foreach (Node child in GetChildren()) {
             RemoveChild(child);

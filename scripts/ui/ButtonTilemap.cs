@@ -3,6 +3,9 @@ using heigpdg2024.scripts.managers;
 
 namespace heigpdg2024.scripts.ui;
 
+/// <summary>
+/// Class representing the interactable tilemap, through an invisible button layered all over the screen
+/// </summary>
 public partial class ButtonTilemap : Button {
     private bool _isDrawing;
 

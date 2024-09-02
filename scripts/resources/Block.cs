@@ -1,4 +1,4 @@
-﻿using Godot;
+using Godot;
 
 namespace heigpdg2024.scripts.resources;
 
@@ -33,12 +33,16 @@ static class BlockTypeMethods {
     }
 }
 
+/// <summary>
+/// Resource representing a basic kind of block, a tool, that can be used to draw on the tilemap
+/// </summary>
 [GlobalClass]
 public partial class Block : Resource {
     [Export] public BlockType Type { get; set; }
     [Export] public Texture2D Sprite { get; set; }
 
-    public Block() : this(BlockType.Source, null) { }
+    public Block() : this(BlockType.Source, null) {
+    }
 
     public Block(BlockType type, Texture2D sprite) {
         Type = type;

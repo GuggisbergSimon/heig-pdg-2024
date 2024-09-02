@@ -3,6 +3,9 @@ using heigpdg2024.scripts.tiles;
 
 namespace heigpdg2024.scripts.managers;
 
+/// <summary>
+/// Class representing a game manager as a static singleton
+/// </summary>
 public partial class GameManager : Node {
     public static GameManager Instance { get; private set; }
     public Node CurrentScene { get; private set; }
@@ -30,7 +33,7 @@ public partial class GameManager : Node {
 
         Input.SetMouseMode(Input.MouseModeEnum.Confined);
 
-        //Timer setup
+        // Timer setup
         TimerTempo = GetNode<Timer>("Timer");
         TimerTempo.SetWaitTime(60f / _tempo);
         TimerTempo.Autostart = true;
@@ -42,6 +45,10 @@ public partial class GameManager : Node {
         AudioManager = GetNode<AudioManager>("AudioManager");
     }
 
+    /// <summary>
+    /// Registers a tilemap to be referenced for other scripts
+    /// </summary>
+    /// <param name="tilemap"></param>
     public void RegisterTilemap(MusicTilemap tilemap) {
         Tilemap = tilemap;
     }
@@ -57,7 +64,7 @@ public partial class GameManager : Node {
     #region SceneManager
 
     /// <summary>
-    ///     Unloads current scene and loads the one given in argument
+    /// Unloads current scene and loads the one given in argument
     /// </summary>
     /// <param name="path">"res://scenes/Game.tscn" for example</param>
     public void GotoScene(string path) {

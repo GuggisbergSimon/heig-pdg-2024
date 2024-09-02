@@ -4,6 +4,9 @@ using heigpdg2024.scripts.notes;
 
 namespace heigpdg2024.scripts.resources;
 
+/// <summary>
+/// Resource representing the different requirements per level, there can be several requirements for level
+/// </summary>
 [GlobalClass]
 public partial class Requirement : Resource {
 	[Export] public int[] Pitches { get; set; }
