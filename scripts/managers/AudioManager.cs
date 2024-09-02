@@ -21,6 +21,9 @@ public partial class AudioManager : Node {
                 case InstrumentType.Guitar:
                     _guitar.Call("play_note", pitch.ToString(), 4, (int)duration.Notation);
                     break;
+                case InstrumentType.None:
+                    // Do nothing
+                    break;
                 default:
                     GD.PushWarning("Instrument not found");
                     break;
