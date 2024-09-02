@@ -23,15 +23,14 @@ public class Merger : Processor {
             TryMoving(note);
         }
         else if (!note.Equals(_singleNote)){
-            note.MoveByTempo(Position);
             if (_singleNote == null) {
+                note.MoveByTempo(Position);
                 _singleNote = note;
             }
-            else {
-                note.AddNote(_singleNote);
+            else if (_singleNote.AddNote(note)) {
+                note.MoveByTempo(Position);
+                TryMoving(_singleNote);
                 _singleNote = null;
-            
-                TryMoving(note);
             }
         }
     }
