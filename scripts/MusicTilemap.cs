@@ -50,6 +50,7 @@ public partial class MusicTilemap : TileMapLayer {
 
     public void OnPressed() {
         Vector2I cellCoords = LocalToMap(GetGlobalMousePosition());
+        DeleteAt(cellCoords);
         if (Input.IsActionJustPressed("PrimaryAction")) {
             if (_selectedTool == BlockType.Belt) {
                 //Add basic "->" belt
@@ -68,9 +69,6 @@ public partial class MusicTilemap : TileMapLayer {
             else {
                 CreateAt(cellCoords);
             }
-        }
-        else if (Input.IsActionPressed("SecondaryAction")) {
-            DeleteAt(cellCoords);
         }
 
         _lastCellCoords = cellCoords;
