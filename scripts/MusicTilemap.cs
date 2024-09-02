@@ -35,7 +35,7 @@ public partial class MusicTilemap : TileMapLayer {
         _selectedTool = tool;
         _atlasCoords = tool switch {
             BlockType.Belt => Vector2I.Zero,
-            BlockType.Source => new Vector2I(2, 7),
+            BlockType.Source => new Vector2I(1, 7),
             BlockType.Speaker => new Vector2I(1, 4),
             BlockType.Merger => new Vector2I(1, 5),
             BlockType.ShiftUp => new Vector2I(0, 4),
