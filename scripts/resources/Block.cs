@@ -32,6 +32,10 @@ static class BlockTypeMethods {
                 return new Vector2I(2, 4);
             case BlockType.SpeedDown:
                 return new Vector2I(2, 5);
+            case BlockType.Instrument1:
+                return new Vector2I(3, 4);
+            case BlockType.Instrument2:
+                return new Vector2I(3, 5);
             default:
                 return Vector2I.Zero;
         }
