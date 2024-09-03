@@ -54,10 +54,10 @@ public partial class MusicTilemap : TileMapLayer {
     public void OnPressed() {
         Vector2I cellCoords = LocalToMap(GetGlobalMousePosition());
         // Clears what was on the cell before drawing on it
+        var data = GetCellTileData(cellCoords);
         DeleteAt(cellCoords);
         if (Input.IsActionJustPressed("PrimaryAction")) {
             if (_selectedTool == BlockType.Belt) {
-                var data = GetCellTileData(cellCoords);
                 // Uses the date of previous cell, if it exists, to improve consistency
                 if (data != null && data.GetCustomData("type").AsString().Equals("belt")) {
                     _lastDirection = -data.GetCustomData("input").AsVector2I();
