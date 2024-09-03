@@ -9,7 +9,7 @@ public partial class GameManager : Node {
     public ProgressionManager ProgressionManager { get; private set; }
     public MusicTilemap Tilemap { get; private set; }
     public AudioManager AudioManager { get; private set; }
-    private int _tempo = 120;
+    private int _tempo;
 
     public int Tempo {
         get => _tempo;
@@ -25,6 +25,9 @@ public partial class GameManager : Node {
     public override void _Ready() {
         Instance = this;
 
+        ProgressionManager = GetNode<ProgressionManager>("ProgressionManager");
+        ProgressionManager.Initialize();
+
         Input.SetMouseMode(Input.MouseModeEnum.Confined);
 
         //Timer setup
@@ -36,8 +39,6 @@ public partial class GameManager : Node {
         // Scene Manager setup
         Viewport root = GetTree().Root;
         CurrentScene = root.GetChild(root.GetChildCount() - 1);
-        ProgressionManager =
-            GetNode<ProgressionManager>("ProgressionManager");
         AudioManager = GetNode<AudioManager>("AudioManager");
     }
 

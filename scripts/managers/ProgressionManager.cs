@@ -36,9 +36,9 @@ public partial class ProgressionManager : Node {
 
     public int CurrentTier { get; private set; }
 
-    public override void _Ready() {
+    public void Initialize() {
         base._Ready();
-        // UpdateTodos();
+        LevelChangement(0);
     }
 
     public void TryRequirement(Note note) {
