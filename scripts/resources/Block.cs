@@ -17,7 +17,7 @@ static class BlockTypeMethods {
     public static Vector2I GetAtlasCoords(this BlockType type) {
         return type switch {
             BlockType.Belt => Vector2I.Zero,
-            BlockType.Source => new Vector2I(2, 7),
+            BlockType.Source => new Vector2I(1, 7),
             BlockType.Speaker => new Vector2I(1, 4),
             BlockType.Merger => new Vector2I(1, 5),
             BlockType.ShiftUp => new Vector2I(0, 4),
