@@ -6,5 +6,5 @@
 script = ExtResource("1_jiwta")
 _toolsIntArray = PackedInt32Array()
 Tier = 7
-Tempo = 120
+Tempo = 480
 Requirements = null
