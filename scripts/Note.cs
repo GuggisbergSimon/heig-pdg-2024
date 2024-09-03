@@ -8,37 +8,37 @@ using heigpdg2024.scripts.resources;
 namespace heigpdg2024.scripts.notes;
 
 public enum PitchNotation {
-	C = 0, //Do
-	D = 1, //Ré
-	E = 2, //Mi
-	F = 3, //Fa
-	G = 4, //Sol
-	A = 5, //La
-	B = 6 //Si
+    C = 0, //Do
+    D = 1, //Ré
+    E = 2, //Mi
+    F = 3, //Fa
+    G = 4, //Sol
+    A = 5, //La
+    B = 6 //Si
 }
 
 /// <summary>
 /// Class representing a note, comprised of multiple pitches
 /// </summary>
 public partial class Note : Node2D {
-	[Export] private Duration[] _durationsResources;
-	[Export] private Instrument[] _instrumentsResources;
-	[Export] private PackedScene _singleNoteScene;
-	[Export] private PackedScene _whiteDotScene;
-	[Export] private PackedScene _lineStaffScene;
-	private static readonly DurationNotation MAX_DURATION = DurationNotation.Quarter;
-	private static readonly DurationNotation MIN_DURATION = DurationNotation.Half;
-	private readonly Dictionary<PitchNotation, Node2D> _positions = new();
-	private readonly Dictionary<DurationNotation, Duration> _durations = new();
-	private readonly Dictionary<InstrumentType, Instrument> _instruments = new();
-	private readonly List<Sprite2D> _notesSprites = new();
-	private readonly List<Sprite2D> _whiteDotSprites = new();
-	public Duration Duration { get; private set; }
-	public InstrumentType Instrument { get; private set; }
-	public List<PitchNotation> Pitches { get; } = new();
+    [Export] private Duration[] _durationsResources;
+    [Export] private Instrument[] _instrumentsResources;
+    [Export] private PackedScene _singleNoteScene;
+    [Export] private PackedScene _whiteDotScene;
+    [Export] private PackedScene _lineStaffScene;
+    private static readonly DurationNotation MAX_DURATION = DurationNotation.Quarter;
+    private static readonly DurationNotation MIN_DURATION = DurationNotation.Half;
+    private readonly Dictionary<PitchNotation, Node2D> _positions = new();
+    private readonly Dictionary<DurationNotation, Duration> _durations = new();
+    private readonly Dictionary<InstrumentType, Instrument> _instruments = new();
+    private readonly List<Sprite2D> _notesSprites = new();
+    private readonly List<Sprite2D> _whiteDotSprites = new();
+    public Duration Duration { get; private set; }
+    public InstrumentType Instrument { get; private set; }
+    public List<PitchNotation> Pitches { get; } = new();
 
-	public override void _Ready() {
-		base._Ready();
+    public override void _Ready() {
+        base._Ready();
 
         // Positions of each note 
         foreach (var pitch in Enum.GetValues<PitchNotation>()) {
@@ -51,19 +51,19 @@ public partial class Note : Node2D {
             GetNode<Node2D>(line).AddChild(_lineStaffScene.Instantiate<Sprite2D>());
         }
 
-		foreach (var pitch in Pitches) {
-			CreateNoteSprite(pitch);
-		}
+        foreach (var pitch in Pitches) {
+            CreateNoteSprite(pitch);
+        }
 
-		GameManager.Instance.TimerTempo.Timeout += Process;
-	}
+        GameManager.Instance.TimerTempo.Timeout += Process;
+    }
 
-	public override void _Notification(int what) {
-		base._Notification(what);
-		if (what == NotificationPredelete) {
-			GameManager.Instance.TimerTempo.Timeout -= Process;
-		}
-	}
+    public override void _Notification(int what) {
+        base._Notification(what);
+        if (what == NotificationPredelete) {
+            GameManager.Instance.TimerTempo.Timeout -= Process;
+        }
+    }
 
     /// <summary>
     /// Process a note at each tempo beat
@@ -89,9 +89,9 @@ public partial class Note : Node2D {
             _durations.Add(durationsResource.Notation, durationsResource);
         }
 
-		foreach (var instrumentsResource in _instrumentsResources) {
-			_instruments.Add(instrumentsResource.Type, instrumentsResource);
-		}
+        foreach (var instrumentsResource in _instrumentsResources) {
+            _instruments.Add(instrumentsResource.Type, instrumentsResource);
+        }
 
         // A note starts with no instrument
         Instrument = InstrumentType.None;
@@ -106,7 +106,7 @@ public partial class Note : Node2D {
     public void MoveByTempo(Vector2 to) {
         MoveByTempo(to, Callable.From(() => { }));
     }
-    
+
     /// <summary>
     /// Move a note towards a given position, in the timeframe allowed per beat
     /// </summary>
@@ -148,9 +148,9 @@ public partial class Note : Node2D {
                 return;
         }
 
-		for (var i = 0; i < Pitches.Count; i++) {
-			Pitches[i] = (PitchNotation)((int)Pitches[i] + value);
-		}
+        for (var i = 0; i < Pitches.Count; i++) {
+            Pitches[i] = (PitchNotation)((int)Pitches[i] + value);
+        }
 
         UpdateSpritePitch();
     }
@@ -166,10 +166,10 @@ public partial class Note : Node2D {
             return false;
         }
 
-		foreach (var pitch in note.Pitches.Where(pitch => !Pitches.Contains(pitch))) {
-			Pitches.Add(pitch);
-			CreateNoteSprite(pitch);
-		}
+        foreach (var pitch in note.Pitches.Where(pitch => !Pitches.Contains(pitch))) {
+            Pitches.Add(pitch);
+            CreateNoteSprite(pitch);
+        }
 
         // Delete the merged note 
         note.QueueFree();
@@ -199,15 +199,15 @@ public partial class Note : Node2D {
         sprite.Modulate = _instruments[Instrument].Color;
         AddChild(sprite);
 
-		var whiteDotSprite = _whiteDotScene.Instantiate<Sprite2D>();
-		whiteDotSprite.Texture = Duration.SpriteWhiteDot;
-		whiteDotSprite.Position = _positions[pitch].Position;
-		whiteDotSprite.Visible = Duration.SpriteWhiteDot != null;
-		AddChild(whiteDotSprite);
+        var whiteDotSprite = _whiteDotScene.Instantiate<Sprite2D>();
+        whiteDotSprite.Texture = Duration.SpriteWhiteDot;
+        whiteDotSprite.Position = _positions[pitch].Position;
+        whiteDotSprite.Visible = Duration.SpriteWhiteDot != null;
+        AddChild(whiteDotSprite);
 
-		_notesSprites.Add(sprite);
-		_whiteDotSprites.Add(whiteDotSprite);
-	}
+        _notesSprites.Add(sprite);
+        _whiteDotSprites.Add(whiteDotSprite);
+    }
 
     /// <summary>
     /// Update the sprite of a note when the duration has changed
@@ -217,10 +217,10 @@ public partial class Note : Node2D {
             sprite.Texture = Duration.Sprite;
         }
 
-		foreach (var whiteDot in _whiteDotSprites) {
-			whiteDot.Visible = Duration.SpriteWhiteDot != null;
-		}
-	}
+        foreach (var whiteDot in _whiteDotSprites) {
+            whiteDot.Visible = Duration.SpriteWhiteDot != null;
+        }
+    }
 
     /// <summary>
     /// Update the sprite of a note when the pitches have changed
@@ -230,8 +230,8 @@ public partial class Note : Node2D {
             _notesSprites[i].Position = _positions[Pitches[i]].Position;
         }
 
-		for (var i = 0; i < _whiteDotSprites.Count; i++) {
-			_whiteDotSprites[i].Position = _positions[Pitches[i]].Position;
-		}
-	}
+        for (var i = 0; i < _whiteDotSprites.Count; i++) {
+            _whiteDotSprites[i].Position = _positions[Pitches[i]].Position;
+        }
+    }
 }
