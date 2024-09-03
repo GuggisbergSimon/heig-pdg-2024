@@ -82,6 +82,7 @@ public partial class ProgressionManager : Node {
     /// </summary>
     public void LevelUp() {
         LevelChangement(CurrentTier++);
+        GameManager.Instance.AudioManager.PlayLevelUpSound();
     }
 
     /// <summary>

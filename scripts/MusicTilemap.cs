@@ -55,6 +55,7 @@ public partial class MusicTilemap : TileMapLayer {
         Vector2I cellCoords = LocalToMap(GetGlobalMousePosition());
         // Clears what was on the cell before drawing on it
         DeleteAt(cellCoords);
+        GameManager.Instance.AudioManager.PlayRemoveSound();
         if (Input.IsActionJustPressed("PrimaryAction")) {
             if (_selectedTool == BlockType.Belt) {
                 var data = GetCellTileData(cellCoords);
@@ -69,9 +70,11 @@ public partial class MusicTilemap : TileMapLayer {
                 int directionIndex = _directionIndexes[_lastDirection];
                 SetCell(cellCoords, _sourceId, new Vector2I(directionIndex, directionIndex));
                 SetBusy(cellCoords, false);
+                GameManager.Instance.AudioManager.PlayPlaceSound();
             }
             else {
                 CreateAt(cellCoords);
+                GameManager.Instance.AudioManager.PlayPlaceSound();
             }
         }
 
@@ -109,15 +112,18 @@ public partial class MusicTilemap : TileMapLayer {
                     new Vector2I(_directionIndexes[_lastDirection], _directionIndexes[direction]));
                 SetCell(cellCoords, _sourceId,
                     new Vector2I(_directionIndexes[direction], _directionIndexes[direction]));
+                GameManager.Instance.AudioManager.PlayPlaceSound();
                 _lastDirection = direction;
                 SetBusy(cellCoords, false);
             }
             else {
                 CreateAt(cellCoords);
+                GameManager.Instance.AudioManager.PlayPlaceSound();
             }
         }
         else if (Input.IsActionPressed("SecondaryAction")) {
             DeleteAt(cellCoords);
+            GameManager.Instance.AudioManager.PlayRemoveSound();
         }
 
         _lastCellCoords = cellCoords;

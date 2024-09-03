@@ -51,6 +51,7 @@ public partial class ToolButton : TextureButton {
     /// </summary>
     private void OnClick() {
         GameManager.Instance.Tilemap.UpdateTool(_type);
+        GameManager.Instance.AudioManager.PlaySelectSound();
     }
 
     /// <summary>
