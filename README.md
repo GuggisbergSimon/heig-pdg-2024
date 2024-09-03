@@ -58,3 +58,10 @@ Si vous souhaitez contribuer au projet, vous pouvez suivre les instructions ci-d
 Regardez les [issues](https://github.com/GuggisbergSimon/heig-pdg-2024/issues) pour voir ce doit être fait. Si vous avez une nouvelle idée, ou un problème, n'hésitez pas à ouvrir une nouvelle issue.
 
 Pour contribuer, créez une fork du projet, créez une nouvelle branche, faites vos modifications et créez une pull request. Si les tests passent et que que un autre membre du groupe a approuvé, votre code sera mergé.
+
+## Mentions légales
+
+Certain son utilisé dans le jeu sont sous licence Creative Commons. Voici la liste des sons utilisés :
+
+- [ui-sounds](https://ellr.itch.io/universal-ui-soundpack) par Nathan Gibson
+- [level-up](https://pixabay.com/users/universfield-28281460/) par universfield

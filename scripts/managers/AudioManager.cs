@@ -11,9 +11,18 @@ public partial class AudioManager : Node {
     private static Node _piano;
     private static Node _guitar;
     
+    private static AudioStreamPlayer _place;
+    private static AudioStreamPlayer _remove;
+    private static AudioStreamPlayer _select;
+    private static AudioStreamPlayer _levelUp;
+
     public override void _Ready() {
         _piano = GetNode("Sampler/Piano");
         _guitar = GetNode("Sampler/Guitar");
+        _place = GetNode<AudioStreamPlayer>("UISounds/PlaceSound");
+        _remove = GetNode<AudioStreamPlayer>("UISounds/RemoveSound");
+        _select = GetNode<AudioStreamPlayer>("UISounds/SelectSound");
+        _levelUp = GetNode<AudioStreamPlayer>("UISounds/LevelUpSound");
     }
 
     /// <summary>
@@ -40,5 +49,21 @@ public partial class AudioManager : Node {
                     break;
             }
         }
+    }
+
+    public void PlayPlaceSound() {
+        _place.Play();
+    }
+
+    public void PlayRemoveSound() {
+        _remove.Play();
+    }
+
+    public void PlaySelectSound() {
+        _select.Play();
+    }
+    
+    public void PlayLevelUpSound() {
+        _levelUp.Play();
     }
 }
