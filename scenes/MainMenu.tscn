@@ -55,7 +55,7 @@ theme_override_constants/margin_bottom = 20
 custom_minimum_size = Vector2(64, 48)
 layout_mode = 2
 size_flags_horizontal = 4
-text = "Quit"
+text = "Quit to desktop"
 
 [connection signal="pressed" from="VBoxContainer/CloseMenuButtonContainer/CloseMainMenuButton" to="." method="OnHideMainMenu"]
 [connection signal="pressed" from="VBoxContainer/QuitButtonContainer/Button" to="." method="OnQuit"]
