@@ -1,6 +1,10 @@
 using Godot;
 using System.Collections.Generic;
 using System.Linq;
+using heigpdg2024.scripts.notes;
+using heigpdg2024.scripts.resources;
+
+namespace heigpdg2024.scripts.managers;
 
 public partial class ProgressionManager : Node {
     [Export] private Requirement[] _requirementsResources;

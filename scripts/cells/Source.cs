@@ -1,4 +1,5 @@
 ﻿using Godot;
+using heigpdg2024.scripts.resources;
 
 namespace heigpdg2024.scripts.cells;
 
