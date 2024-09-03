@@ -230,7 +230,7 @@ public partial class MusicTilemap : TileMapLayer {
             }
 
             SetCell(cellCoords, _sourceId, _selectedTool.GetAtlasCoords());
-            if (!_busyCells.TryAdd(cellCoords, false))
+            if (!_busyCells.TryAdd(cellCoords, false)) {
                 _busyCells[cellCoords] = false;
             }
         }
