@@ -1,12 +1,17 @@
 using System.Collections.Generic;
 using Godot;
 using heigpdg2024.scripts.cells;
+using heigpdg2024.scripts.managers;
+using heigpdg2024.scripts.notes;
+using heigpdg2024.scripts.resources;
+
+namespace heigpdg2024.scripts.tiles;
 
 public partial class MusicTilemap : TileMapLayer {
     [Export] private int _sourceId;
     [Export] private PackedScene _noteScene;
+
     private BlockType _selectedTool = BlockType.Belt;
-    private Vector2I _atlasCoords;
     private Vector2I _lastCellCoords;
     private Vector2I _lastDirection;
     private readonly Dictionary<Vector2I, bool> _busyCells = new();
@@ -33,19 +38,6 @@ public partial class MusicTilemap : TileMapLayer {
 
     public void UpdateTool(BlockType tool) {
         _selectedTool = tool;
-        _atlasCoords = tool switch {
-            BlockType.Belt => Vector2I.Zero,
-            BlockType.Source => new Vector2I(1, 7),
-            BlockType.Speaker => new Vector2I(1, 4),
-            BlockType.Merger => new Vector2I(1, 5),
-            BlockType.ShiftUp => new Vector2I(0, 4),
-            BlockType.ShiftDown => new Vector2I(0, 5),
-            BlockType.SpeedUp => new Vector2I(2, 4),
-            BlockType.SpeedDown => new Vector2I(2, 5),
-            BlockType.Instrument1 => new Vector2I(3, 4),
-            BlockType.Instrument2 => new Vector2I(3, 5),
-            _ => Vector2I.Zero
-        };
     }
 
     public void OnPressed() {
@@ -182,7 +174,7 @@ public partial class MusicTilemap : TileMapLayer {
                 _sources[cellCoords] = s;
             }
 
-            SetCell(cellCoords, _sourceId, _atlasCoords);
+            SetCell(cellCoords, _sourceId, _selectedTool.GetAtlasCoords());
             SetBusy(cellCoords, false);
         }
         else if (_selectedTool == BlockType.Merger) {
@@ -191,13 +183,13 @@ public partial class MusicTilemap : TileMapLayer {
                 _mergers[cellCoords] = m;
             }
 
-            SetCell(cellCoords, _sourceId, _atlasCoords);
+            SetCell(cellCoords, _sourceId, _selectedTool.GetAtlasCoords());
             if (!_busyCells.TryAdd(cellCoords, false))
                 _busyCells[cellCoords] = false;
         }
         else {
             //Handles all other cases
-            SetCell(cellCoords, _sourceId, _atlasCoords);
+            SetCell(cellCoords, _sourceId, _selectedTool.GetAtlasCoords());
             SetBusy(cellCoords, false);
         }
     }

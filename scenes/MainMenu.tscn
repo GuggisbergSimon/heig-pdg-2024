@@ -1,0 +1,61 @@
+[gd_scene load_steps=4 format=3 uid="uid://v01tmbtwtbib"]
+
+[ext_resource type="Script" path="res://scripts/ui/MainMenu.cs" id="1_tioh5"]
+[ext_resource type="Theme" uid="uid://bsoui85d73h5t" path="res://resources/MainMenu.tres" id="1_uruca"]
+[ext_resource type="Texture2D" uid="uid://vlqsuqitw1hu" path="res://assets/menu_quit.png" id="2_uim22"]
+
+[node name="MainMenu" type="PanelContainer"]
+offset_right = 1152.0
+offset_bottom = 648.0
+theme = ExtResource("1_uruca")
+script = ExtResource("1_tioh5")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 2
+theme = ExtResource("1_uruca")
+
+[node name="CloseMenuButtonContainer" type="MarginContainer" parent="VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 8
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="CloseMainMenuButton" type="TextureButton" parent="VBoxContainer/CloseMenuButtonContainer"]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+size_flags_horizontal = 8
+texture_normal = ExtResource("2_uim22")
+stretch_mode = 5
+
+[node name="Spacer" type="MarginContainer" parent="VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="ExplinationContainer" type="MarginContainer" parent="VBoxContainer"]
+layout_mode = 2
+
+[node name="TextEdit" type="TextEdit" parent="VBoxContainer/ExplinationContainer"]
+custom_minimum_size = Vector2(256, 128)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+text = "Test"
+
+[node name="Spacer2" type="MarginContainer" parent="VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="QuitButtonContainer" type="MarginContainer" parent="VBoxContainer"]
+layout_mode = 2
+theme_override_constants/margin_bottom = 20
+
+[node name="Button" type="Button" parent="VBoxContainer/QuitButtonContainer"]
+custom_minimum_size = Vector2(64, 48)
+layout_mode = 2
+size_flags_horizontal = 4
+text = "Quit to desktop"
+
+[connection signal="pressed" from="VBoxContainer/CloseMenuButtonContainer/CloseMainMenuButton" to="." method="OnHideMainMenu"]
+[connection signal="pressed" from="VBoxContainer/QuitButtonContainer/Button" to="." method="OnQuit"]

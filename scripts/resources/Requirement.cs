@@ -1,5 +1,8 @@
 using System.Linq;
 using Godot;
+using heigpdg2024.scripts.notes;
+
+namespace heigpdg2024.scripts.resources;
 
 [GlobalClass]
 public partial class Requirement : Resource {

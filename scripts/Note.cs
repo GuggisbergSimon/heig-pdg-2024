@@ -2,6 +2,10 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Godot;
+using heigpdg2024.scripts.managers;
+using heigpdg2024.scripts.resources;
+
+namespace heigpdg2024.scripts.notes;
 
 public enum PitchNotation {
 	C = 0, //Do

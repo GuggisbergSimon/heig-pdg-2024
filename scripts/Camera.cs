@@ -1,5 +1,6 @@
 using Godot;
-using System;
+
+namespace heigpdg2024.scripts.camera;
 
 public partial class Camera : Camera2D {
     private int MAX_KEYBOARD_SPEED = 10;
@@ -18,22 +19,22 @@ public partial class Camera : Camera2D {
     }
 
     public override void _Input(InputEvent @event) {
-        if (Input.IsActionJustPressed("ui_up")) {
+        if (Input.IsActionJustPressed("up")) {
             _velocity_y = -MAX_KEYBOARD_SPEED;
         }
-        else if (Input.IsActionJustPressed("ui_down")) {
+        else if (Input.IsActionJustPressed("down")) {
             _velocity_y = MAX_KEYBOARD_SPEED;
         }
-        else if (Input.IsActionJustPressed("ui_left")) {
+        else if (Input.IsActionJustPressed("left")) {
             _velocity_x = -MAX_KEYBOARD_SPEED;
         }
-        else if (Input.IsActionJustPressed("ui_right")) {
+        else if (Input.IsActionJustPressed("right")) {
             _velocity_x = MAX_KEYBOARD_SPEED;
         }
-        else if (Input.IsActionJustReleased("ui_up") || Input.IsActionJustReleased("ui_down")) {
+        else if (Input.IsActionJustReleased("up") || Input.IsActionJustReleased("down")) {
             _velocity_y = 0;
         }
-        else if (Input.IsActionJustReleased("ui_left") || Input.IsActionJustReleased("ui_right")) {
+        else if (Input.IsActionJustReleased("left") || Input.IsActionJustReleased("right")) {
             _velocity_x = 0;
         }
         else if (@event is InputEventMouseMotion mouseEvent) {

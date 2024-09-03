@@ -1,5 +1,7 @@
 using Godot;
-using heigpdg2024.scripts.cells;
+using heigpdg2024.scripts.tiles;
+
+namespace heigpdg2024.scripts.managers;
 
 public partial class GameManager : Node {
 	public static GameManager Instance { get; private set; }
@@ -36,9 +38,17 @@ public partial class GameManager : Node {
 		AudioManager = GetNode<AudioManager>("AudioManager");
 	}
 
-	public void RegisterTilemap(MusicTilemap tilemap) {
-		Tilemap = tilemap;
-	}
+    public void RegisterTilemap(MusicTilemap tilemap) {
+        Tilemap = tilemap;
+    }
+    
+    public void Pause() {
+        TimerTempo.Stop();
+    }
+    
+    public void Play() {
+        TimerTempo.Start();
+    }
 
 	#region SceneManager
 
