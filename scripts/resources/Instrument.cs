@@ -8,6 +8,9 @@ public enum InstrumentType {
 	Guitar
 }
 
+/// <summary>
+/// Resource representing the different instruments and their color
+/// </summary>
 [GlobalClass]
 public partial class Instrument : Resource {
 	[Export] public InstrumentType Type { get; set; }

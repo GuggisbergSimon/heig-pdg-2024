@@ -2,18 +2,16 @@ using Godot;
 
 namespace heigpdg2024.scripts.camera;
 
+/// <summary>
+/// Class representing a Camera
+/// </summary>
 public partial class Camera : Camera2D {
     private int MAX_KEYBOARD_SPEED = 10;
     private int MAX_MOUSE_SPEED = 3;
     private int MOUSE_BUFFER = 5;
-    private int _velocity_x = 0;
-    private int _velocity_y = 0;
+    private int _velocity_x;
+    private int _velocity_y;
 
-    // Called when the node enters the scene tree for the first time.
-    public override void _Ready() {
-    }
-
-    // Called every frame. 'delta' is the elapsed time since the previous frame.
     public override void _Process(double delta) {
         Position += new Vector2(_velocity_x, _velocity_y);
     }

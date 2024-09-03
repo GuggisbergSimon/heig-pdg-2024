@@ -9,6 +9,9 @@ public enum DurationNotation {
     Eighth //Croche
 }
 
+/// <summary>
+/// Resource representing the different durations available and their representation
+/// </summary>
 [GlobalClass]
 public partial class Duration : Resource {
     [Export] public DurationNotation Notation { get; set; }

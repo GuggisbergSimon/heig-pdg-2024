@@ -3,28 +3,33 @@ using heigpdg2024.scripts.managers;
 
 namespace heigpdg2024.scripts.ui;
 
+/// <summary>
+/// Class representing the main menu of the game
+/// </summary>
 public partial class MainMenu : Control {
-
-    // Called when the node enters the scene tree for the first time.
     public override void _Ready() {
         Hide();
-        
     }
 
-    // Called every frame. 'delta' is the elapsed time since the previous frame.
-    public override void _Process(double delta) {
-    }
-
+    /// <summary>
+    /// Show the main menu
+    /// </summary>
     public void OnShowMainMenu() {
         GameManager.Instance.Pause();
         Show();
     }
 
+    /// <summary>
+    /// Hide the main menu
+    /// </summary>
     public void OnHideMainMenu() {
         GameManager.Instance.Play();
         Hide();
     }
     
+    /// <summary>
+    /// Quit the game
+    /// </summary>
     public void OnQuit() {
         GetTree().Quit();
     }

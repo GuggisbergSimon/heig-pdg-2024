@@ -7,6 +7,9 @@ using heigpdg2024.scripts.resources;
 
 namespace heigpdg2024.scripts.tiles;
 
+/// <summary>
+/// Class representing a tilemap used to produce music
+/// </summary>
 public partial class MusicTilemap : TileMapLayer {
     [Export] private int _sourceId;
     [Export] private PackedScene _noteScene;
@@ -22,10 +25,11 @@ public partial class MusicTilemap : TileMapLayer {
     #region Godot methods
 
     public override void _Ready() {
-        //There can be only one MusicTilemap per active scene
+        // Tilemap setup
         GameManager.Instance.RegisterTilemap(this);
         GameManager.Instance.TimerTempo.Timeout += OnTempo;
 
+        // Direction setup
         _directionIndexes.Add(Vector2I.Right, 0);
         _directionIndexes.Add(Vector2I.Up, 1);
         _directionIndexes.Add(Vector2I.Left, 2);
@@ -36,17 +40,25 @@ public partial class MusicTilemap : TileMapLayer {
 
     #region public methods
 
+    /// <summary>
+    /// Update tilemap tool with a new one
+    /// </summary>
+    /// <param name="tool">The tool to update the tilemap with</param>
     public void UpdateTool(BlockType tool) {
         _selectedTool = tool;
     }
 
+    /// <summary>
+    /// Called when the tilemap is pressed, initially
+    /// </summary>
     public void OnPressed() {
         Vector2I cellCoords = LocalToMap(GetGlobalMousePosition());
+        // Clears what was on the cell before drawing on it
         DeleteAt(cellCoords);
         if (Input.IsActionJustPressed("PrimaryAction")) {
             if (_selectedTool == BlockType.Belt) {
-                //Add basic "->" belt
                 var data = GetCellTileData(cellCoords);
+                // Uses the date of previous cell, if it exists, to improve consistency
                 if (data != null && data.GetCustomData("type").AsString().Equals("belt")) {
                     _lastDirection = -data.GetCustomData("input").AsVector2I();
                 }
@@ -66,8 +78,12 @@ public partial class MusicTilemap : TileMapLayer {
         _lastCellCoords = cellCoords;
     }
 
+    /// <summary>
+    /// Called when the mouse is dragged over the tilemap
+    /// </summary>
     public void OnDragged() {
         Vector2I cellCoords = LocalToMap(GetGlobalMousePosition());
+        // Preventive return if the cell hasn't changed
         if (_lastCellCoords.Equals(cellCoords) &&
             !Input.IsActionJustPressed("PrimaryAction") &&
             !Input.IsActionJustPressed("SecondaryAction")) {
@@ -76,18 +92,19 @@ public partial class MusicTilemap : TileMapLayer {
 
         if (Input.IsActionPressed("PrimaryAction")) {
             if (_selectedTool == BlockType.Belt) {
-                //Only adjacent cells
+                // Only adjacent cells
                 if (_lastCellCoords.DistanceSquaredTo(cellCoords) > 1) {
                     _lastCellCoords = cellCoords;
                     return;
                 }
 
                 Vector2I direction = cellCoords - _lastCellCoords;
+                // Preventive return to avoid errors
                 if (direction == Vector2I.Zero) {
                     return;
                 }
 
-                //Update _lastCellCoords based on direction
+                // Update _lastCellCoords based on direction
                 SetCell(_lastCellCoords, _sourceId,
                     new Vector2I(_directionIndexes[_lastDirection], _directionIndexes[direction]));
                 SetCell(cellCoords, _sourceId,
@@ -106,19 +123,29 @@ public partial class MusicTilemap : TileMapLayer {
         _lastCellCoords = cellCoords;
     }
 
+    /// <summary>
+    /// Get the processor, if there is any, located at a given position
+    /// </summary>
+    /// <param name="worldPos">The position in the world of the processor to get</param>
+    /// <param name="cellOffset">An offset, in tile coordinates, to apply to the position</param>
+    /// <returns>A processor, if there is any, null otherwise</returns>
     public Processor GetProcessor(Vector2 worldPos, Vector2I cellOffset) {
         var cellCoords = LocalToMap(worldPos);
         cellCoords += cellOffset;
         var data = GetCellTileData(cellCoords);
-        if (data == null) return null;
+        if (data == null) {
+            return null;
+        }
 
         var cellPos = MapToLocal(cellCoords);
         var isBusy = _busyCells[cellCoords];
         var type = data.GetCustomData("type").AsString();
         var input = data.GetCustomData("input").AsVector2I();
-        if (type.Equals("speaker"))
+        if (type.Equals("speaker")) {
             return new Speaker(cellPos, isBusy, input);
+        }
 
+        // Handles processors with output tilemap data
         var output = data.GetCustomData("output").AsVector2I();
         return type switch {
             "belt" => new Transit(cellPos, isBusy, input, output,
@@ -140,10 +167,20 @@ public partial class MusicTilemap : TileMapLayer {
         };
     }
 
+    /// <summary>
+    /// Get the processor, if there is any, located at a given position
+    /// </summary>
+    /// <param name="worldPos">The position in the world of the processor to get</param>
+    /// <returns>A processor, if there is any, null otherwise</returns>
     public Processor GetProcessor(Vector2 worldPos) {
         return GetProcessor(worldPos, Vector2I.Zero);
     }
 
+    /// <summary>
+    /// Mark a given cell as busy based on a given value
+    /// </summary>
+    /// <param name="cellPos">The position in the world of the cell</param>
+    /// <param name="busy">Whether the cell is busy, or not</param>
     public void SetBusy(Vector2 cellPos, bool busy) {
         SetBusy(LocalToMap(cellPos), busy);
     }
@@ -152,6 +189,9 @@ public partial class MusicTilemap : TileMapLayer {
 
     #region private methods
 
+    /// <summary>
+    /// Called every tempo beat
+    /// </summary>
     private void OnTempo() {
         foreach (var source in _sources) {
             var output = GetProcessor(source.Value.Position, source.Value.Output);
@@ -167,7 +207,12 @@ public partial class MusicTilemap : TileMapLayer {
         }
     }
 
+    /// <summary>
+    /// Create a block, not a belt, at the given cell coordinates
+    /// </summary>
+    /// <param name="cellCoords">The coordinates of the tilemap on which to create a block</param>
     private void CreateAt(Vector2I cellCoords) {
+        // Handles sources
         if (_selectedTool == BlockType.Source) {
             Source s = new Source(MapToLocal(cellCoords), Vector2I.Right, DurationNotation.Half);
             if (!_sources.TryAdd(cellCoords, s)) {
@@ -177,6 +222,7 @@ public partial class MusicTilemap : TileMapLayer {
             SetCell(cellCoords, _sourceId, _selectedTool.GetAtlasCoords());
             SetBusy(cellCoords, false);
         }
+        // Handles mergers
         else if (_selectedTool == BlockType.Merger) {
             Merger m = new Merger(MapToLocal(cellCoords), false, Vector2I.Up, Vector2I.Down, Vector2I.Right);
             if (!_mergers.TryAdd(cellCoords, m)) {
@@ -184,8 +230,9 @@ public partial class MusicTilemap : TileMapLayer {
             }
 
             SetCell(cellCoords, _sourceId, _selectedTool.GetAtlasCoords());
-            if (!_busyCells.TryAdd(cellCoords, false))
+            if (!_busyCells.TryAdd(cellCoords, false)) {
                 _busyCells[cellCoords] = false;
+            }
         }
         else {
             //Handles all other cases
@@ -194,6 +241,10 @@ public partial class MusicTilemap : TileMapLayer {
         }
     }
 
+    /// <summary>
+    /// Clears a given cell from any kind of block on it
+    /// </summary>
+    /// <param name="cellCoords">The tilemap coordinates to clear</param>
     private void DeleteAt(Vector2I cellCoords) {
         //Resets the cell
         SetCell(cellCoords);
@@ -202,6 +253,11 @@ public partial class MusicTilemap : TileMapLayer {
         _mergers.Remove(cellCoords);
     }
 
+    /// <summary>
+    /// Mark a given cell as busy based on a given value
+    /// </summary>
+    /// <param name="cellCoords">The tilemap coordinates of the cell</param>
+    /// <param name="busy">Whether the cell is busy, or not</param>
     private void SetBusy(Vector2I cellCoords, bool busy) {
         if (!_busyCells.TryAdd(cellCoords, busy)) {
             _busyCells[cellCoords] = busy;
