@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="Level" load_steps=4 format=3 uid="uid://cvssejlxmvrwh"]
+
+[ext_resource type="Script" path="res://scripts/resources/Level.cs" id="1_5cco2"]
+[ext_resource type="Resource" uid="uid://d3so6yqw85bhb" path="res://resources/requirement/2a.tres" id="1_d4l33"]
+[ext_resource type="Resource" uid="uid://dnxoc5gkkekag" path="res://resources/requirement/2b.tres" id="2_h38u4"]
+
+[resource]
+script = ExtResource("1_5cco2")
+_toolsIntArray = PackedInt32Array(8, 9)
+Tier = 2
+Tempo = 120
+Requirements = Array[Object]([ExtResource("1_d4l33"), ExtResource("2_h38u4")])

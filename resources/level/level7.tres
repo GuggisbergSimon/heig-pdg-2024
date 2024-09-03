@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="Level" load_steps=2 format=3 uid="uid://pcq5pacwpmrx"]
+
+[ext_resource type="Script" path="res://scripts/resources/Level.cs" id="1_jiwta"]
+
+[resource]
+script = ExtResource("1_jiwta")
+_toolsIntArray = PackedInt32Array()
+Tier = 7
+Tempo = 120
+Requirements = null

@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="Level" load_steps=2 format=3 uid="uid://bpr8fwcjalycd"]
+
+[ext_resource type="Script" path="res://scripts/resources/Level.cs" id="1_4maxm"]
+
+[resource]
+script = ExtResource("1_4maxm")
+_toolsIntArray = PackedInt32Array(8)
+Tier = 3
+Tempo = 120
+Requirements = null

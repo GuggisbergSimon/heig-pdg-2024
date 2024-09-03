@@ -4,7 +4,6 @@
 
 [resource]
 script = ExtResource("1_rfkfe")
-Level = 4
 Pitches = PackedInt32Array(0, 6)
 Duration = 1
 Instrument = 2
