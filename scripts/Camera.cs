@@ -1,5 +1,6 @@
 using Godot;
-using System;
+
+namespace heigpdg2024.scripts.camera;
 
 public partial class Camera : Camera2D {
     private int MAX_KEYBOARD_SPEED = 10;

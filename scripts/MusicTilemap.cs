@@ -1,6 +1,11 @@
 using System.Collections.Generic;
 using Godot;
 using heigpdg2024.scripts.cells;
+using heigpdg2024.scripts.managers;
+using heigpdg2024.scripts.notes;
+using heigpdg2024.scripts.resources;
+
+namespace heigpdg2024.scripts.tiles;
 
 public partial class MusicTilemap : TileMapLayer {
     [Export] private int _sourceId;

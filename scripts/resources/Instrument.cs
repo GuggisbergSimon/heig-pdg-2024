@@ -1,5 +1,7 @@
 ﻿using Godot;
 
+namespace heigpdg2024.scripts.resources;
+
 public enum InstrumentType {
     None,
     Piano,

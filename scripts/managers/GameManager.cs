@@ -1,5 +1,7 @@
 using Godot;
-using heigpdg2024.scripts.cells;
+using heigpdg2024.scripts.tiles;
+
+namespace heigpdg2024.scripts.managers;
 
 public partial class GameManager : Node {
     public static GameManager Instance { get; private set; }
