@@ -57,7 +57,8 @@ Si vous souhaitez contribuer au projet, vous pouvez suivre les instructions ci-d
 
 Regardez les [issues](https://github.com/GuggisbergSimon/heig-pdg-2024/issues) pour voir ce doit être fait. Si vous avez une nouvelle idée, ou un problème, n'hésitez pas à ouvrir une nouvelle issue.
 
-Pour contribuer, créez une fork du projet, créez une nouvelle branche, faites vos modifications et créez une pull request. Si les tests passent et que que un autre membre du groupe a approuvé, votre code sera mergé.
+
+Pour contribuer, créez une fork du projet, faites vos modifications, créez une pull request et lier la à l'issue que vous resolvez. Si les tests passent et que que un membre du groupe a approuvé, votre code sera mergé.
 
 ## Mentions légales
 

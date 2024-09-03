@@ -35,6 +35,10 @@
 
 Créer un jeu d'automation (comme. Factorio, Satisfactory, shapez.io, etc.) dans le thème de la musique. Le joueur doit livrer des notes individuelles, puis des accords et enfin des suites de notes pour créer des courtes mélodies.
 
+=== Problématique
+
+Vous avez un voisin, M. usic qui est un voisin très bruyant. Il joue de la musique toute la journée et toute la nuit. Vous avez décidé de lui rendre la pareille en créant un jeu d'automation musical. Vous devez créer des mélodies pour le rendre fou.
+
 === Exigences fonctionnelles
 
 - Le joueur doit recevoir des objectifs spécifiques à accomplir pour pouvoir progresser dans le jeu.
