@@ -7,123 +7,130 @@ using heigpdg2024.scripts.resources;
 namespace heigpdg2024.scripts.managers;
 
 public partial class ProgressionManager : Node {
-	[Export] private Level[] _levelsResources;
+    [Export] private Level[] _levelsResources;
 
-	private static readonly BlockType[] _defaultTools = {
-		BlockType.Belt,
-		BlockType.Source,
-		BlockType.Speaker
-	};
+    private static readonly BlockType[] _defaultTools = {
+        BlockType.Belt,
+        BlockType.Source,
+        BlockType.Speaker
+    };
 
-	private static Dictionary<BlockType, bool> _toolsUnlocked = new Dictionary<BlockType, bool> {
-		{ BlockType.Belt, true },
-		{ BlockType.Source, true },
-		{ BlockType.Speaker, true },
-		{ BlockType.Instrument1, false },
-		{ BlockType.ShiftUp, false },
-		{ BlockType.ShiftDown, false },
-		{ BlockType.SpeedUp, false },
-		{ BlockType.SpeedDown, false },
-		{ BlockType.Merger, false },
-		{ BlockType.Instrument2, false },
-	};
+    private static Dictionary<BlockType, bool> _toolsUnlocked =
+        new Dictionary<BlockType, bool> {
+            { BlockType.Belt, true },
+            { BlockType.Source, true },
+            { BlockType.Speaker, true },
+            { BlockType.Instrument1, false },
+            { BlockType.ShiftUp, false },
+            { BlockType.ShiftDown, false },
+            { BlockType.SpeedUp, false },
+            { BlockType.SpeedDown, false },
+            { BlockType.Merger, false },
+            { BlockType.Instrument2, false },
+        };
 
-	private List<Requirement> _todos = new();
+    private List<Requirement> _todos = new();
 
-	[Signal]
-	public delegate void LevelChangeEventHandler();
+    [Signal]
+    public delegate void LevelChangeEventHandler();
 
-	public int CurrentTier { get; private set; }
+    public int CurrentTier { get; private set; }
 
-	public override void _Ready() {
-		base._Ready();
-	   // UpdateTodos();
-	}
+    public override void _Ready() {
+        base._Ready();
+        // UpdateTodos();
+    }
 
-	public void TryRequirement(Note note) {
-		foreach (var requirement in _todos) {
-			if (requirement.Duration != note.Duration.Notation || requirement.Instrument != note.Instrument ||
-				requirement.Pitches.Length != note.Pitches.Count) {
-				continue;
-			}
+    public void TryRequirement(Note note) {
+        foreach (var requirement in _todos) {
+            if (requirement.Duration != note.Duration.Notation ||
+                requirement.Instrument != note.Instrument ||
+                requirement.Pitches.Length != note.Pitches.Count) {
+                continue;
+            }
 
-			List<PitchNotation> requiredPitches = requirement.Pitches.Select(pitch => (PitchNotation)pitch).ToList();
-			requiredPitches.Sort();
-			note.Pitches.Sort();
-			if (requiredPitches.Where((t, i) => t != note.Pitches[i]).Any()) {
-				return;
-			}
+            List<PitchNotation> requiredPitches = requirement.Pitches
+                .Select(pitch => (PitchNotation)pitch).ToList();
+            requiredPitches.Sort();
+            note.Pitches.Sort();
+            if (requiredPitches.Where((t, i) => t != note.Pitches[i])
+                .Any()) {
+                return;
+            }
 
-			_todos.Remove(requirement);
-			break;
-		}
-		
-		if (_todos.Count == 0) {
-			LevelUp();
-		}
-	}
+            _todos.Remove(requirement);
+            break;
+        }
 
-	public void LevelUp() {
-		LevelChangement(CurrentTier++);
-	}
+        if (_todos.Count == 0) {
+            LevelUp();
+        }
+    }
 
-	public void LevelDown() {
-		LevelChangement(CurrentTier--);
-	}
+    public void LevelUp() {
+        LevelChangement(CurrentTier++);
+    }
 
-	private void LevelChangement(int oldTier) {
-		Level level = _levelsResources.FirstOrDefault(lvl => lvl.Tier == CurrentTier);
-		if (level == null) {
-			CurrentTier = oldTier;
-			return;
-		}
-		GameManager.Instance.Tempo = level.Tempo;
-		UpdateTools(level);
-		UpdateTodos(level);
-		EmitSignal(SignalName.LevelChange);
-		
-	}
+    public void LevelDown() {
+        LevelChangement(CurrentTier--);
+    }
 
-	public Dictionary<BlockType, bool> GetTools() {
-		return _toolsUnlocked;
-	}
+    private void LevelChangement(int oldTier) {
+        Level level =
+            _levelsResources.FirstOrDefault(lvl =>
+                lvl.Tier == CurrentTier);
+        if (level == null) {
+            CurrentTier = oldTier;
+            return;
+        }
 
-	private void UpdateTools(Level level) {
-		foreach (var tool in _toolsUnlocked.Keys.ToList()) {
-				_toolsUnlocked[tool] = false;
-		}
+        GameManager.Instance.Tempo = level.Tempo;
+        UpdateTools(level);
+        UpdateTodos(level);
+        EmitSignal(SignalName.LevelChange);
+    }
 
-		foreach (var tool in _defaultTools) {
-			_toolsUnlocked[tool] = true;
-		}
+    public Dictionary<BlockType, bool> GetTools() {
+        return _toolsUnlocked;
+    }
 
-		if (level != null) {
-			foreach (BlockType tool in level.Tools) {
-				_toolsUnlocked[tool] = true;
-			}
-		}
-	}
-	
-	private void UpdateTodos(Level level) {
-			if (level != null) {
-				_todos = level.Requirements != null ? level.Requirements.ToList() : new List<Requirement>();
-			}
-			else {
-				_todos.Clear();
-			}
-	}
+    private void UpdateTools(Level level) {
+        foreach (var tool in _toolsUnlocked.Keys.ToList()) {
+            _toolsUnlocked[tool] = false;
+        }
 
-	public string[] GetLevelRequirements() {
-			// Trouver le niveau correspondant au CurrentTier
-			Level level = _levelsResources.FirstOrDefault(lvl => lvl.Tier == CurrentTier);
+        foreach (var tool in _defaultTools) {
+            _toolsUnlocked[tool] = true;
+        }
 
-			// Vérifier si le niveau existe et a des requirements
-			if (level != null && level.Requirements != null) {
-				// Transformer chaque requirement en chaîne de caractères
-				return level.Requirements.Select(req => req.ToString()).ToArray();
-			}
+        if (level != null) {
+            foreach (BlockType tool in level.Tools) {
+                _toolsUnlocked[tool] = true;
+            }
+        }
+    }
 
-			// Retourner un tableau vide si aucun niveau n'est trouvé ou si aucun requirement n'est présent
-			return new string[0];
-		}
+    private void UpdateTodos(Level level) {
+        if (level != null) {
+            _todos = level.Requirements != null
+                ? level.Requirements.ToList()
+                : new List<Requirement>();
+        }
+        else {
+            _todos.Clear();
+        }
+    }
+
+    public string[] GetLevelRequirements() {
+        Level level =
+            _levelsResources.FirstOrDefault(lvl =>
+                lvl.Tier == CurrentTier);
+
+        if (level != null && level.Requirements != null) {
+            return level.Requirements.Select(req => req.ToString())
+                .ToArray();
+        }
+
+        return new string[0];
+    }
 }
