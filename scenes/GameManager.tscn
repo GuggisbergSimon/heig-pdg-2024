@@ -3,22 +3,22 @@
 [ext_resource type="Script" path="res://scripts/managers/GameManager.cs" id="1_i8ltt"]
 [ext_resource type="Script" path="res://scripts/managers/ProgressionManager.cs" id="2_41yyc"]
 [ext_resource type="Script" path="res://scripts/managers/AudioManager.cs" id="3_ecg0a"]
-[ext_resource type="Resource" uid="uid://da7f5jo5e44ku" path="res://resources/requirement/0.tres" id="3_pmck4"]
-[ext_resource type="PackedScene" path="res://scenes/sampler.tscn" id="4_mlq4f"]
-[ext_resource type="Resource" uid="uid://brhrroduktyin" path="res://resources/requirement/1a.tres" id="4_xdfk6"]
-[ext_resource type="Resource" uid="uid://n4b8naa145rj" path="res://resources/requirement/1b.tres" id="5_apqyj"]
-[ext_resource type="Resource" uid="uid://d3so6yqw85bhb" path="res://resources/requirement/2a.tres" id="6_fso35"]
-[ext_resource type="Resource" uid="uid://dnxoc5gkkekag" path="res://resources/requirement/2b.tres" id="7_mhv70"]
-[ext_resource type="Resource" uid="uid://c7sfgdtkyx1sp" path="res://resources/requirement/3a.tres" id="8_1x0k5"]
-[ext_resource type="Resource" uid="uid://dyu1urrvx5om3" path="res://resources/requirement/3b.tres" id="9_6mrkk"]
-[ext_resource type="Resource" uid="uid://bhfhaqch20tii" path="res://resources/requirement/4.tres" id="10_ds76i"]
+[ext_resource type="Resource" uid="uid://bk6hwl67x6e74" path="res://resources/level/level0.tres" id="3_v1i2d"]
+[ext_resource type="Resource" uid="uid://blah7idp33xug" path="res://resources/level/level1.tres" id="4_ity60"]
+[ext_resource type="PackedScene" uid="uid://rcchd42cr7kf" path="res://scenes/sampler.tscn" id="4_mlq4f"]
+[ext_resource type="Resource" uid="uid://cvssejlxmvrwh" path="res://resources/level/level2.tres" id="5_apmfm"]
+[ext_resource type="Resource" uid="uid://bpr8fwcjalycd" path="res://resources/level/level3.tres" id="6_hfsq5"]
+[ext_resource type="Resource" uid="uid://bn72gruwva31u" path="res://resources/level/level4.tres" id="7_b27m2"]
+[ext_resource type="Resource" uid="uid://c7pli5liqdkud" path="res://resources/level/level5.tres" id="8_llvfu"]
+[ext_resource type="Resource" uid="uid://denbywma6lk1c" path="res://resources/level/level6.tres" id="9_axllr"]
+[ext_resource type="Resource" uid="uid://pcq5pacwpmrx" path="res://resources/level/level7.tres" id="10_ljj2n"]
 
 [node name="GameManager" type="Node"]
 script = ExtResource("1_i8ltt")
 
 [node name="ProgressionManager" type="Node" parent="."]
 script = ExtResource("2_41yyc")
-_requirementsResources = Array[Object]([ExtResource("3_pmck4"), ExtResource("4_xdfk6"), ExtResource("5_apqyj"), ExtResource("6_fso35"), ExtResource("7_mhv70"), ExtResource("8_1x0k5"), ExtResource("9_6mrkk"), ExtResource("10_ds76i")])
+_levelsResources = Array[Object]([ExtResource("3_v1i2d"), ExtResource("4_ity60"), ExtResource("5_apmfm"), ExtResource("6_hfsq5"), ExtResource("7_b27m2"), ExtResource("8_llvfu"), ExtResource("9_axllr"), ExtResource("10_ljj2n")])
 
 [node name="AudioManager" type="Node" parent="."]
 script = ExtResource("3_ecg0a")

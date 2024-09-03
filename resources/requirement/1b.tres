@@ -4,7 +4,6 @@
 
 [resource]
 script = ExtResource("1_wtmrj")
-Level = 1
 Pitches = PackedInt32Array(6)
 Duration = 1
 Instrument = 1

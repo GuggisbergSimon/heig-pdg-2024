@@ -4,7 +4,6 @@
 
 [resource]
 script = ExtResource("1_uw4oc")
-Level = 2
 Pitches = PackedInt32Array(6)
 Duration = 1
 Instrument = 1
