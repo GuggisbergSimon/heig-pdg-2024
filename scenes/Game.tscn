@@ -7,7 +7,7 @@
 [ext_resource type="StyleBox" uid="uid://inurytti2qge" path="res://scenes/ui/levelui.tres" id="4_ek0vq"]
 [ext_resource type="Script" path="res://scripts/ui/DevButtonsContainer.cs" id="4_wcymb"]
 [ext_resource type="Script" path="res://scripts/ui/LevelRequirements.cs" id="5_s87p4"]
-[ext_resource type="StyleBox" uid="uid://qn8l24kbgrl" path="res://scenes/menuButton.tres" id="6_owmsx"]
+[ext_resource type="StyleBox" path="res://scenes/menuButton.tres" id="6_owmsx"]
 [ext_resource type="StyleBox" uid="uid://g7gpjugatj1p" path="res://scenes/ui/toolbar.tres" id="7_5d5aw"]
 [ext_resource type="Script" path="res://scripts/ui/ToolsContainer.cs" id="8_th2aw"]
 [ext_resource type="Texture2D" uid="uid://clw2iwp0lhgwr" path="res://assets/menu_button.png" id="9_lv5i1"]
@@ -105,7 +105,7 @@ horizontal_alignment = 2
 script = ExtResource("3_w1oj0")
 metadata/_edit_use_anchors_ = true
 
-[node name="LevelRequirementsContainer" type="HBoxContainer" parent="UICanvas/LevelInfoContainer/MarginContainer/VBoxContainer"]
+[node name="LevelRequirementsContainer" type="VBoxContainer" parent="UICanvas/LevelInfoContainer/MarginContainer/VBoxContainer"]
 layout_mode = 2
 script = ExtResource("5_s87p4")
 

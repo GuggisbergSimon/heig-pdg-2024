@@ -6,7 +6,7 @@
 
 [resource]
 script = ExtResource("1_mar7x")
-_toolsIntArray = PackedInt32Array(8, 3, 4)
+_toolsIntArray = PackedInt32Array(3, 4)
 Tier = 1
 Tempo = 120
 Requirements = Array[Object]([ExtResource("1_5o8dj"), ExtResource("2_rvhdf")])
