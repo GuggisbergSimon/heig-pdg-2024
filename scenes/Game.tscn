@@ -162,5 +162,6 @@ zoom = Vector2(3, 3)
 position_smoothing_enabled = true
 position_smoothing_speed = 20.0
 script = ExtResource("2_dpgbn")
+_speed = 20.0
 
 [connection signal="pressed" from="UICanvas/MenuButtonContainer/MarginContainer/OpenMainMenuButton" to="UICanvas/MainMenu" method="OnShowMainMenu"]
