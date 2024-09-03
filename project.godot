@@ -31,6 +31,7 @@ enabled=PackedStringArray("res://addons/SimpleSampler/plugin.cfg", "res://addons
 [gdunit4]
 
 settings/common/update_notification_enabled=false
+settings/test/test_lookup_folder="tests"
 settings/test/test_discovery=true
 report/verbose_orphans=false
 
