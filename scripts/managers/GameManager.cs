@@ -7,6 +7,7 @@ namespace heigpdg2024.scripts.managers;
 /// Class representing a game manager as a static singleton
 /// </summary>
 public partial class GameManager : Node {
+    [Export] private float _percentToStartAnims = 0.4f;
     public static GameManager Instance { get; private set; }
     public Node CurrentScene { get; private set; }
     public ProgressionManager ProgressionManager { get; private set; }
@@ -18,11 +19,14 @@ public partial class GameManager : Node {
         get => _tempo;
         set {
             _tempo = value;
-            TimerTempo?.SetWaitTime(60f / _tempo);
+            float waitTime = 60f / _tempo;
+            TimerTempo?.SetWaitTime(waitTime);
+            TimerTempoAnimation = _percentToStartAnims * waitTime;
         }
     }
 
-    public float PercentToStartAnims { get; private set; } = 0.4f;
+    public float TimerTempoAnimation { get; private set; }
+
     public Timer TimerTempo { get; private set; }
 
     public override void _Ready() {

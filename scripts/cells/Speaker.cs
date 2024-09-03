@@ -22,8 +22,8 @@ public class Speaker : Processor {
             note.MoveByTempo(Position, Callable.From(note.QueueFree));
             return;
         }
-        GameManager.Instance.AudioManager.PlayNote(note);
+        
         GameManager.Instance.ProgressionManager.TryRequirement(note);
-        note.MoveByTempo(Position, Callable.From(note.QueueFree));
+        note.MoveByTempo(Position, Callable.From(note.PlayNote));
     }
 }

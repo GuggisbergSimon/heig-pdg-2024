@@ -33,6 +33,8 @@ public partial class Note : Node2D {
     private readonly Dictionary<InstrumentType, Instrument> _instruments = new();
     private readonly List<Sprite2D> _notesSprites = new();
     private readonly List<Sprite2D> _whiteDotSprites = new();
+    private readonly List<Sprite2D> _lines = new();
+    private bool _isAlive = true;
     public Duration Duration { get; private set; }
     public InstrumentType Instrument { get; private set; }
     public List<PitchNotation> Pitches { get; } = new();
@@ -48,7 +50,9 @@ public partial class Note : Node2D {
         // Staff is only drawn on some lines
         string[] lines = { "E", "G", "B", "Dva", "Fva" };
         foreach (var line in lines) {
-            GetNode<Node2D>(line).AddChild(_lineStaffScene.Instantiate<Sprite2D>());
+            var instance = _lineStaffScene.Instantiate<Sprite2D>();
+            GetNode<Node2D>(line).AddChild(instance);
+            _lines.Add(instance);
         }
 
         foreach (var pitch in Pitches) {
@@ -71,10 +75,9 @@ public partial class Note : Node2D {
     private void Process() {
         var cell = GameManager.Instance.Tilemap.GetProcessor(Position);
         if (cell == null) {
-            //TODO destroy animation
-            QueueFree();
+            DeleteDisappear(GameManager.Instance.TimerTempoAnimation);
         }
-        else {
+        else if (_isAlive) {
             cell.Process(this);
         }
     }
@@ -106,7 +109,19 @@ public partial class Note : Node2D {
     public void MoveByTempo(Vector2 to) {
         MoveByTempo(to, Callable.From(() => { }));
     }
-    
+
+    /// <summary>
+    /// Plays a note and animate it
+    /// </summary>
+    public void PlayNote() {
+        GameManager.Instance.AudioManager.PlayNote(this);
+        float duration = 3 * GameManager.Instance.TimerTempoAnimation;
+        var tween = GetTree().CreateTween().SetParallel();
+        tween.TweenProperty(this, "scale", 2f * Vector2.One, duration).AsRelative();
+        tween.TweenProperty(this, "rotation_degrees", 720, duration).AsRelative();
+        DeleteDisappear(duration);
+    }
+
     /// <summary>
     /// Move a note towards a given position, in the timeframe allowed per beat
     /// </summary>
@@ -114,9 +129,7 @@ public partial class Note : Node2D {
     /// <param name="callback">A callback function to call after having moved</param>
     public void MoveByTempo(Vector2 to, Callable callback) {
         var tween = GetTree().CreateTween();
-        var duration = 60 * GameManager.Instance.PercentToStartAnims /
-                       GameManager.Instance.Tempo;
-        tween.TweenProperty(this, "position", to, duration);
+        tween.TweenProperty(this, "position", to, GameManager.Instance.TimerTempoAnimation);
         tween.TweenCallback(callback);
     }
 
@@ -207,6 +220,29 @@ public partial class Note : Node2D {
 
         _notesSprites.Add(sprite);
         _whiteDotSprites.Add(whiteDotSprite);
+    }
+    
+    /// <summary>
+    /// Delete the note while disappearing after a given time
+    /// </summary>
+    /// <param name="duration">The time it takes for the note to disappear</param>
+    private void DeleteDisappear(float duration) {
+        var tween = GetTree().CreateTween();
+        _isAlive = false;
+        tween.SetParallel();
+
+        void SetTween(List<Sprite2D> sprites) {
+            foreach (var sprite in sprites) {
+                tween.TweenProperty(sprite, "modulate", new Color(sprite.Modulate, 0f),
+                    duration).SetTrans(Tween.TransitionType.Sine);
+            }
+        }
+
+        SetTween(_notesSprites);
+        SetTween(_whiteDotSprites);
+        SetTween(_lines);
+        tween.SetParallel(false);
+        tween.TweenCallback(Callable.From(QueueFree));
     }
 
     /// <summary>
