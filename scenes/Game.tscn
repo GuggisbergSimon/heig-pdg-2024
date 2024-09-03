@@ -11,7 +11,7 @@
 [ext_resource type="StyleBox" uid="uid://g7gpjugatj1p" path="res://scenes/ui/toolbar.tres" id="7_5d5aw"]
 [ext_resource type="Script" path="res://scripts/ui/ToolsContainer.cs" id="8_th2aw"]
 [ext_resource type="Texture2D" uid="uid://clw2iwp0lhgwr" path="res://assets/menu_button.png" id="9_lv5i1"]
-[ext_resource type="Script" path="res://scripts/ui/MainMenu.cs" id="11_utwbq"]
+[ext_resource type="PackedScene" uid="uid://v01tmbtwtbib" path="res://scenes/MainMenu.tscn" id="12_sowjh"]
 
 [sub_resource type="CanvasTexture" id="CanvasTexture_leg4b"]
 specular_color = Color(0.578161, 0.309391, 0.332375, 1)
@@ -154,7 +154,8 @@ custom_minimum_size = Vector2(32, 32)
 layout_mode = 2
 texture_normal = ExtResource("9_lv5i1")
 stretch_mode = 5
-script = ExtResource("11_utwbq")
+
+[node name="MainMenu" parent="UICanvas" instance=ExtResource("12_sowjh")]
 
 [node name="Camera" type="Camera2D" parent="."]
 zoom = Vector2(3, 3)
@@ -162,4 +163,4 @@ position_smoothing_enabled = true
 position_smoothing_speed = 20.0
 script = ExtResource("2_dpgbn")
 
-[connection signal="pressed" from="UICanvas/MenuButtonContainer/MarginContainer/OpenMainMenuButton" to="UICanvas/MenuButtonContainer/MarginContainer/OpenMainMenuButton" method="OnShowMainMenu"]
+[connection signal="pressed" from="UICanvas/MenuButtonContainer/MarginContainer/OpenMainMenuButton" to="UICanvas/MainMenu" method="OnShowMainMenu"]

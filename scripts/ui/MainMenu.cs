@@ -2,8 +2,11 @@ using Godot;
 using System;
 
 public partial class MainMenu : Control {
+
     // Called when the node enters the scene tree for the first time.
     public override void _Ready() {
+        Hide();
+        
     }
 
     // Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -11,11 +14,13 @@ public partial class MainMenu : Control {
     }
 
     public void OnShowMainMenu() {
-        GameManager.Instance.GotoScene("res://scenes/MainMenu.tscn");
+        GameManager.Instance.Pause();
+        Show();
     }
 
     public void OnHideMainMenu() {
-        GameManager.Instance.GotoScene("res://scenes/Game.tscn");
+        GameManager.Instance.Play();
+        Hide();
     }
     
     public void OnQuit() {
