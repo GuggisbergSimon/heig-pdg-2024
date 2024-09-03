@@ -21,9 +21,22 @@ public partial class ToolButton : TextureButton {
         Connect("mouse_exited", new Callable(this, nameof(OnMouseExited)));
         Pressed += OnClick;
     }
+    
+    public override void _ExitTree() {
+        Disconnect("mouse_entered", new Callable(this, nameof(OnMouseEntered)));
+        Disconnect("mouse_exited", new Callable(this, nameof(OnMouseExited)));
+        Pressed -= OnClick;
+    }
 
     // Called every frame. 'delta' is the elapsed time since the previous frame.
     public override void _Process(double delta) {
+        if (HasFocus()) {
+            // Add a border
+            Modulate = new Color(1, 0, 0, 1);
+        }
+        else {
+            Modulate = new Color(1, 1, 1, 1);
+        }
     }
 
     private void OnClick() {

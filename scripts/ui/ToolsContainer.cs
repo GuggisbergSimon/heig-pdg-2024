@@ -2,6 +2,8 @@ using Godot;
 using System.Collections.Generic;
 using heigpdg2024.scripts.managers;
 using heigpdg2024.scripts.resources;
+using System.IO;
+using System.Linq;
 
 
 namespace heigpdg2024.scripts.ui;
@@ -23,12 +25,14 @@ public partial class ToolsContainer : HBoxContainer {
             if (tool.Value) {
                 ToolButton child = new ToolButton(tool.Key);
                 AddChild(child);
+                if (tool.Key == BlockType.Belt) {
+                    child.GrabFocus();
+                }
             }
             else {
-                //TODO add "?" texture for locked tools
-                Button child = new Button();
-                child.Disabled = true;
-                child.Text = "?";
+                TextureRect child = new TextureRect();
+                child.SetTexture(GD.Load<Texture2D>("res://assets/question_mark.png"));
+                // child.SetCustomMinimumSize(new Vector2(64, 64));
                 AddChild(child);
             }
         }

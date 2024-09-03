@@ -34,6 +34,14 @@ public partial class GameManager : Node {
     public void RegisterTilemap(MusicTilemap tilemap) {
         Tilemap = tilemap;
     }
+    
+    public void Pause() {
+        TimerTempo.Stop();
+    }
+    
+    public void Play() {
+        TimerTempo.Start();
+    }
 
     #region SceneManager
 
