@@ -71,6 +71,23 @@ En ce qui concerne le jeu, le pattern du singleton sera utilisé sous la forme d
 
 En raison de la nature du développement de jeu vidéo ainsi que de notre manque d'expérience avec le moteur Godot, nous itérerons rapidement sur les fonctionnalités afin d'avoir un prototype très rapidement puis de les raffiner au fur et à mesure.
 
+- UI
+- managers
+  - progresion manager
+    - levels
+    - requirements
+  - audio manager
+    - SimpleSampler addon
+    - ui sounds
+- tilemap
+- tools
+  - merger
+  - source
+  - instrument
+  - pitch up/down
+  - duration up/down
+- notes
+
 #pagebreak()
 
 == Mockups
