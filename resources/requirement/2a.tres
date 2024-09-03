@@ -5,5 +5,5 @@
 [resource]
 script = ExtResource("1_87l86")
 Pitches = PackedInt32Array(4)
-Duration = 0
+Duration = 1
 Instrument = 2

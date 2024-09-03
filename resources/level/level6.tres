@@ -6,5 +6,5 @@
 script = ExtResource("1_43bkm")
 _toolsIntArray = PackedInt32Array()
 Tier = 6
-Tempo = 120
+Tempo = 480
 Requirements = null

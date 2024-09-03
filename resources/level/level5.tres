@@ -6,5 +6,5 @@
 script = ExtResource("1_j2n05")
 _toolsIntArray = PackedInt32Array()
 Tier = 5
-Tempo = 120
+Tempo = 240
 Requirements = null
