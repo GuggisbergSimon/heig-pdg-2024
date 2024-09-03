@@ -4,7 +4,6 @@
 
 [resource]
 script = ExtResource("1_l4byg")
-Level = 3
 Pitches = PackedInt32Array(0, 6)
 Duration = 1
 Instrument = 1

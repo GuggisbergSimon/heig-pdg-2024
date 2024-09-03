@@ -30,4 +30,5 @@ public partial class LevelRequirements : HBoxContainer {
         requirementLabel.AddThemeColorOverride("font_color", Colors.Black);
         AddChild(requirementLabel);
     }
+
 }

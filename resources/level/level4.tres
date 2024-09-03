@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="Level" load_steps=3 format=3 uid="uid://bn72gruwva31u"]
+
+[ext_resource type="Resource" uid="uid://bhfhaqch20tii" path="res://resources/requirement/4.tres" id="1_7i6jj"]
+[ext_resource type="Script" path="res://scripts/resources/Level.cs" id="1_ney2l"]
+
+[resource]
+script = ExtResource("1_ney2l")
+_toolsIntArray = PackedInt32Array(3, 4, 5, 6, 8, 9, 2)
+Tier = 4
+Tempo = 240
+Requirements = Array[Object]([ExtResource("1_7i6jj")])

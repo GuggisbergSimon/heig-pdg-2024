@@ -9,36 +9,47 @@ public partial class GameManager : Node {
     public ProgressionManager ProgressionManager { get; private set; }
     public MusicTilemap Tilemap { get; private set; }
     public AudioManager AudioManager { get; private set; }
-    public int Tempo { get; private set; } = 120;
+    private int _tempo;
+
+    public int Tempo {
+        get => _tempo;
+        set {
+            _tempo = value;
+            TimerTempo?.SetWaitTime(60f / _tempo);
+        }
+    }
+
     public float PercentToStartAnims { get; private set; } = 0.4f;
     public Timer TimerTempo { get; private set; }
 
     public override void _Ready() {
         Instance = this;
 
+        ProgressionManager = GetNode<ProgressionManager>("ProgressionManager");
+        ProgressionManager.Initialize();
+
         Input.SetMouseMode(Input.MouseModeEnum.Confined);
 
         //Timer setup
         TimerTempo = GetNode<Timer>("Timer");
-        TimerTempo.SetWaitTime(60f / Tempo);
+        TimerTempo.SetWaitTime(60f / _tempo);
         TimerTempo.Autostart = true;
         TimerTempo.Start();
 
         // Scene Manager setup
         Viewport root = GetTree().Root;
         CurrentScene = root.GetChild(root.GetChildCount() - 1);
-        ProgressionManager = GetNode<ProgressionManager>("ProgressionManager");
         AudioManager = GetNode<AudioManager>("AudioManager");
     }
 
     public void RegisterTilemap(MusicTilemap tilemap) {
         Tilemap = tilemap;
     }
-    
+
     public void Pause() {
         TimerTempo.Stop();
     }
-    
+
     public void Play() {
         TimerTempo.Start();
     }

@@ -4,7 +4,6 @@
 
 [resource]
 script = ExtResource("1_en8et")
-Level = 3
-Pitches = PackedInt32Array(0, 0)
+Pitches = PackedInt32Array(0)
 Duration = 2
 Instrument = 1
