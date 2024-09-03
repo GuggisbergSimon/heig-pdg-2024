@@ -11,6 +11,14 @@ namespace heigpdg2024.scripts.managers;
 /// </summary>
 public partial class ProgressionManager : Node {
     [Export] private Level[] _levelsResources;
+    [Export] private PackedScene _confettiScene;
+    private Confetti _confetti;
+    
+    private static readonly BlockType[] _defaultTools = {
+        BlockType.Belt,
+        BlockType.Source,
+        BlockType.Speaker
+    };
 
     private static Dictionary<BlockType, bool> _toolsUnlocked =
         new Dictionary<BlockType, bool> {
@@ -46,13 +54,17 @@ public partial class ProgressionManager : Node {
         GameManager.Instance.Tempo = level.Tempo;
         UpdateTools(level);
         UpdateTodos(level);
+        _confetti = _confettiScene.Instantiate<Confetti>();
+        AddChild(_confetti);
+        LevelChangement(0);
     }
 
     /// <summary>
     /// Try to match a note to current requirements
     /// </summary>
     /// <param name="note">The note to try to match</param>
-    public void TryRequirement(Note note) {
+    /// <param name="position">The position the note is validated</param>
+    public void TryRequirement(Note note, Vector2 position) {
         foreach (var requirement in _todos) {
             if (requirement.Duration != note.Duration.Notation ||
                 requirement.Instrument != note.Instrument ||
@@ -74,6 +86,8 @@ public partial class ProgressionManager : Node {
         }
 
         if (_todos.Count == 0) {
+            _confetti.Position = position;
+            _confetti.Emit();
             LevelUp();
         }
     }

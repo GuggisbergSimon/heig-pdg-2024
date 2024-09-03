@@ -1,0 +1,105 @@
+[gd_scene load_steps=3 format=3 uid="uid://6fcsaxexos4b"]
+
+[ext_resource type="Script" path="res://scripts/Confetti.cs" id="1_jvf33"]
+
+[sub_resource type="Curve" id="Curve_dwj54"]
+_data = [Vector2(0, 0.109434), 0.0, 0.0, 0, 0, Vector2(1, 0.30566), -0.0953576, 0.0, 0, 0]
+point_count = 2
+
+[node name="Confetti" type="Node2D"]
+script = ExtResource("1_jvf33")
+
+[node name="turquoise" type="CPUParticles2D" parent="."]
+emitting = false
+amount = 16
+one_shot = true
+explosiveness = 0.6
+randomness = 0.2
+local_coords = true
+direction = Vector2(0, -1)
+gravity = Vector2(0, 100)
+initial_velocity_min = 65.0
+initial_velocity_max = 130.0
+angular_velocity_min = 280.0
+angular_velocity_max = 280.0
+linear_accel_min = 12.0
+linear_accel_max = 12.0
+scale_amount_max = 10.0
+scale_amount_curve = SubResource("Curve_dwj54")
+color = Color(0.0705882, 0.478431, 0.52549, 1)
+
+[node name="blue" type="CPUParticles2D" parent="."]
+emitting = false
+amount = 16
+one_shot = true
+explosiveness = 0.6
+randomness = 0.2
+local_coords = true
+direction = Vector2(0, -1)
+gravity = Vector2(0, 100)
+initial_velocity_min = 65.0
+initial_velocity_max = 130.0
+angular_velocity_min = 280.0
+angular_velocity_max = 280.0
+linear_accel_min = 12.0
+linear_accel_max = 12.0
+scale_amount_max = 10.0
+scale_amount_curve = SubResource("Curve_dwj54")
+color = Color(0.0705882, 0.337255, 0.52549, 1)
+
+[node name="orange" type="CPUParticles2D" parent="."]
+emitting = false
+amount = 16
+one_shot = true
+explosiveness = 0.6
+randomness = 0.2
+local_coords = true
+direction = Vector2(0, -1)
+gravity = Vector2(0, 100)
+initial_velocity_min = 65.0
+initial_velocity_max = 130.0
+angular_velocity_min = 280.0
+angular_velocity_max = 280.0
+linear_accel_min = 12.0
+linear_accel_max = 12.0
+scale_amount_max = 10.0
+scale_amount_curve = SubResource("Curve_dwj54")
+color = Color(0.941176, 0.780392, 0.121569, 1)
+
+[node name="brown" type="CPUParticles2D" parent="."]
+emitting = false
+amount = 16
+one_shot = true
+explosiveness = 0.6
+randomness = 0.2
+local_coords = true
+direction = Vector2(0, -1)
+gravity = Vector2(0, 100)
+initial_velocity_min = 65.0
+initial_velocity_max = 130.0
+angular_velocity_min = 280.0
+angular_velocity_max = 280.0
+linear_accel_min = 12.0
+linear_accel_max = 12.0
+scale_amount_max = 10.0
+scale_amount_curve = SubResource("Curve_dwj54")
+color = Color(0.439216, 0.407843, 0.278431, 1)
+
+[node name="fuchsia" type="CPUParticles2D" parent="."]
+emitting = false
+amount = 16
+one_shot = true
+explosiveness = 0.6
+randomness = 0.2
+local_coords = true
+direction = Vector2(0, -1)
+gravity = Vector2(0, 100)
+initial_velocity_min = 65.0
+initial_velocity_max = 130.0
+angular_velocity_min = 280.0
+angular_velocity_max = 280.0
+linear_accel_min = 12.0
+linear_accel_max = 12.0
+scale_amount_max = 10.0
+scale_amount_curve = SubResource("Curve_dwj54")
+color = Color(0.439216, 0.278431, 0.423529, 1)

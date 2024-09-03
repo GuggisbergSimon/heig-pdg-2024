@@ -23,7 +23,7 @@ public class Speaker : Processor {
             return;
         }
         
-        GameManager.Instance.ProgressionManager.TryRequirement(note);
+        GameManager.Instance.ProgressionManager.TryRequirement(note, Position);
         note.MoveByTempo(Position, Callable.From(note.PlayNote));
     }
 }
