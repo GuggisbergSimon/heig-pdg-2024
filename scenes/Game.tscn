@@ -1,5 +1,6 @@
 [gd_scene load_steps=15 format=3 uid="uid://unh04hp3qhxg"]
 
+[ext_resource type="Texture2D" uid="uid://d1g5q367sops6" path="res://assets/notes_atlas.png" id="1_lnpyi"]
 [ext_resource type="Script" path="res://scripts/Camera.cs" id="2_dpgbn"]
 [ext_resource type="Script" path="res://scripts/ui/ButtonTilemap.cs" id="2_h5doo"]
 [ext_resource type="PackedScene" uid="uid://6q7rrd3mwivk" path="res://scenes/Tilemap.tscn" id="3_2s2ah"]
@@ -13,6 +14,20 @@
 [ext_resource type="Texture2D" uid="uid://clw2iwp0lhgwr" path="res://assets/menu_button.png" id="9_lv5i1"]
 [ext_resource type="PackedScene" path="res://scenes/MainMenu.tscn" id="12_sowjh"]
 
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_cw0ws"]
+texture = ExtResource("1_lnpyi")
+4:4/0 = 0
+5:4/0 = 0
+6:4/0 = 0
+7:4/0 = 0
+4:5/0 = 0
+5:5/0 = 0
+6:5/0 = 0
+7:5/0 = 0
+
+[sub_resource type="TileSet" id="TileSet_2c223"]
+sources/0 = SubResource("TileSetAtlasSource_cw0ws")
+
 [sub_resource type="CanvasTexture" id="CanvasTexture_leg4b"]
 specular_color = Color(0.578161, 0.309391, 0.332375, 1)
 
@@ -21,6 +36,11 @@ texture = SubResource("CanvasTexture_leg4b")
 modulate_color = Color(0.576471, 0.309804, 0.333333, 1)
 
 [node name="Game" type="Node2D"]
+
+[node name="TileMapBackground" type="TileMapLayer" parent="."]
+modulate = Color(1, 1, 1, 0.588235)
+tile_map_data = PackedByteArray("AAAUAAwAAAAEAAQAAAAUAA0AAAAEAAUAAAAVAAwAAAAFAAQAAAAVAA0AAAAFAAUAAAAWAAwAAAAGAAQAAAAWAA0AAAAGAAUAAAAXAAwAAAAHAAQAAAAXAA0AAAAHAAUAAAAAAAAAAAAEAAQAAAAAAAEAAAAEAAUAAAABAAAAAAAFAAQAAAABAAEAAAAFAAUAAAACAAAAAAAGAAQAAAACAAEAAAAGAAUAAAADAAAAAAAHAAQAAAADAAEAAAAHAAUAAAAAACgAAAAEAAUAAAABACgAAAAFAAUAAAACACgAAAAGAAUAAAADACgAAAAHAAUAAADz//b/AAAEAAQAAADz//f/AAAEAAUAAAD0//b/AAAFAAQAAAD0//f/AAAFAAUAAAD1//b/AAAGAAQAAAD1//f/AAAGAAUAAAD2//b/AAAHAAQAAAD2//f/AAAHAAUAAAAMAPX/AAAEAAQAAAAMAPb/AAAEAAUAAAANAPX/AAAFAAQAAAANAPb/AAAFAAUAAAAOAPX/AAAGAAQAAAAOAPb/AAAGAAUAAAAPAPX/AAAHAAQAAAAPAPb/AAAHAAUAAADw/wkAAAAEAAQAAADw/woAAAAEAAUAAADx/wkAAAAFAAQAAADx/woAAAAFAAUAAADy/wkAAAAGAAQAAADy/woAAAAGAAUAAADz/wkAAAAHAAQAAADz/woAAAAHAAUAAAASAP7/AAAEAAQAAAASAP//AAAEAAUAAAATAP7/AAAFAAQAAAATAP//AAAFAAUAAAAUAP7/AAAGAAQAAAAUAP//AAAGAAUAAAAVAP7/AAAHAAQAAAAVAP//AAAHAAUAAAA=")
+tile_set = SubResource("TileSet_2c223")
 
 [node name="Tilemap" parent="." instance=ExtResource("3_2s2ah")]
 
