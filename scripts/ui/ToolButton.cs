@@ -1,4 +1,8 @@
 using Godot;
+using heigpdg2024.scripts.managers;
+using heigpdg2024.scripts.resources;
+
+namespace heigpdg2024.scripts.ui;
 
 public partial class ToolButton : TextureButton {
     private BlockType _type;

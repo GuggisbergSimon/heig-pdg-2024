@@ -1,6 +1,10 @@
 using Godot;
 using System.Collections.Generic;
-using System.IO;
+using heigpdg2024.scripts.managers;
+using heigpdg2024.scripts.resources;
+
+
+namespace heigpdg2024.scripts.ui;
 
 public partial class ToolsContainer : HBoxContainer {
     public override void _Ready() {

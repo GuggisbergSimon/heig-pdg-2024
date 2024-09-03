@@ -1,4 +1,8 @@
 using Godot;
+using heigpdg2024.scripts.notes;
+using heigpdg2024.scripts.resources;
+
+namespace heigpdg2024.scripts.managers;
 
 public partial class AudioManager : Node {
     private static Node _piano;

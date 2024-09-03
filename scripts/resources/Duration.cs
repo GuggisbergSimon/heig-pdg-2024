@@ -1,5 +1,7 @@
 ﻿using Godot;
 
+namespace heigpdg2024.scripts.resources;
+
 public enum DurationNotation {
     Whole, //Ronde
     Half, //Blanche
