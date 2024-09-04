@@ -13,7 +13,7 @@ public partial class ProgressionManager : Node {
     [Export] private Level[] _levelsResources;
     [Export] private PackedScene _confettiScene;
     private Confetti _confetti;
-    
+
     private static readonly BlockType[] _defaultTools = {
         BlockType.Belt,
         BlockType.Source,
@@ -42,6 +42,12 @@ public partial class ProgressionManager : Node {
     [Signal]
     public delegate void LevelChangeEventHandler();
 
+    /// <summary>
+    /// Signal called when a requirement is completed
+    /// </summary>
+    [Signal]
+    public delegate void RequirementCompletedEventHandler(string requirement);
+
     public int CurrentTier { get; private set; }
 
     /// <summary>
@@ -49,11 +55,7 @@ public partial class ProgressionManager : Node {
     /// </summary>
     public void Initialize() {
         base._Ready();
-        Level level = _levelsResources.FirstOrDefault(lvl =>
-            lvl.Tier == CurrentTier);
-        GameManager.Instance.Tempo = level.Tempo;
-        UpdateTools(level);
-        UpdateTodos(level);
+        ApplyLevel(CurrentTier);
         _confetti = _confettiScene.Instantiate<Confetti>();
         AddChild(_confetti);
     }
@@ -77,10 +79,11 @@ public partial class ProgressionManager : Node {
             note.Pitches.Sort();
             if (requiredPitches.Where((t, i) => t != note.Pitches[i])
                 .Any()) {
-                return;
+                continue;
             }
 
             _todos.Remove(requirement);
+            EmitSignal(nameof(RequirementCompleted), requirement.ToString());
             break;
         }
 
