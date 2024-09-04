@@ -1,8 +1,9 @@
-[gd_scene load_steps=4 format=3 uid="uid://v01tmbtwtbib"]
+[gd_scene load_steps=5 format=3 uid="uid://v01tmbtwtbib"]
 
 [ext_resource type="Script" path="res://scripts/ui/MainMenu.cs" id="1_tioh5"]
 [ext_resource type="Theme" uid="uid://bsoui85d73h5t" path="res://resources/MainMenu.tres" id="1_uruca"]
 [ext_resource type="Texture2D" uid="uid://vlqsuqitw1hu" path="res://assets/menu_quit.png" id="2_uim22"]
+[ext_resource type="Script" path="res://scripts/ui/ExplinationContainer.cs" id="4_e3few"]
 
 [node name="MainMenu" type="PanelContainer"]
 offset_right = 1152.0
@@ -33,15 +34,10 @@ stretch_mode = 5
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="ExplinationContainer" type="MarginContainer" parent="VBoxContainer"]
+[node name="ExplinationContainer" type="VBoxContainer" parent="VBoxContainer"]
 layout_mode = 2
-
-[node name="TextEdit" type="TextEdit" parent="VBoxContainer/ExplinationContainer"]
-custom_minimum_size = Vector2(256, 128)
-layout_mode = 2
-size_flags_horizontal = 4
-size_flags_vertical = 4
-text = "Test"
+size_flags_vertical = 3
+script = ExtResource("4_e3few")
 
 [node name="Spacer2" type="MarginContainer" parent="VBoxContainer"]
 layout_mode = 2

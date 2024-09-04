@@ -13,4 +13,5 @@ corner_radius_bottom_left = 3
 corner_detail = 5
 
 [resource]
+Label/colors/font_color = Color(0, 0, 0, 1)
 PanelContainer/styles/panel = SubResource("StyleBoxFlat_qmule")
