@@ -16,7 +16,7 @@
                            <hr class="star-primary">
                            {% if post.video %}
                                <div class="embed-responsive embed-responsive-16by9">
-                                   <iframe id="video-{{ post.modal-id }}" class="embed-responsive-item" src="{{ post.video }}?autoplay=1&loop=1&playlist={{ post.video_id }}&mute=1" allowfullscreen></iframe>
+                                   <iframe id="video-{{ post.modal-id }}" class="embed-responsive-item" data-src="{{ post.video }}?autoplay=1&loop=1&playlist={{ post.video_id }}&mute=1" src="{{ post.video }}?autoplay=1&loop=1&playlist={{ post.video_id }}&mute=1" allowfullscreen></iframe>
                                </div>
                            {% else %}
                                <img src="img/mockup/{{ post.img }}" class="img-responsive img-centered" alt="{{ post.alt }}">
@@ -35,10 +35,17 @@
 <script>
     $(document).ready(function() {
         $('.portfolio-modal').on('hidden.bs.modal', function () {
-            var iframe = $(this).find('iframe');
-            var src = iframe.attr('src');
-            iframe.attr('src', '');
-            iframe.attr('src', src);
+            // Trouver l'iframe dans la modale fermée
+            var $iframe = $(this).find('iframe');
+            // Vider le src pour arrêter la vidéo
+            $iframe.attr('src', '');
+        });
+
+        $('.portfolio-modal').on('shown.bs.modal', function () {
+            // Réactiver le src pour que la vidéo puisse être lue
+            var $iframe = $(this).find('iframe');
+            var src = $iframe.data('src');  // Assumez que la vidéo est stockée dans l'attribut data-src
+            $iframe.attr('src', src);
         });
     });
 </script>
