@@ -54,11 +54,11 @@ public partial class MusicTilemap : TileMapLayer {
     public void OnPressed() {
         Vector2I cellCoords = LocalToMap(GetGlobalMousePosition());
         // Clears what was on the cell before drawing on it
+        var data = GetCellTileData(cellCoords);
         DeleteAt(cellCoords);
         GameManager.Instance.AudioManager.PlayRemoveSound();
         if (Input.IsActionJustPressed("PrimaryAction")) {
             if (_selectedTool == BlockType.Belt) {
-                var data = GetCellTileData(cellCoords);
                 // Uses the date of previous cell, if it exists, to improve consistency
                 if (data != null && data.GetCustomData("type").AsString().Equals("belt")) {
                     _lastDirection = -data.GetCustomData("input").AsVector2I();
@@ -106,10 +106,13 @@ public partial class MusicTilemap : TileMapLayer {
                 if (direction == Vector2I.Zero) {
                     return;
                 }
+                
+                // Update _lastCellCoords based on direction if it is valid
+                if (_lastDirection != -direction) {
+                    SetCell(_lastCellCoords, _sourceId,
+                        new Vector2I(_directionIndexes[_lastDirection], _directionIndexes[direction]));
+                }
 
-                // Update _lastCellCoords based on direction
-                SetCell(_lastCellCoords, _sourceId,
-                    new Vector2I(_directionIndexes[_lastDirection], _directionIndexes[direction]));
                 SetCell(cellCoords, _sourceId,
                     new Vector2I(_directionIndexes[direction], _directionIndexes[direction]));
                 GameManager.Instance.AudioManager.PlayPlaceSound();

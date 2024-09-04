@@ -106,7 +106,7 @@ public partial class Note : Node2D {
     public void MoveByTempo(Vector2 to) {
         MoveByTempo(to, Callable.From(() => { }));
     }
-
+    
     /// <summary>
     /// Move a note towards a given position, in the timeframe allowed per beat
     /// </summary>
