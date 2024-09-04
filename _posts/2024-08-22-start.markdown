@@ -1,0 +1,12 @@
+---
+title: Start
+subtitle: 
+layout: default
+modal-id: 1
+video: https://www.youtube.com/embed/yurJLUKuYPs
+video_id: yurJLUKuYPs
+thumbnail: start.png
+alt: image-alt
+description: Place the blocks correctly and link them together to move the notes to the speaker to play the right sounds.
+
+---
