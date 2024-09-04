@@ -56,7 +56,6 @@ public partial class MusicTilemap : TileMapLayer {
         // Clears what was on the cell before drawing on it
         var data = GetCellTileData(cellCoords);
         DeleteAt(cellCoords);
-        GameManager.Instance.AudioManager.PlayRemoveSound();
         if (Input.IsActionJustPressed("PrimaryAction")) {
             if (_selectedTool == BlockType.Belt) {
                 // Uses the date of previous cell, if it exists, to improve consistency
@@ -76,6 +75,9 @@ public partial class MusicTilemap : TileMapLayer {
                 CreateAt(cellCoords);
                 GameManager.Instance.AudioManager.PlayPlaceSound();
             }
+        }
+        else if (data != null) {
+            GameManager.Instance.AudioManager.PlayRemoveSound();
         }
 
         _lastCellCoords = cellCoords;
@@ -125,8 +127,12 @@ public partial class MusicTilemap : TileMapLayer {
             }
         }
         else if (Input.IsActionPressed("SecondaryAction")) {
+            var data = GetCellTileData(cellCoords);
+            if (data != null) {
+                GameManager.Instance.AudioManager.PlayRemoveSound();
+            }
+
             DeleteAt(cellCoords);
-            GameManager.Instance.AudioManager.PlayRemoveSound();
         }
 
         _lastCellCoords = cellCoords;

@@ -10,15 +10,24 @@ config_version=5
 
 [application]
 
-config/name="heig-pdg-2024"
+config/name="musicz"
+config/version="0.3"
 run/main_scene="res://scenes/Game.tscn"
 config/features=PackedStringArray("4.3", "C#", "GL Compatibility")
-config/icon="res://assets/icon.svg"
+boot_splash/bg_color=Color(0.501961, 0.501961, 0.501961, 1)
+boot_splash/image="res://assets/title.png"
+boot_splash/use_filter=false
+config/icon="res://assets/title.png"
+boot_splash/minimum_display_time=2000
 
 [autoload]
 
 GameManager="*res://scenes/GameManager.tscn"
 NoteValue="*res://addons/SimpleSampler/note_value.gd"
+
+[display]
+
+window/size/mode=3
 
 [dotnet]
 
