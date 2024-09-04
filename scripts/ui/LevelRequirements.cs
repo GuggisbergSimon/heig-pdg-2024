@@ -6,7 +6,7 @@ namespace heigpdg2024.scripts.ui;
 /// <summary>
 /// Class representing a UI Container holding the requirements to be displayed
 /// </summary>
-public partial class LevelRequirements : HBoxContainer {
+public partial class LevelRequirements : VBoxContainer {
     public override void _Ready() {
         base._Ready();
 
@@ -39,5 +39,4 @@ public partial class LevelRequirements : HBoxContainer {
         requirementLabel.AddThemeColorOverride("font_color", Colors.Black);
         AddChild(requirementLabel);
     }
-
 }

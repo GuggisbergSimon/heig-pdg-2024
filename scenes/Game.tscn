@@ -105,7 +105,7 @@ horizontal_alignment = 2
 script = ExtResource("3_w1oj0")
 metadata/_edit_use_anchors_ = true
 
-[node name="LevelRequirementsContainer" type="HBoxContainer" parent="UICanvas/LevelInfoContainer/MarginContainer/VBoxContainer"]
+[node name="LevelRequirementsContainer" type="VBoxContainer" parent="UICanvas/LevelInfoContainer/MarginContainer/VBoxContainer"]
 layout_mode = 2
 script = ExtResource("5_s87p4")
 

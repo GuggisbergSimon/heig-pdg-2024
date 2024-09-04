@@ -12,24 +12,18 @@ namespace heigpdg2024.scripts.managers;
 public partial class ProgressionManager : Node {
     [Export] private Level[] _levelsResources;
 
-    private static readonly BlockType[] _defaultTools = {
-        BlockType.Belt,
-        BlockType.Source,
-        BlockType.Speaker
-    };
-
     private static Dictionary<BlockType, bool> _toolsUnlocked =
         new Dictionary<BlockType, bool> {
-            { BlockType.Belt, true },
-            { BlockType.Source, true },
-            { BlockType.Speaker, true },
+            { BlockType.Belt, false },
+            { BlockType.Source, false },
+            { BlockType.Speaker, false },
             { BlockType.Instrument1, false },
             { BlockType.ShiftUp, false },
             { BlockType.ShiftDown, false },
+            { BlockType.Instrument2, false },
             { BlockType.SpeedUp, false },
             { BlockType.SpeedDown, false },
-            { BlockType.Merger, false },
-            { BlockType.Instrument2, false },
+            { BlockType.Merger, false }
         };
 
     private List<Requirement> _todos = new();
@@ -42,9 +36,16 @@ public partial class ProgressionManager : Node {
 
     public int CurrentTier { get; private set; }
 
+    /// <summary>
+    /// Initializes the progression manager by setting up the initial level.
+    /// </summary>
     public void Initialize() {
         base._Ready();
-        LevelChangement(0);
+        Level level = _levelsResources.FirstOrDefault(lvl =>
+            lvl.Tier == CurrentTier);
+        GameManager.Instance.Tempo = level.Tempo;
+        UpdateTools(level);
+        UpdateTodos(level);
     }
 
     /// <summary>
@@ -81,30 +82,17 @@ public partial class ProgressionManager : Node {
     /// Level up the current tier
     /// </summary>
     public void LevelUp() {
-        LevelChangement(CurrentTier++);
-        GameManager.Instance.AudioManager.PlayLevelUpSound();
+        ChangeLevel(CurrentTier + 1);
     }
 
     /// <summary>
     /// Level down the current tier
     /// </summary>
     public void LevelDown() {
-        LevelChangement(CurrentTier--);
-    }
-
-    private void LevelChangement(int oldTier) {
-        Level level =
-            _levelsResources.FirstOrDefault(lvl =>
-                lvl.Tier == CurrentTier);
-        if (level == null) {
-            CurrentTier = oldTier;
-            return;
+        if (CurrentTier > 0) {
+            UpdateTools(_levelsResources.FirstOrDefault(lvl => lvl.Tier == CurrentTier), false);
+            ChangeLevel(CurrentTier - 1);
         }
-
-        GameManager.Instance.Tempo = level.Tempo;
-        UpdateTools(level);
-        UpdateTodos(level);
-        EmitSignal(SignalName.LevelChange);
     }
 
     /// <summary>
@@ -115,30 +103,55 @@ public partial class ProgressionManager : Node {
         return _toolsUnlocked;
     }
 
-    private void UpdateTools(Level level) {
-        foreach (var tool in _toolsUnlocked.Keys.ToList()) {
-            _toolsUnlocked[tool] = false;
-        }
-
-        foreach (var tool in _defaultTools) {
-            _toolsUnlocked[tool] = true;
-        }
-
+    /// <summary>
+    /// Update the tools based on the level
+    /// </summary>
+    /// <param name="level">The level containing the tools to update</param>
+    /// <param name="unlock">Whether to unlock or lock the tools</param>
+    private void UpdateTools(Level level, bool unlock = true) {
         if (level != null) {
             foreach (BlockType tool in level.Tools) {
-                _toolsUnlocked[tool] = true;
+                _toolsUnlocked[tool] = unlock;
             }
         }
     }
 
+    /// <summary>
+    /// Update the todos list based on the level
+    /// </summary>
+    /// <param name="level">The level containing the requirements</param>
     private void UpdateTodos(Level level) {
+        _todos = level?.Requirements?.ToList() ?? new List<Requirement>();
+    }
+
+    /// <summary>
+    /// Apply the properties of a level based on its tier
+    /// </summary>
+    /// <param name="tier">The tier of the level to apply</param>
+    private void ApplyLevel(int tier) {
+        Level level = _levelsResources.FirstOrDefault(lvl => lvl.Tier == tier);
+
         if (level != null) {
-            _todos = level.Requirements != null
-                ? level.Requirements.ToList()
-                : new List<Requirement>();
+            GameManager.Instance.Tempo = level.Tempo;
+            UpdateTools(level);
+            UpdateTodos(level);
+            EmitSignal(SignalName.LevelChange);
+        }
+    }
+
+    /// <summary>
+    /// Change the level and apply its properties
+    /// </summary>
+    /// <param name="newTier">The new tier to change to</param>
+    private void ChangeLevel(int newTier) {
+        int oldTier = CurrentTier;
+        CurrentTier = newTier;
+
+        if (_levelsResources.Any(lvl => lvl.Tier == CurrentTier)) {
+            ApplyLevel(CurrentTier);
         }
         else {
-            _todos.Clear();
+            CurrentTier = oldTier;
         }
     }
 

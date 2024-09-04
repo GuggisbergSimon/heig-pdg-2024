@@ -38,7 +38,7 @@ public partial class ToolsContainer : HBoxContainer {
             else {
                 TextureRect child = new TextureRect();
                 child.SetTexture(GD.Load<Texture2D>("res://assets/question_mark.png"));
-                // child.SetCustomMinimumSize(new Vector2(64, 64));
+                child.SetCustomMinimumSize(new Vector2(64, 64));
                 AddChild(child);
             }
         }
