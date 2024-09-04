@@ -87,7 +87,9 @@ Nous avons choisi la notation américaine pour la durée des notes : `Whole`, `H
 
 Pour le pitch des notes, leur hauteur, nous utilisons la notation sous forme de simple lettre, allant de A pour Do jusqu'à G pour Si, au contraire de la notation allemande qui substitue H à B. Ceci permet une grande simplicité d'écriture tout en ayant un but pédagogique, le joueur apprenant à reconnaître les notes de musique.
 
-Dans la recherche d'une manière élégante de jouer des notes, nous nous sommes renseignés sur des addons Godot permettant de jouer des fichiers MIDI, mais après plusieurs essais infructueux, nous avons choisi un autre addon permettant de jouer des samples, des fichiers WAV, ce qui est moins commode d'un point de vu programmeur mais en raison du court délai, le résultat est plus qu'agréable, si l'on peut tolérer la répétition des notes jouées.
+Dans la recherche d'une manière élégante de jouer des notes, nous nous sommes renseignés sur des addons Godot permettant de jouer des fichiers MIDI, mais après plusieurs essais infructueux, nous avons choisi un autre addon permettant de jouer des samples en fichiers WAV. Cette solution est moins commode d'un point de vu programmeur car il faut jouer chaque note individuellement, l'exporter en WAV, puis l'importer dans Godot, ce qui est un processus long et fastidieux. En raison du court délai, le résultat est plus qu'agréable, si l'on peut tolérer la répétition des notes jouées. 
+
+Dans l'état actuel du jeu, nous avons implémenté les notes pour deux instruments, le piano et la guitare, qui ont chacun sept hauteurs de notes, de A à G, et deux durées, `Half` et `Quarter`. Il est facilement possible d'ajouter plus de notes au jeu, mais ceci n'a pas été fait en raison du manque de temps.
 
 === Choix Godot
 
