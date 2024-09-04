@@ -16,8 +16,7 @@
                            <hr class="star-primary">
                            {% if post.video %}
                                <div class="embed-responsive embed-responsive-16by9">
-                                   <iframe class="embed-responsive-item" src="{{ post.video }}" allowfullscreen></iframe>
-                               </div>
+                                <iframe class="embed-responsive-item" src="{{ post.video }}?autoplay=1&loop=1&playlist={{ post.video_id }}" allowfullscreen></iframe>                               </div>
                            {% else %}
                                <img src="img/mockup/{{ post.img }}" class="img-responsive img-centered" alt="{{ post.alt }}">
                            {% endif %}

@@ -5,6 +5,7 @@ layout: default
 modal-id: 1
 img: level6.png
 video: https://www.youtube.com/embed/yurJLUKuYPs
+video_id: yurJLUKuYPs
 thumbnail: level6_thumbnail.png
 alt: image-alt
 description: Early game, place the blocks correctly and link them together to move the notes to the speaker to play the right sounds.
