@@ -8,10 +8,13 @@ using heigpdg2024.scripts.resources;
 
 namespace Tests;
 
+/// <summary>
+/// Test suite for the Note class
+/// </summary>
 [TestSuite]
 public class NoteTests {
     private PackedScene _noteScene = GD.Load<PackedScene>("res://scenes/note/Note.tscn");
-    
+
     [TestCase]
     public void Note_Initialize_SetsCorrectValues() {
         var note = _noteScene.Instantiate<Note>();

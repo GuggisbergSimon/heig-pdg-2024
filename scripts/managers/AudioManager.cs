@@ -10,7 +10,7 @@ namespace heigpdg2024.scripts.managers;
 public partial class AudioManager : Node {
     private static Node _piano;
     private static Node _guitar;
-    
+
     private static AudioStreamPlayer _place;
     private static AudioStreamPlayer _remove;
     private static AudioStreamPlayer _select;
@@ -62,7 +62,7 @@ public partial class AudioManager : Node {
     public void PlaySelectSound() {
         _select.Play();
     }
-    
+
     public void PlayLevelUpSound() {
         _levelUp.Play();
     }

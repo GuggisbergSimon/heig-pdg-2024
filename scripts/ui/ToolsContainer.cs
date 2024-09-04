@@ -2,9 +2,6 @@ using Godot;
 using System.Collections.Generic;
 using heigpdg2024.scripts.managers;
 using heigpdg2024.scripts.resources;
-using System.IO;
-using System.Linq;
-
 
 namespace heigpdg2024.scripts.ui;
 

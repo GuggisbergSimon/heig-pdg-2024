@@ -28,7 +28,7 @@ public partial class ToolButton : TextureButton {
         Connect("mouse_exited", new Callable(this, nameof(OnMouseExited)));
         Pressed += OnClick;
     }
-    
+
     public override void _ExitTree() {
         Disconnect("mouse_entered", new Callable(this, nameof(OnMouseEntered)));
         Disconnect("mouse_exited", new Callable(this, nameof(OnMouseExited)));

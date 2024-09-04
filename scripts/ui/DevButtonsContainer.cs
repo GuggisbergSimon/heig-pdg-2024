@@ -11,8 +11,10 @@ public partial class DevButtonsContainer : PanelContainer {
         if (!OS.HasFeature("debug")) {
             Hide();
         }
-        
-        GetNode<Button>("MarginContainer/VBoxContainer/LevelUpButton").Pressed += GameManager.Instance.ProgressionManager.LevelUp;
-        GetNode<Button>("MarginContainer/VBoxContainer/LevelDownButton").Pressed += GameManager.Instance.ProgressionManager.LevelDown;
+
+        GetNode<Button>("MarginContainer/VBoxContainer/LevelUpButton").Pressed +=
+            GameManager.Instance.ProgressionManager.LevelUp;
+        GetNode<Button>("MarginContainer/VBoxContainer/LevelDownButton").Pressed +=
+            GameManager.Instance.ProgressionManager.LevelDown;
     }
 }

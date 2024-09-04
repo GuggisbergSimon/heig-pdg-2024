@@ -8,9 +8,9 @@ namespace heigpdg2024.scripts.cells;
 /// </summary>
 public class Source {
     public Vector2I Output { get; }
-    
+
     public Vector2 Position { get; }
-    
+
     public DurationNotation Duration { get; }
 
     /// <summary>

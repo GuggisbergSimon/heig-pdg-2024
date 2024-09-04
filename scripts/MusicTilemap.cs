@@ -108,7 +108,7 @@ public partial class MusicTilemap : TileMapLayer {
                 if (direction == Vector2I.Zero) {
                     return;
                 }
-                
+
                 // Update _lastCellCoords based on direction if it is valid
                 if (_lastDirection != -direction) {
                     SetCell(_lastCellCoords, _sourceId,

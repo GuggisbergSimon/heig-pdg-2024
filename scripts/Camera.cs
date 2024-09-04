@@ -13,7 +13,7 @@ public partial class Camera : Camera2D {
     private Vector2 _velocity;
 
     public override void _Process(double delta) {
-        Position += (float) delta * _speed * _velocity;
+        Position += (float)delta * _speed * _velocity;
     }
 
     public override void _Input(InputEvent @event) {

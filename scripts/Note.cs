@@ -26,6 +26,8 @@ public partial class Note : Node2D {
     [Export] private PackedScene _singleNoteScene;
     [Export] private PackedScene _whiteDotScene;
     [Export] private PackedScene _lineStaffScene;
+
+    // for now we only support quarter notes and half notes
     private static readonly DurationNotation MAX_DURATION = DurationNotation.Quarter;
     private static readonly DurationNotation MIN_DURATION = DurationNotation.Half;
     private readonly Dictionary<PitchNotation, Node2D> _positions = new();
@@ -109,7 +111,7 @@ public partial class Note : Node2D {
     public void MoveByTempo(Vector2 to) {
         MoveByTempo(to, Callable.From(() => { }));
     }
-    
+
     /// <summary>
     /// Plays a note and animate it
     /// </summary>
@@ -221,7 +223,7 @@ public partial class Note : Node2D {
         _notesSprites.Add(sprite);
         _whiteDotSprites.Add(whiteDotSprite);
     }
-    
+
     /// <summary>
     /// Delete the note while disappearing after a given time
     /// </summary>
