@@ -45,13 +45,16 @@ Si vous souhaitez contribuer au projet, vous pouvez suivre les instructions ci-d
 
 ### Prérequis
 
-- [Godot Engine](https://godotengine.org/download/windows/) 4.3
-- [.NET SDK](https://dotnet.microsoft.com/en-us/download) 8.0
+- [Godot Engine](https://godotengine.org/download/) 4.3 .NET
+- [.NET SDK](https://dotnet.microsoft.com/en-us/download/dotnet/8.0) SDK 8.0.x
 
 ### Installation
 
 1. Cloner le repository
-2. Importer le projet dans Godot
+2. Importer le projet dans Godot en choisissant le fichier project.godot situé à la racine de ce répertoire
+3. Attendre la fin de l'importation des assets. En cas d'erreur lors de l'import initial, il suffit de reload le projet godot via le menu Project -> Reload Current Project
+
+Pour une prise en main complète de Godot, veuillez vous référez à la [documentation officielle](https://docs.godotengine.org/en/stable/getting_started/introduction/index.html). À noter néanmoins que F5 permet de lancer le jeu en mode debug.
 
 ### Contribution
 
