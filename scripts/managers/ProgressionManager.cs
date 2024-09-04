@@ -56,7 +56,6 @@ public partial class ProgressionManager : Node {
         UpdateTodos(level);
         _confetti = _confettiScene.Instantiate<Confetti>();
         AddChild(_confetti);
-        LevelChangement(0);
     }
 
     /// <summary>
@@ -96,6 +95,7 @@ public partial class ProgressionManager : Node {
     /// Level up the current tier
     /// </summary>
     public void LevelUp() {
+        GameManager.Instance.AudioManager.PlayLevelUpSound();
         ChangeLevel(CurrentTier + 1);
     }
 
