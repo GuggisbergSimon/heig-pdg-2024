@@ -33,19 +33,23 @@
 
 <!-- JavaScript to stop video on modal close -->
 <script>
-    $(document).ready(function() {
-        $('.portfolio-modal').on('hidden.bs.modal', function () {
-            // Trouver l'iframe dans la modale fermée
-            var $iframe = $(this).find('iframe');
-            // Vider le src pour arrêter la vidéo
-            $iframe.attr('src', '');
-        });
-
-        $('.portfolio-modal').on('shown.bs.modal', function () {
-            // Réactiver le src pour que la vidéo puisse être lue
-            var $iframe = $(this).find('iframe');
-            var src = $iframe.data('src');  // Assumez que la vidéo est stockée dans l'attribut data-src
-            $iframe.attr('src', src);
-        });
+/**
+ * Stop all iframes or HTML5 <video>'s from playing
+ */
+var stopVideos = function () {
+    var videos = document.querySelectorAll('iframe, video');
+    Array.prototype.forEach.call(videos, function (video) {
+        if (video.tagName.toLowerCase() === 'video') {
+            video.pause();
+        } else {
+            var src = video.src;
+            video.src = src; // Reset the iframe source to stop the video
+        }
     });
+};
+
+// Listen for modal close and stop videos
+$(document).on('hidden.bs.modal', function () {
+    stopVideos();
+});
 </script>
