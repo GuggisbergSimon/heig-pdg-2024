@@ -1,4 +1,4 @@
-[gd_resource type="Resource" script_class="Requirement" load_steps=2 format=3 uid="uid://ch0q6gknp5ap0"]
+[gd_resource type="Resource" script_class="Requirement" load_steps=2 format=3 uid="uid://ic32ncuqy3lu"]
 
 [ext_resource type="Script" path="res://scripts/resources/Requirement.cs" id="1_7sdfh"]
 

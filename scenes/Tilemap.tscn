@@ -1,8 +1,8 @@
-[gd_scene load_steps=8 format=3 uid="uid://6q7rrd3mwivk"]
+[gd_scene load_steps=8 format=3 uid="uid://c2n3iutqwmqi4"]
 
-[ext_resource type="Texture2D" uid="uid://deu7yuase3a6w" path="res://assets/icon.svg" id="1_iwafk"]
+[ext_resource type="Texture2D" uid="uid://p15vvy3bnn23" path="res://assets/icon.svg" id="1_iwafk"]
 [ext_resource type="Script" path="res://scripts/MusicTilemap.cs" id="2_o3egs"]
-[ext_resource type="Texture2D" uid="uid://d1g5q367sops6" path="res://assets/notes_atlas.png" id="2_u4rwg"]
+[ext_resource type="Texture2D" uid="uid://7uchd3cunkf5" path="res://assets/notes_atlas.png" id="2_u4rwg"]
 [ext_resource type="PackedScene" uid="uid://jvu2psiopk1b" path="res://scenes/note/Note.tscn" id="4_rq320"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_xqi5n"]
