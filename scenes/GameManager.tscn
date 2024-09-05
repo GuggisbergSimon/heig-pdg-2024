@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=3 uid="uid://wjjvck7uxuti"]
+[gd_scene load_steps=18 format=3 uid="uid://c3oce6tb28tpi"]
 
 [ext_resource type="Script" path="res://scripts/managers/GameManager.cs" id="1_i8ltt"]
 [ext_resource type="Script" path="res://scripts/managers/ProgressionManager.cs" id="2_41yyc"]
@@ -12,7 +12,7 @@
 [ext_resource type="Resource" uid="uid://c7pli5liqdkud" path="res://resources/level/level5.tres" id="8_llvfu"]
 [ext_resource type="Resource" uid="uid://denbywma6lk1c" path="res://resources/level/level6.tres" id="9_axllr"]
 [ext_resource type="Resource" uid="uid://pcq5pacwpmrx" path="res://resources/level/level7.tres" id="10_ljj2n"]
-[ext_resource type="PackedScene" uid="uid://6fcsaxexos4b" path="res://scenes/Confetti.tscn" id="11_0f4tb"]
+[ext_resource type="PackedScene" path="res://scenes/Confetti.tscn" id="11_0f4tb"]
 [ext_resource type="AudioStream" uid="uid://cxsey6fteluo" path="res://samples/ui-sounds/Minimalist4.wav" id="14_vkj34"]
 [ext_resource type="AudioStream" uid="uid://dnbq7a8uesi7g" path="res://samples/ui-sounds/Abstract1.wav" id="15_3xfva"]
 [ext_resource type="AudioStream" uid="uid://cbgtchr0kcqya" path="res://samples/ui-sounds/Minimalist6.wav" id="15_lvdc4"]

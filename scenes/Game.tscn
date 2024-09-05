@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=3 uid="uid://unh04hp3qhxg"]
+[gd_scene load_steps=18 format=4 uid="uid://unh04hp3qhxg"]
 
 [ext_resource type="Texture2D" uid="uid://d1g5q367sops6" path="res://assets/notes_atlas.png" id="1_lnpyi"]
 [ext_resource type="Script" path="res://scripts/Camera.cs" id="2_dpgbn"]
@@ -12,7 +12,7 @@
 [ext_resource type="StyleBox" uid="uid://g7gpjugatj1p" path="res://scenes/ui/toolbar.tres" id="7_5d5aw"]
 [ext_resource type="Script" path="res://scripts/ui/ToolsContainer.cs" id="8_th2aw"]
 [ext_resource type="Texture2D" uid="uid://clw2iwp0lhgwr" path="res://assets/menu_button.png" id="9_lv5i1"]
-[ext_resource type="PackedScene" path="res://scenes/MainMenu.tscn" id="12_sowjh"]
+[ext_resource type="PackedScene" uid="uid://v01tmbtwtbib" path="res://scenes/MainMenu.tscn" id="12_sowjh"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_cw0ws"]
 texture = ExtResource("1_lnpyi")
