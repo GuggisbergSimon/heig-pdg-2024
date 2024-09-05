@@ -33,11 +33,15 @@
 <!-- JavaScript to stop video on button click -->
 <script>
 var stopVideos = function (modalId) {
+    print("coucou2");
     var video = document.querySelector(modalId + ' iframe, ' + modalId + ' video');
     if (video) {
+        print("coucou3");
         if (video.tagName.toLowerCase() === 'video') {
+            print("coucou4");
             video.pause();
         } else {
+            print("coucou5");
             var src = video.src;
             video.src = src; // Reset the iframe source to stop the video
         }
@@ -46,6 +50,7 @@ var stopVideos = function (modalId) {
 
 // Detect clicks on close buttons and stop video
 $(document).on('click', '.close-modal, .close-btn', function () {
+    print("coucou1");
     var modalId = $(this).data('target');
     stopVideos(modalId);
 });
