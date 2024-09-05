@@ -15,8 +15,8 @@
                            <hr class="star-primary">
                            {% if post.video %}
                                <div class="embed-responsive embed-responsive-16by9">
-                                   <iframe id="video-{{ post.modal-id }}" class="embed-responsive-item" data-src="{{ post.video }}?autoplay=1&loop=1&playlist={{ post.video_id }}&mute=1" src="{{ post.video }}?autoplay=1&loop=1&playlist={{ post.video_id }}&mute=1" allowfullscreen></iframe>
-                               </div>
+                                <iframe id="video-{{ post.modal-id }}" class="embed-responsive-item" data-src="{{ post.video }}?autoplay=1&loop=1&playlist={{ post.video_id }}&mute=1" src="" allowfullscreen></iframe>
+                            </div>
                            {% else %}
                                <img src="img/mockup/{{ post.img }}" class="img-responsive img-centered" alt="{{ post.alt }}">
                            {% endif %}
@@ -30,23 +30,44 @@
    </div>
 {% endfor %}
 
-<!-- JavaScript to stop video on button click -->
-<script>
-var stopVideos = function (modalId) {
-    var video = document.querySelector(modalId + ' iframe, ' + modalId + ' video');
-    if (video) {
-        if (video.tagName.toLowerCase() === 'video') {;
-            video.pause();
-        } else {
-            var src = video.src;
-            video.src = src; // Reset the iframe source to stop the video
-        }
-    }
-};
 
-// Detect clicks on close buttons and stop video
-$(document).on('click', '.close-modal, .close-btn', function () {
-    var modalId = $(this).data('target');
-    stopVideos(modalId);
-});
+<script>
+    // Fonction pour démarrer la vidéo
+    var startVideo = function (modalId) {
+        var video = document.querySelector(modalId + ' iframe');
+        if (video) {
+            var src = video.getAttribute('data-src');
+            video.src = src; // Assigner l'URL de la vidéo pour démarrer la lecture
+        }
+    };
+    
+    // Fonction pour arrêter la vidéo
+    var stopVideos = function (modalId) {
+        var video = document.querySelector(modalId + ' iframe, ' + modalId + ' video');
+        if (video) {
+            if (video.tagName.toLowerCase() === 'video') {
+                video.pause();
+            } else {
+                video.src = ''; // Réinitialiser la source de l'iframe pour arrêter la vidéo
+            }
+        }
+    };
+    
+    // Événements pour gérer l'ouverture et la fermeture des modals
+    $(document).on('show.bs.modal', function (e) {
+        var modalId = $(e.target).attr('id');
+        startVideo('#' + modalId);
+    });
+    
+    $(document).on('hide.bs.modal', function (e) {
+        var modalId = $(e.target).attr('id');
+        stopVideos('#' + modalId);
+    });
+    
+    // Détecter les clics sur les boutons de fermeture
+    $(document).on('click', '.close-modal, .close-btn', function () {
+        var modalId = $(this).data('target');
+        stopVideos(modalId);
+    });
 </script>
+    
