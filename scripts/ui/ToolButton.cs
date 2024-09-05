@@ -34,15 +34,14 @@ public partial class ToolButton : TextureButton {
         Disconnect("mouse_exited", new Callable(this, nameof(OnMouseExited)));
         Pressed -= OnClick;
     }
-
-    // Called every frame. 'delta' is the elapsed time since the previous frame.
+    
     public override void _Process(double delta) {
         if (GameManager.Instance.Tilemap._selectedTool == _type) {
             // Make the button display in red
-            Modulate = new Color(1, 0, 0, 1);
+            Modulate = new Color(1, 0, 0);
         }
         else {
-            Modulate = new Color(1, 1, 1, 1);
+            Modulate = new Color(1, 1, 1);
         }
     }
 

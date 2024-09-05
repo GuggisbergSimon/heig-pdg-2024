@@ -3,9 +3,14 @@ using System;
 using System.Collections.Generic;
 using heigpdg2024.scripts.resources;
 
+namespace heigpdg2024.scripts.ui;
+
+/// <summary>
+/// Class representing a UI container holding the explanations of the different building blocks
+/// </summary>
 public partial class ExplinationContainer : VBoxContainer
 {
-    private static Dictionary<BlockType, string> _explinations = new Dictionary<BlockType, string> {
+    private static Dictionary<BlockType, string> _explinations = new() {
         {BlockType.Source, "Source des notes musique, relier des tronçons de portée pour commencer la production de vos sons."},
         {BlockType.Belt, "Portée, elle sert à transporter vos notes de musiques."},
         {BlockType.Instrument1, "Instuments, modifie les son que produirat votre note/accord."},
@@ -14,7 +19,11 @@ public partial class ExplinationContainer : VBoxContainer
         {BlockType.SpeedUp, "Rallonge/Racourcis la durée de la note/accord."},
         {BlockType.Speaker, "Enceinte, valide les notes/accords reçues et les joue."},
     };
-	// Called when the node enters the scene tree for the first time.
+    
+    /// <summary>
+    /// Each line is built according to the following pattern:
+    /// [Margin block] [Building icon] [Description]
+    /// </summary>
 	public override void _Ready()
 	{
         foreach (KeyValuePair<BlockType, string> block in _explinations) {
@@ -41,9 +50,8 @@ public partial class ExplinationContainer : VBoxContainer
             AddChild(child);
         }
 	}
-
-	// Called every frame. 'delta' is the elapsed time since the previous frame.
-	public override void _Process(double delta)
+    
+    public override void _Process(double delta)
 	{
 	}
 }
