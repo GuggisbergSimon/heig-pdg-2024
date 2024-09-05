@@ -4,7 +4,7 @@ layout: default
 modal-id: 5
 image: noise.png
 thumbnail: noise_thumbnail.png
-alt: image-alt
+alt: noise machine
 description: Make as much noise as you can!
 
 ---

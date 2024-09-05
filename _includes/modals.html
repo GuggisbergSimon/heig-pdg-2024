@@ -2,10 +2,9 @@
 {% for post in site.posts %}
    <div class="portfolio-modal modal fade" id="portfolioModal{{ post.modal-id }}" tabindex="-1" role="dialog" aria-hidden="true">
        <div class="modal-content">
-           <div class="close-modal" data-dismiss="modal">
+           <div class="close-modal" data-dismiss="modal" data-target="#portfolioModal{{ post.modal-id }}">
                <div class="lr">
-                   <div class="rl">
-                   </div>
+                   <div class="rl"></div>
                </div>
            </div>
            <div class="container">
@@ -22,7 +21,7 @@
                                <img src="img/mockup/{{ post.img }}" class="img-responsive img-centered" alt="{{ post.alt }}">
                            {% endif %}
                            <p>{{ post.description }}</p>
-                           <button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-times"></i> Close</button>
+                           <button type="button" class="btn btn-default close-btn" data-dismiss="modal" data-target="#portfolioModal{{ post.modal-id }}"><i class="fa fa-times"></i> Close</button>
                        </div>
                    </div>
                </div>
@@ -31,25 +30,23 @@
    </div>
 {% endfor %}
 
-<!-- JavaScript to stop video on modal close -->
+<!-- JavaScript to stop video on button click -->
 <script>
-/**
- * Stop all iframes or HTML5 <video>'s from playing
- */
-var stopVideos = function () {
-    var videos = document.querySelectorAll('iframe, video');
-    Array.prototype.forEach.call(videos, function (video) {
+var stopVideos = function (modalId) {
+    var video = document.querySelector(modalId + ' iframe, ' + modalId + ' video');
+    if (video) {
         if (video.tagName.toLowerCase() === 'video') {
             video.pause();
         } else {
             var src = video.src;
             video.src = src; // Reset the iframe source to stop the video
         }
-    });
+    }
 };
 
-// Listen for modal close and stop videos
-$(document).on('hidden.bs.modal', function () {
-    stopVideos();
+// Detect clicks on close buttons and stop video
+$(document).on('click', '.close-modal, .close-btn', function () {
+    var modalId = $(this).data('target');
+    stopVideos(modalId);
 });
 </script>
