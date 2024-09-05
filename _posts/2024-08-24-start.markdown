@@ -1,6 +1,5 @@
 ---
 title: Start
-subtitle: 
 layout: default
 modal-id: 1
 video: https://www.youtube.com/embed/yurJLUKuYPs

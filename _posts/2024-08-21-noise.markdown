@@ -1,0 +1,10 @@
+---
+title: Progress
+layout: default
+modal-id: 4
+image: noise.png
+thumbnail: noise_thumbnail.png
+alt: image-alt
+description: Make as much noise as you can!
+
+---

@@ -1,0 +1,10 @@
+---
+title: Late level
+layout: default
+modal-id: 2
+img: goals.png
+thumbnail: goals_thumbnail.png
+alt: image-alt
+description: Complete objectives to progress through the levels.
+
+---
