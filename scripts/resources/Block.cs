@@ -2,6 +2,9 @@ using Godot;
 
 namespace heigpdg2024.scripts.resources;
 
+/// <summary>
+/// A class representing the different types of blocks that can be placed on the tilemap
+/// </summary>
 public enum BlockType {
     Belt,
     Source,
@@ -15,6 +18,9 @@ public enum BlockType {
     Instrument2,
 }
 
+/// <summary>
+/// Extension methods for the BlockType enum
+/// </summary>
 static class BlockTypeMethods {
     public static Vector2I GetAtlasCoords(this BlockType type) {
         return type switch {

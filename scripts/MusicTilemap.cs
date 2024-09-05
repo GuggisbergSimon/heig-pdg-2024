@@ -14,7 +14,8 @@ public partial class MusicTilemap : TileMapLayer {
     [Export] private int _sourceId;
     [Export] private PackedScene _noteScene;
 
-    private BlockType _selectedTool = BlockType.Belt;
+    public BlockType _selectedTool { get; private set; } = BlockType.Belt;
+
     private Vector2I _lastCellCoords;
     private Vector2I _lastDirection;
     private readonly Dictionary<Vector2I, bool> _busyCells = new();
