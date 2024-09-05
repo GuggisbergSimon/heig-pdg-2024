@@ -37,8 +37,8 @@ public partial class ToolButton : TextureButton {
 
     // Called every frame. 'delta' is the elapsed time since the previous frame.
     public override void _Process(double delta) {
-        if (HasFocus()) {
-            // Add a border
+        if (GameManager.Instance.Tilemap._selectedTool == _type) {
+            // Make the button display in red
             Modulate = new Color(1, 0, 0, 1);
         }
         else {
