@@ -26,7 +26,7 @@ public partial class MainMenu : Control {
         GameManager.Instance.Play();
         Hide();
     }
-    
+
     /// <summary>
     /// Quit the game
     /// </summary>

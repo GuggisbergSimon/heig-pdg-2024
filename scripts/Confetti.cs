@@ -6,7 +6,7 @@ using Godot;
 /// </summary>
 public partial class Confetti : Node2D {
     List<CpuParticles2D> _particles = new();
-    
+
     public override void _Ready() {
         _particles = new List<CpuParticles2D> {
             GetNode<CpuParticles2D>("blue"),

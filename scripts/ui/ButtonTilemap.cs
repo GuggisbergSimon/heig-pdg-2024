@@ -25,7 +25,7 @@ public partial class ButtonTilemap : Button {
         if (!_isDrawing) {
             return;
         }
-        
+
         GameManager.Instance.Tilemap.OnDragged();
     }
 }
