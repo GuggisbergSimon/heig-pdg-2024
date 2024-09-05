@@ -34,7 +34,7 @@ public class Merger : Processor {
     public override void Process(Note note) {
         // Case where a merged note is idly waiting on the merger 
         if (IsBusy) {
-            TryMoving(note);
+            TryMovingNext();
         }
         else if (!note.Equals(_singleNote)) {
             // Case where a new single note enters the merger
@@ -44,8 +44,8 @@ public class Merger : Processor {
             }
             // Attempts merging with another single note entering the merger
             else if (_singleNote.AddNote(note)) {
-                TryMoving(_singleNote);
-                _singleNote = null;
+                GameManager.Instance.Tilemap.SetBusy(Position, true);
+                IsBusy = true;
             }
         }
     }
@@ -53,17 +53,15 @@ public class Merger : Processor {
     /// <summary>
     /// Attempts moving a note to the next processor, if it exists and is available
     /// </summary>
-    /// <param name="note">The note to move</param>
-    private void TryMoving(Note note) {
+    private void TryMovingNext() {
         var output = GameManager.Instance.Tilemap.GetProcessor(Position, Output);
         if (output == null || !output.IsCompatible(Output)) {
-            GameManager.Instance.Tilemap.SetBusy(Position, true);
-            IsBusy = true;
             return;
         }
 
-        output.Process(note);
-        IsBusy = false;
+        output.Process(_singleNote);
         GameManager.Instance.Tilemap.SetBusy(Position, false);
+        IsBusy = false;
+        _singleNote = null;
     }
 }
