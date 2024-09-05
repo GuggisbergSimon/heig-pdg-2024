@@ -1,0 +1,11 @@
+---
+title: Trailer
+layout: default
+modal-id: 1
+video: https://www.youtube.com/embed/cu9mZl0JE7I 
+video_id: cu9mZl0JE7I
+thumbnail: start_thumbnail.png
+alt: image-alt
+description: Sometimes violence is the solution.
+
+---
