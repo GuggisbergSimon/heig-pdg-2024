@@ -1,6 +1,6 @@
 [gd_resource type="Resource" script_class="Duration" load_steps=4 format=3 uid="uid://btscnebqvbh7s"]
 
-[ext_resource type="Texture2D" uid="uid://d1g5q367sops6" path="res://assets/notes_atlas.png" id="1_ly1ex"]
+[ext_resource type="Texture2D" uid="uid://7uchd3cunkf5" path="res://assets/notes_atlas.png" id="1_ly1ex"]
 [ext_resource type="Script" path="res://scripts/resources/Duration.cs" id="2_vay23"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_tdtvu"]

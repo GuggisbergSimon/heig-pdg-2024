@@ -1,6 +1,6 @@
-[gd_resource type="Resource" script_class="Block" load_steps=4 format=3 uid="uid://8wcnnqm2p775"]
+[gd_resource type="Resource" script_class="Block" load_steps=4 format=3 uid="uid://cwx7sbuar7vjr"]
 
-[ext_resource type="Texture2D" uid="uid://d1g5q367sops6" path="res://assets/notes_atlas.png" id="1_8se2a"]
+[ext_resource type="Texture2D" uid="uid://7uchd3cunkf5" path="res://assets/notes_atlas.png" id="1_8se2a"]
 [ext_resource type="Script" path="res://scripts/resources/Block.cs" id="2_drh2w"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_lhsgj"]
