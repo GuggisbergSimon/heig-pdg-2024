@@ -33,7 +33,7 @@
 
 === Objectifs
 
-Créer un jeu d'automation (comme Factorio, Satisfactory, shapez.io, etc.) dans le thème de la musique. Le joueur doit livrer des notes individuelles, puis des accords et enfin des suites de notes pour créer des courtes mélodies.
+Créer un jeu d'automation (comme Factorio, Satisfactory, shapez.io, etc.) dans le thème de la musique. Le joueur doit livrer des notes individuelles, puis des accords. Il y a une progression en complexité et en outils disponibles. 
 
 === Problématique
 
@@ -53,7 +53,6 @@ Puisqu'il s'agit d'un jeu vidéo à titre de divertissement, même si l'on ne pe
   - Changement de tempo (rythme), accélère ou ralentit la note, croche, noire, blanche, etc
   - Instrument, altère la note selon un instrument donné
   - Combineur de notes, produit des accords qui sont ensuite considérés comme une seule note
-  - Combineur de notes alternés, produit une séquence
   - Sortie haut parleur, crée le son
 - Le joueur peut supprimer des éléments de production existants
 
@@ -95,7 +94,12 @@ Dans l'état actuel du jeu, nous avons implémenté les notes pour deux instrume
 
 Nous avons initialement décidé de partir sur un système de `Tilemap`, outil très puissant permettant de dessiner des éléments selon un quadrillage strictement donné, que ce soit des carrés, des hexagones, etc. Mais après une première implémentation et malentendu quant aux capabilités de cet outil, nous avons dû changer sur une solution hybride, afin de contenir les informations fixes du jeu, informations ne pouvant être contenues directement via les couches de données custom de la `Tilemap`.
 
-En raison des contrôles choisis, par la souris, nous avons dû réfléchir à la manière dont le jouerur va interagir avec les éléments d'UI. Entre les boutons d'outils, débloqués au fur et à mesure de la progression, du label affichant la progression actuelle et l'objectif à réaliser, mis à jour par le `ProgressionManager`, et un simple bouton permettant d'accéder au menu, qui sert d'instruction et possède également un bouton pour quitter le jeu. Utiliser la large palette de classes d'UI de Godot était un choix évident, même si ceci demande un temps d'aprentissage, leur complexité étant très grande pour un projet aussi court.
+En raison des contrôles choisis, par la souris, nous avons dû réfléchir à la manière dont les éléments d'UI viendraient à interagir avec le joueur. À savoir : 
+- les boutons d'outils débloqués au fur et à mesure de la progression
+- le label affichant la progression actuelle
+- l'objectif à réaliser mis à jour par le `ProgressionManager`
+- un simple bouton permettant d'accéder au menu qui sert d'instruction et possède également un bouton pour quitter le jeu. 
+Utiliser la large palette de classes d'UI de Godot était un choix évident, même si ceci demande un temps d'aprentissage, leur complexité étant très grande pour un projet aussi court.
 
 Un autre point majeur du développement a été l'utilisation de ressources communes, via la classe `Resource` de Godot. En effet entre les boutons d'UI, le menu d'instruction et les cases placées, il existe une certaine redondance d'information, ceci est également valable pour faire coïncider une note à une durée donnée qui correspond à un sprite représentant cette donnée, qui est également représentable sous forme de note.
 
@@ -142,7 +146,7 @@ Pour la création des mockups nous avons décidé de suivre la recommandation fa
 
 Le développement est fait sur l'éditeur de Godot pour l'architecture et le coeur du jeu, ainsi que #link("https://www.jetbrains.com/rider/")[Rider] pour l'édition des scripts en raison de l'habitude et de la facilité de prise en main d'utiliser les outils de JetBrains.
 
-Dernièrement, notre #link("https://guggisbergsimon.github.io/heig-pdg-2024/")[landing page] est faite avec GitHub pages.
+Dernièrement, notre #link("https://guggisbergsimon.github.io/heig-pdg-2024/")[landing page] est faite avec GitHub pages en se basant sur le template #link("https://github.com/raviriley/agency-jekyll-theme")[Agency] pour Jekyll.
 
 #pagebreak()
 
