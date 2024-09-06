@@ -37,7 +37,7 @@ Créer un jeu d'automation (comme. Factorio, Satisfactory, shapez.io, etc.) dans
 
 === Problématique
 
-Vous avez un voisin, M. usic qui est un voisin très bruyant. Il joue de la musique toute la journée et toute la nuit. Vous avez décidé de lui rendre la pareille en créant un jeu d'automation musical. Vous devez créer des mélodies pour le rendre fou.
+Un voisin particulièrement bruyant, des bruits de travaux qui vous percent les tympans. Il est temps de lui rendre la pareille. Ce jeu d'automation musical permet de créer une véritable machine à bruit, dont la complexité grandit au fur et à mesure.
 
 Puisqu'il s'agit d'un jeu vidéo à titre de divertissement, même si l'on ne peut exclure une charge pédagogique potentielle au niveau de l'aprentissage basique du solfège, il n'y a pas de problématique réelle que nous tentons de résoudre, si ce n'est celle fictive décrite plus haut. Le but du jeu est d'offrir une expérience unique, celle de créer une usine à bruit, progressivement devenant plus complexe, à la manière des jeux d'automations.
 
