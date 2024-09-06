@@ -1,5 +1,5 @@
 ---
-title: Late level
+title: Objectives
 layout: default
 modal-id: 3
 img: goals.png
