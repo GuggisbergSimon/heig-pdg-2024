@@ -33,7 +33,7 @@
 
 === Objectifs
 
-Créer un jeu d'automation (comme. Factorio, Satisfactory, shapez.io, etc.) dans le thème de la musique. Le joueur doit livrer des notes individuelles, puis des accords et enfin des suites de notes pour créer des courtes mélodies.
+Créer un jeu d'automation (comme Factorio, Satisfactory, shapez.io, etc.) dans le thème de la musique. Le joueur doit livrer des notes individuelles, puis des accords et enfin des suites de notes pour créer des courtes mélodies.
 
 === Problématique
 
@@ -75,15 +75,15 @@ En raison de la nature du développement de jeu vidéo ainsi que de notre manque
 
 En ce qui concerne le jeu, le pattern du singleton sera utilisé sous la forme d'un `GameManager` présent de manière statique et unique dans chaque scène. N'importe quel script pourra l'accéder et disposer de méthodes utiles pour la gestion des scènes, des paramètres, des sons joués, etc.
 Toute tâche trop complexe pour le `GameManager` sera déléguée à un manager dédié, tel que le `ProgressionManager`, `AudioManager`, etc.
-Cette utilisation du pattern permet une grande flexibilité, nécessaire pour un projet aussi court, au coût d'une plus grande exposure des propriétés du `GameManager`.
+Cette utilisation du pattern permet une grande flexibilité, nécessaire pour un projet aussi court, au coût d'une plus grande exposition des propriétés du `GameManager`.
 
-Nous utilisons également le pattern du visiteur afin que chaque objet note consulte la place sur laquelle elle se trouve et exécute une action en fonction de celle-ci; Si elle se trouve sur une case `Speaker`, elle est jouée, si elle se trouve sur une case `Transit`, elle est déplacée pourvu que la case suivante soit libre, avec une méthode en callback lors du passage sur la case.
+Nous utilisons également le pattern du visiteur afin que chaque objet "note" consulte la place sur laquelle elle se trouve et exécute une action en fonction de celle-ci. Si elle se trouve sur une case `Speaker`, elle est jouée, si elle se trouve sur une case `Transit`, elle est déplacée pourvu que la case suivante soit libre, avec une méthode en callback lors du passage sur la case.
 
 Un autre pattern utilisé fréquemment est celui de l'observateur, que ce soit au travers d'événements Godot, appelés signaux, ou par nos propres méthodes. Ceci permet un code bien plus élégant s'adaptant assez bien à notre volonté d'animer l'entiereté du jeu à un rythme donné, ce rythme s'accélérant selon la montée en niveaux.
 
 === Choix musicaux
 
-Nous avons choisi la notation américaine pour la durée des notes : `Whole`, `Half` `Quarter` etc. afin de gagner en clarté, notation également utilisée dans le vieux continent sous la forme demi-ton, quart de ton, etc.
+Nous avons choisi la notation américaine pour la durée des notes : `Whole`, `Half`, `Quarter` etc. afin de gagner en clarté, notation également utilisée dans le vieux continent sous la forme demi-ton, quart de ton, etc.
 
 Pour le pitch des notes, leur hauteur, nous utilisons la notation sous forme de simple lettre, allant de A pour Do jusqu'à G pour Si, au contraire de la notation allemande qui substitue H à B. Ceci permet une grande simplicité d'écriture tout en ayant un but pédagogique, le joueur apprenant à reconnaître les notes de musique.
 
@@ -95,9 +95,9 @@ Dans l'état actuel du jeu, nous avons implémenté les notes pour deux instrume
 
 Nous avons initialement décidé de partir sur un système de `Tilemap`, outil très puissant permettant de dessiner des éléments selon un quadrillage strictement donné, que ce soit des carrés, des hexagones, etc. Mais après une première implémentation et malentendu quant aux capabilités de cet outil, nous avons dû changer sur une solution hybride, afin de contenir les informations fixes du jeu, informations ne pouvant être contenues directement via les couches de données custom de la `Tilemap`.
 
-En raison des contrôles choisis, par la souris, nous avons dû réfléchir à la manière dont les éléments d'UI viendraient à être interagir avec le joueur. Entre les boutons d'outils, débloqués au fur et à mesure de la progression, du label affichant la progression actuelle et l'objectif à réaliser, mis à jour par le `ProgressionManager`, et un simple bouton permettant d'accéder au menu, qui sert d'instruction et possède également un bouton pour quitter le jeu. Utiliser la large palette de classes d'UI de Godot était un choix évident, même si ceci demande un temps d'aprentissage, leur complexité étant très grande pour un projet aussi court.
+En raison des contrôles choisis, par la souris, nous avons dû réfléchir à la manière dont le jouerur va interagir avec les éléments d'UI. Entre les boutons d'outils, débloqués au fur et à mesure de la progression, du label affichant la progression actuelle et l'objectif à réaliser, mis à jour par le `ProgressionManager`, et un simple bouton permettant d'accéder au menu, qui sert d'instruction et possède également un bouton pour quitter le jeu. Utiliser la large palette de classes d'UI de Godot était un choix évident, même si ceci demande un temps d'aprentissage, leur complexité étant très grande pour un projet aussi court.
 
-Un autre point majeur du développement a été l'utilisation de ressources communes, via la classe `Resource` de Godot. En effet entre les boutons d'UI, le menu d'instruction et les cases placées, il existe une certaine redondance d'information, ceci est également valable pour faire coincider une note à une durée donnée qui correspond à un sprite représentant cette donnée, qui est également représentable sous forme de note.
+Un autre point majeur du développement a été l'utilisation de ressources communes, via la classe `Resource` de Godot. En effet entre les boutons d'UI, le menu d'instruction et les cases placées, il existe une certaine redondance d'information, ceci est également valable pour faire coïncider une note à une durée donnée qui correspond à un sprite représentant cette donnée, qui est également représentable sous forme de note.
 
 #pagebreak()
 
@@ -112,7 +112,7 @@ Un autre point majeur du développement a été l'utilisation de ressources comm
 #figure(
   image("mockup/Frame 3.png", width: 100%),
   caption: [
-    Mockup de la page explicatif
+    Mockup de la page explicative
   ],
 )
 
@@ -120,7 +120,7 @@ Un autre point majeur du développement a été l'utilisation de ressources comm
 
 === Bases techniques du jeu
 
-Le choix principal que nous avons fait est celui du moteur de jeu à utiliser. Les 3 options que nous avons envisagé sont Unity, Godot et PixiJS. Godot a été retenu pour plusieurs raisons: Premièrement, il est plus facile à intégrer à un pipeline CI/CD que Unity, principalement du au fait que ce dernier a une solution propriétaire payante, et au fait que Godot est open-source. Godot est également un des moteurs de jeu le plus populaire en ce moment, en partie à cause du fiasco récent de marketing de Unity. PixiJS était une solution envisagée et intéressante, mais comme il s'agit d'un moteur de jeu beaucoup plus léger et moins connu nous avons préféré rester avec Godot.
+Le choix principal que nous avons fait est celui du moteur de jeu à utiliser. Les trois options que nous avons envisagé sont Unity, Godot et PixiJS. Godot a été retenu pour plusieurs raisons : premièrement, il est plus facile à intégrer à une pipeline CI/CD qu'Unity, principalement dû au fait que ce dernier a une solution propriétaire payante, et au fait que Godot est open-source. Godot est également un des moteurs de jeu les plus populaires en ce moment, en partie à cause du fiasco récent de marketing de Unity. PixiJS était une solution envisagée et intéressante, mais comme il s'agit d'un moteur de jeu beaucoup plus léger et moins connu nous avons préféré rester avec Godot.
 
 #figure(
   image("img/gmtk-top-game-engine-2017-2024.jpg", width: 100%),
@@ -128,7 +128,7 @@ Le choix principal que nous avons fait est celui du moteur de jeu à utiliser. L
     approximation du pourcentage de game engines utilisés lors de la GMTK game jam
   ],
 )
-Godot nous permet d'utiliser d'utiliser de nombreux outils pour la mise en place d'un jeu en 2D et nous permet facilement d'exporter le jeu final pour plusieures plateformes. Au sein de Godot, nous avons décidé d'utiliser #link("https://dotnet.microsoft.com/fr-fr/download/dotnet/8.0")[C\# .Net 8.0] au lieu du gdScript, langage propriétaire de Godot. Ce choix a été fait en partie par réticence d'apprendre un langage avec une seule utilité, et en partie à cause de la ressemblance du C\# avec Java que nous avons déjà dù utiliser dans le cadre cursus à la HEIG, assurant une base solide. La choix de la version de .Net est pour avoir la compatibilité avec Godot 4.x qui est la version la plus récente.
+Godot nous permet d'utiliser de nombreux outils pour la mise en place d'un jeu en 2D et nous permet facilement d'exporter le jeu final pour plusieurs plateformes. Au sein de Godot, nous avons décidé d'utiliser #link("https://dotnet.microsoft.com/fr-fr/download/dotnet/8.0")[C\# .Net 8.0] au lieu du gdScript, langage propriétaire de Godot. Ce choix a été fait en partie par réticence d'apprendre un langage avec une seule utilité, et en partie à cause de la ressemblance du C\# avec Java que nous avons déjà dû utiliser dans le cadre du cursus à la HEIG, assurant une base solide. Le choix de la version de .Net est pour avoir la compatibilité avec Godot 4.x qui est la version la plus récente.
 
 Nous avons trouvé une librairie de tests unitaires pour Godot qui supporte le gdScript ainsi que le C\# qui s'appelle #link("https://github.com/MikeSchulze/gdUnit4")[gdUnit4] et avons décidé de l'intégrer à notre processus de travail, pour valider le fonctionnement du jeu lors d'une Pull request.
 
@@ -138,7 +138,7 @@ Un autre addon est utilisé pour jouer les sons de musique : #link("https://gith
 
 L'outil que nous avons choisi pour créer le rapport, ainsi que tout autre documentation requise est Typst, en raison des possibilités de mise en page qu'il offre, sa relative simplicité d'utilisation, ainsi que sa familiarité avec certains membres de l'équipe. Pour l'édition et la compilation de ces documents, nous utilisons VSCode équipé de l'extension #link("https://marketplace.visualstudio.com/items?itemName=myriad-dreamin.tinymist")[tinymist Typst].
 
-Pour la création des mockups nous avons décidé de suivre la recommendation faite dans le cadre de ce cours et d'utiliser #link("https://www.figma.com")[Figma].
+Pour la création des mockups nous avons décidé de suivre la recommandation faite dans le cadre de ce cours et d'utiliser #link("https://www.figma.com")[Figma].
 
 Le développement est fait sur l'éditeur de Godot pour l'architecture et le coeur du jeu, ainsi que #link("https://www.jetbrains.com/rider/")[Rider] pour l'édition des scripts en raison de l'habitude et de la facilité de prise en main d'utiliser les outils de JetBrains.
 
@@ -167,15 +167,15 @@ En plus de ces catégories nous avons catégorisé les tâches en fonction de le
 
 === Git workflow
 
-- Organisation du git: branche ``` main``` avec le workflow pour créer un build
-- Les PR ouvertes lancent des teste unitaires qui doivent passer pour pouvoir merge la PR
+- Organisation du git : branche ``` main``` avec le workflow pour créer un build
+- Les PR ouvertes lancent des tests unitaires qui doivent passer pour pouvoir merge la PR
 - Branches de features éventuellement suffixées avec les initiales de la personne en charge
 - Branche ``` pages``` pour la landing page, hébergée sur Github Pages
 - Les branches mergées et non utilisées sont supprimées
 
 === CI/CD
 
-- Des tests unitaires sont lancés lors de la creation d'une PR et bloquent le merge si ils ne passent pas
+- Des tests unitaires sont lancés lors de la création d'une PR et bloquent le merge s'ils ne passent pas
 - Lorsqu'un tag est créé, un build est lancé et une release qui contient la version linux et windows du jeu est créée
 
 == Améliorations futures
