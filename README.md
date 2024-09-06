@@ -17,12 +17,6 @@ Un voisin particulièrement bruyant, des bruits de travaux qui vous percent les 
 
 Musicz est un jeu d'automatisation de notes de musique. Le joueur doit placer des éléments sur un circuit pour que les notes de musique puissent être jouées. Le jeu est basé sur le moteur Godot et est écrit en C#.
 
-## Landing Page
-
-La landing page est hébergée par Github Pages et se trouve à cette adresse : [https://guggisbergsimon.github.io/heig-pdg-2024](https://guggisbergsimon.github.io/heig-pdg-2024)
-
-
-
 ## Comment contribuer au project
 
 Si vous souhaitez contribuer au projet, vous pouvez suivre les instructions ci-dessous.
@@ -46,6 +40,16 @@ Regardez les [issues](https://github.com/GuggisbergSimon/heig-pdg-2024/issues) p
 
 Pour contribuer, créez une fork du projet, faites vos modifications, créez une pull request et lier la à l'issue que vous resolvez. Si les tests passent et que que un membre du groupe a approuvé, votre code sera mergé.
 
+## Livrables
+
+### Landing Page
+
+La landing page est hébergée par Github Pages et se trouve à cette adresse : [https://guggisbergsimon.github.io/heig-pdg-2024](https://guggisbergsimon.github.io/heig-pdg-2024)
+
+### Vidéo
+
+La vidéo est hébergée sur [youtube](https://www.youtube.com/watch?v=cu9mZl0JE7I) et a été réalisée avec Adobe Premiere.
+
 ### Mockups et recherche
 
 Nous avons d'abord réfléchi au Game design en exprimant les éléments au travers via une mindmap :
@@ -59,7 +63,7 @@ Ci-dessous se trouvent les mockups représentant le tutoriel, d'un niveau simple
 ![Early level](/rapport/img/mockup-early-level.png)
 ![Later level](/rapport/img/mockup-late-level.png)
 
-## Rapport
+### Rapport
 
 Plus d'informations se trouvent sur le rapport, réalisé à l'aide de [Typst](https://typst.app/) et l'extension VSCode [tinymist Typst](https://marketplace.visualstudio.com/items?itemName=myriad-dreamin.tinymist).
 
@@ -71,3 +75,4 @@ Certains sons utilisés dans le jeu sont sous licence Creative Commons By Attrib
 
 - [ui-sounds](https://ellr.itch.io/universal-ui-soundpack) par Nathan Gibson
 - [level-up](https://pixabay.com/users/universfield-28281460/) par universfield
+- [sons de note](https://onlinesequencer.net/) par online sequencer

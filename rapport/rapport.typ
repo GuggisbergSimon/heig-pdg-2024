@@ -120,7 +120,7 @@ Un autre point majeur du développement a été l'utilisation de ressources comm
 
 === Bases techniques du jeu
 
-Le choix principal que nous avons fait est celui du moteur de jeu à utiliser. Les 3 options que nous avons envisagé sont Unity, Godot et PixiJS. Godot a été retenu pour plusieurs raisons: Premièrement, il est plus facile à intégrer à un pipeline CI/CD que Unity, principalement du au fait que ce dernier a une solutionn propriétaire payante, et au fait que Godot est open-source. Godot est également un des moteurs de jeu le plus populaire en ce moment pour les, en partie à cause du fiasco récent de marketing de Unity. PixiJS était une solution envisagée et intéressante, mais comme il s'agit d'un moteur de jeu beaucoup plus léger et moins connu nous avons préféré rester avec Godot.
+Le choix principal que nous avons fait est celui du moteur de jeu à utiliser. Les 3 options que nous avons envisagé sont Unity, Godot et PixiJS. Godot a été retenu pour plusieurs raisons: Premièrement, il est plus facile à intégrer à un pipeline CI/CD que Unity, principalement du au fait que ce dernier a une solution propriétaire payante, et au fait que Godot est open-source. Godot est également un des moteurs de jeu le plus populaire en ce moment, en partie à cause du fiasco récent de marketing de Unity. PixiJS était une solution envisagée et intéressante, mais comme il s'agit d'un moteur de jeu beaucoup plus léger et moins connu nous avons préféré rester avec Godot.
 
 #figure(
   image("img/gmtk-top-game-engine-2017-2024.jpg", width: 100%),
@@ -132,13 +132,15 @@ Godot nous permet d'utiliser d'utiliser de nombreux outils pour la mise en place
 
 Nous avons trouvé une librairie de tests unitaires pour Godot qui supporte le gdScript ainsi que le C\# qui s'appelle #link("https://github.com/MikeSchulze/gdUnit4")[gdUnit4] et avons décidé de l'intégrer à notre processus de travail, pour valider le fonctionnement du jeu lors d'une Pull request.
 
+Un autre addon est utilisé pour jouer les sons de musique : #link("https://github.com/ClementRivaille/godot-simple-sampler")[Simple Sampler]. Ceci permet de lier un fichier son à un instrument, une hauteur de note, et une durée.
+
 === Outils utilisés
 
 L'outil que nous avons choisi pour créer le rapport, ainsi que tout autre documentation requise est Typst, en raison des possibilités de mise en page qu'il offre, sa relative simplicité d'utilisation, ainsi que sa familiarité avec certains membres de l'équipe. Pour l'édition et la compilation de ces documents, nous utilisons VSCode équipé de l'extension #link("https://marketplace.visualstudio.com/items?itemName=myriad-dreamin.tinymist")[tinymist Typst].
 
 Pour la création des mockups nous avons décidé de suivre la recommendation faite dans le cadre de ce cours et d'utiliser #link("https://www.figma.com")[Figma].
 
-Le développement est fait sur l'éditeur de Godot pour le ore du jeu, ainsi que #link("https://www.jetbrains.com/rider/")[Rider] pour l'édition des scripts en raison de l'habitude et de la facilité de prise en main d'utiliser les outils de JetBrains.
+Le développement est fait sur l'éditeur de Godot pour l'architecture et le coeur du jeu, ainsi que #link("https://www.jetbrains.com/rider/")[Rider] pour l'édition des scripts en raison de l'habitude et de la facilité de prise en main d'utiliser les outils de JetBrains.
 
 Dernièrement, notre #link("https://guggisbergsimon.github.io/heig-pdg-2024/")[landing page] est faite avec GitHub pages.
 
